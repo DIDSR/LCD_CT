@@ -12,11 +12,10 @@ function [auc, snr,chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa]=conv_LG
 % :param b_conv: 1 or 0 to indicate whether to apply a convolution of the signal to the LG channels. Default is 1.
 % :param ch2: an optional additional LG channel, 2-element vector form [ch_width nch] eg. for the spiculated mass, one may use a main channel of width matching the signal size and use an additional channel with small width for detecting the edge feature.
 %
-% :returns auc: the AUC values
-% :returns snr: the detectibility SNR
-% :returns t_sp: t-scores of SP cases
-% :returns t_sa: t-scores of SA cases
-%
+% :return: auc: the AUC values
+% :return: snr: the detectibility SNR
+% :return: t_sp: t-scores of SP cases
+% :return: t_sa: t-scores of SA cases
 % 
 % R Zeng, 6/2016, FDA/CDRH/OSEL/DIDSR
 
