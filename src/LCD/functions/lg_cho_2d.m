@@ -1,15 +1,17 @@
-
-%[auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=gabor_cho_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, nband, ntheta, phase)
-%Calculating lesion detectability using Gabor channelized Hoteling model observer.
-%Inputs
-%   testimg_sa: the test set of signal-absent, a stack of 2D array;
-%   testimg_sp: the test set of signal-present;
-%   trimg_sa: the training set of signal-absent;
-%   trimg_sp: the training set of signal-present;
-%   nband: number of octave bands; (default is 4)
-%   ntheta: number of angles; (default is 4)
-%   phase: a vector containing the phase values in radian such as 0,pi/3,pi/2 etc.(default is 0)
-%Outputs
+function [auc, snr,t_sa, t_sp, meanSA, meanSP, meanSig, tplimg, chimg, k_ch]=lg_cho_2d(trimg_sa, trimg_sp,testimg_sa, testimg_sp,  ch_width, nch)
+% [auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=LG_CHO_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, ch_width, nch)
+% Calculating lesion detectability using Laguerre-Gauss channelized model observer.
+%
+% Inputs
+%   trimg_sa: the training set of signal-absent (SA) images;
+%   trimg_sp: the training set of signal-present (SP) images;
+%   testimg_sa: the test set of signal-absent images; 
+%   testimg_sp: the test set of signal-present iamges;
+%   ch_width: channel width parameter; (suggest setting this parameter to be about 2/3 of the disk radius (in pixel)). 
+%   nch: number of channels to be used; default is 5.
+%   
+% Outputs
+%
 %   auc: the AUC values
 %   snr: the detectibility SNR
 %   t_sa: t-scores of SA cases
@@ -21,20 +23,9 @@
 %   chimg: channel images
 %   k_ch: the channelized data covariance matrix estimated from the training data 
 %
-%R Zeng, 11/2022, FDA/CDRH/OSEL/DIDSR
-
-function [auc, snr,t_sa, t_sp, meanSA, meanSP, meanSig, tplimg, chimg, k_ch]=gabor_cho_2d(trimg_sa, trimg_sp,testimg_sa, testimg_sp, nband, ntheta, phase)
-
-if(nargin<7)
-    phase = 0;
-end
-
+% R Zeng, 6/2016, FDA/CDRH/OSEL/DIDSR
 if(nargin<6)
-   ntheta = 4;
-end
-
-if(nargin<5)
-  nband = 4;
+    nch = 5;
 end
 
 [nx, ny, nte_sa]=size(testimg_sa);
@@ -53,33 +44,13 @@ if(nx1~=nx | ny1~=ny)
     error('Image size does not match! Exit.');
 end
 
-
-%Build Gabor channels 
+%LG channels
 xi=[0:nx-1]-(nx-1)/2;
 yi=[0:ny-1]-(ny-1)/2;
 [xxi,yyi]=meshgrid(xi,yi);
-r2=(xxi.^2+yyi.^2);
-theta = [0:pi/ntheta:pi/ntheta*(ntheta-1)];
-f0=1/8;
-for i=1:nband
-    f1 = f0/2; 
-    fc = (f0+f1)/2; %central freqency of the ocative band[f1, f0]
-    wf = f0-f1;  %bandwidth
-    ws = 4*log(2)/(pi*wf);
-    amp = exp(-4*log(2).*r2/ws^2);
-
-    for j=1:ntheta
-        for k=1:length(phase) 
-            fcos = cos(2*pi*fc.*(xxi*cos(theta(j))+yyi*sin(theta(j))) + phase(k));
-            u = amp.*fcos;
-            gb(:,:,k + (j-1)*length(phase) + (i-1)*ntheta*length(phase) ) = u;
-        end
-    end
-
-    f0=f1; %update f0 for the next band.
-end
-ch = reshape(gb, nx*ny, size(gb,3));
-nch = size(ch,2);
+r=sqrt(xxi.^2+yyi.^2);
+u=laguerre_gaussian_2d(r,nch-1,ch_width);
+ch=reshape(u,nx*ny,size(u,3)); %if not applying the following filtering to the channels
 
 %Training MO
 nxny=nx*ny;
@@ -122,5 +93,5 @@ tplimg=(reshape(w*ch',nx,ny)); % MO template
 chimg=reshape(ch,nx,ny,nch); %Channels
 meanSP=mean(trimg_sp,3);
 meanSA=mean(trimg_sa,3);
-meanSig=mean(trimg_sp,3)-mean(trimg_sa,3);
+meanSig=meanSP-meanSA;
 k_ch=k;

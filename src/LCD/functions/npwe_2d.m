@@ -1,13 +1,17 @@
-%[auc,snr,t_sp, t_sa,meanSP,meanSA,meanSig, tplimg, eyefunc]=NPWE_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, eye)
-%Calculating lesion detectability using non-prewhitening model observer with or without the eye filter.
-%model observer.
-%Inputs
+function [auc, snr, t_sp, t_sa, meanSA,meanSP,meanSig, tplimg, eyefunc]=npwe_2d(trimg_sa, trimg_sp,testimg_sa, testimg_sp, eye)
+% [auc,snr,t_sp, t_sa,meanSP,meanSA,meanSig, tplimg, eyefunc]=NPWE_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, eye)
+% Calculating lesion detectability using non-prewhitening model observer with or without the eye filter model observer.
+%
+% Inputs
+%
 %   testimg_sa: the test set of signal-absent, a stack of 2D array;
 %   testimg_sp: the test set of signal-present;
 %   trimg_sa: the training set of signal-absent;
 %   trimg_sp: the training set of signal-present;
 %   eye: 1 or 0 indicating the use of eye filter or not. (default is 0, no eye filter)
-%Outputs
+%
+% Outputs
+%
 %   auc: the AUC values
 %   snr: the detectibility SNR
 %   t_sp: t-scores of SP cases
@@ -18,9 +22,7 @@
 %   tplimg: the template of the model observer
 %   eyefunc: the eye function in spatial domain
 % 
-%R Zeng, 11/2022, FDA/CDRH/OSEL/DIDSR
-
-function [auc, snr, t_sp, t_sa, meanSA,meanSP,meanSig, tplimg, eyefunc]=npwe_2d(trimg_sa, trimg_sp,testimg_sa, testimg_sp, eye)
+% R Zeng, 11/2022, FDA/CDRH/OSEL/DIDSR
 
 if(nargin<5)
    eye=0;

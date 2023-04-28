@@ -19,7 +19,7 @@
 disp("demo_00_images_from_directory.m")
 %%
 clear all; clc
-addpath(genpath('bin'))
+addpath(genpath('src'))
 
 base_dir = 'Sample_Data/MITA_LCD';
 

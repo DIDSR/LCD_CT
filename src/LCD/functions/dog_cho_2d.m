@@ -1,17 +1,17 @@
-
-%[auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=LG_CHO_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, ch_width, nch)
-%Calculating lesion detectability using Laguerre-Gauss channelized
-%model observer.
+function [auc, snr,t_sa, t_sp, meanSA, meanSP, meanSig, tplimg, chimg, k_ch]=dog_cho_2d(trimg_sa, trimg_sp,testimg_sa, testimg_sp, DOGtype)
+% [auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=dog_cho_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, DOGtype)
+% Calculating lesion detectability using difference-of-Gaussian channelized Hoteling model observer.
 %
-%Inputs
+% Inputs
+%
 %   trimg_sa: the training set of signal-absent (SA) images;
 %   trimg_sp: the training set of signal-present (SP) images;
 %   testimg_sa: the test set of signal-absent images; 
 %   testimg_sp: the test set of signal-present iamges;
-%   ch_width: channel width parameter; (suggest setting this parameter to be about 2/3 of the disk radius (in pixel)). 
-%   nch: number of channels to be used; default is 5.
-%   
-%Outputs
+%   DOGtype: 'dense' or 'sparse' (default is 'dense'), based on the parameter settings in Abbey&Barrett2001-josa-v18n3.
+%
+% Outputs
+%
 %   auc: the AUC values
 %   snr: the detectibility SNR
 %   t_sa: t-scores of SA cases
@@ -23,12 +23,10 @@
 %   chimg: channel images
 %   k_ch: the channelized data covariance matrix estimated from the training data 
 %
-%R Zeng, 6/2016, FDA/CDRH/OSEL/DIDSR
+% R Zeng, 11/2022, FDA/CDRH/OSEL/DIDSR
 
-function [auc, snr,t_sa, t_sp, meanSA, meanSP, meanSig, tplimg, chimg, k_ch]=lg_cho_2d(trimg_sa, trimg_sp,testimg_sa, testimg_sp,  ch_width, nch)
-
-if(nargin<6)
-    nch = 5;
+if(nargin<5)
+    DOGtype = 'dense';
 end
 
 [nx, ny, nte_sa]=size(testimg_sa);
@@ -47,13 +45,40 @@ if(nx1~=nx | ny1~=ny)
     error('Image size does not match! Exit.');
 end
 
-%LG channels
-xi=[0:nx-1]-(nx-1)/2;
-yi=[0:ny-1]-(ny-1)/2;
-[xxi,yyi]=meshgrid(xi,yi);
-r=sqrt(xxi.^2+yyi.^2);
-u=laguerre_gaussian_2d(r,nch-1,ch_width);
-ch=reshape(u,nx*ny,size(u,3)); %if not applying the following filtering to the channels
+%Build DOG channels 
+fi=([0:nx-1]-(nx-1)/2)/nx/1; 
+[fx,fy]=ndgrid(fi,fi);
+fxy = (fx.^2+fy.^2);
+
+if strcmp(DOGtype,'dense')
+   a0=0.005;
+   a=1.4;
+   Q=1.67;
+   nch = 10;
+elseif strcmp(DOGtype, 'sparse')
+   a0=0.015;
+   a=2.0;
+   Q=2.0;
+   nch = 3;
+else 
+   error('unknown DOG channel types. The available types are "dense" or "spare".')
+end
+
+sdog = zeros(nx,ny,nch);
+for i=1:nch
+    aj=a0*a^(i-1);
+    aj1 = a0*a^(i);
+    
+    %S-DOG channels
+    exp1 = exp(-fxy/(Q*aj)^2/2);
+    exp2 = exp(-fxy/aj^2/2);
+    sdogfreq(:,:,i)=exp1-exp2;
+    sdog(:,:,i) = fftshift(ifft2(ifftshift(sdogfreq(:,:,i))));
+
+end
+
+ch = reshape(sdog, nx*ny, size(sdog,3));
+
 
 %Training MO
 nxny=nx*ny;
@@ -87,6 +112,7 @@ nte = nte_sa + nte_sp;
 data=zeros(nte,2);
 data(1:nte_sp,1) = t_sp(:);
 data(nte_sp+[1:nte_sa],1) = t_sa(:);
+data = real(data); % <--- is this appropriate???
 data(1:nte_sp,2)=1;
 out = roc(data);
 auc = out.AUC;
@@ -96,5 +122,5 @@ tplimg=(reshape(w*ch',nx,ny)); % MO template
 chimg=reshape(ch,nx,ny,nch); %Channels
 meanSP=mean(trimg_sp,3);
 meanSA=mean(trimg_sa,3);
-meanSig=meanSP-meanSA;
+meanSig=mean(trimg_sp,3)-mean(trimg_sa,3);
 k_ch=k;

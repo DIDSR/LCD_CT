@@ -31,13 +31,413 @@
 
           <div class="body" role="main">
             
-  <section id="api">
-<h1>API<a class="headerlink" href="#api" title="Permalink to this heading">¶</a></h1>
-<p>..automodule:: ‘bin/observer functions’</p>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-</tbody>
-</table>
+  <section id="module-LCD">
+<span id="api"></span><h1>API<a class="headerlink" href="#module-LCD" title="Permalink to this heading">¶</a></h1>
+<dl class="mat function">
+<dt class="sig sig-object mat" id="LCD.get_ROI_from_truth_mask">
+<span class="sig-prename descclassname"><span class="pre">LCD.</span></span><span class="sig-name descname"><span class="pre">get_ROI_from_truth_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">bw_truth_mask</span></em>, <em class="sig-param"><span class="pre">img</span></em>, <em class="sig-param"><span class="pre">nx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.get_ROI_from_truth_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>return bounding box region of interest around a known signal
+===
+inputs: bw_truth_mask - a binary image with a one signal, will error if
+multiple signals are provided
+img: image to crop around the truth signal and return
+nx: matrix size (area around the signal to crop) optional, if left
+unspecified, will grab bounding box width
+===
+outputs: cropped_img</p>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="LCD.imread_raw">
+<span class="sig-prename descclassname"><span class="pre">LCD.</span></span><span class="sig-name descname"><span class="pre">imread_raw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">fname</span></em>, <em class="sig-param"><span class="pre">imsize</span></em>, <em class="sig-param"><span class="pre">offset</span></em>, <em class="sig-param"><span class="pre">dtype</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.imread_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>im = imread_raw(fname, imsize, offset, dtype)
+see help fread for more</p>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="LCD.laguerre">
+<span class="sig-prename descclassname"><span class="pre">LCD.</span></span><span class="sig-name descname"><span class="pre">laguerre</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">x</span></em>, <em class="sig-param"><span class="pre">J</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.laguerre" title="Permalink to this definition">¶</a></dt>
+<dd><p>function L=laguerre(x,J)
+Calculate the laguerre polynomials</p>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="LCD.laguerre_gaussian_2d">
+<span class="sig-prename descclassname"><span class="pre">LCD.</span></span><span class="sig-name descname"><span class="pre">laguerre_gaussian_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">x</span></em>, <em class="sig-param"><span class="pre">J</span></em>, <em class="sig-param"><span class="pre">h</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.laguerre_gaussian_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>function u=laguerre_gaussian_2d(x,J,h)
+Calculate the Laguerre-gaussian function
+Inputs</p>
+<blockquote>
+<div><p>x: 1d vector of pixel locations
+J: # of channels
+h: the Guassian width</p>
+</div></blockquote>
+<p>2009, R Zeng, FDA/CDRH/OSEL</p>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="LCD.mha_read_header">
+<span class="sig-prename descclassname"><span class="pre">LCD.</span></span><span class="sig-name descname"><span class="pre">mha_read_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.mha_read_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for reading the header of a Insight Meta-Image (.mha,.mhd) file</p>
+<p>info  = mha_read_header(filename);</p>
+<p>examples:
+1,  info=mha_read_header()
+2,  info=mha_read_header(‘volume.mha’);</p>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="LCD.mha_read_volume">
+<span class="sig-prename descclassname"><span class="pre">LCD.</span></span><span class="sig-name descname"><span class="pre">mha_read_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">info</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.mha_read_volume" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Function for reading the volume of a Insight Meta-Image (.mha, .mhd) file</dt><dd><p><a class="reference external" href="https://www.mathworks.com/matlabcentral/fileexchange/29344-read-medical-data-3d">https://www.mathworks.com/matlabcentral/fileexchange/29344-read-medical-data-3d</a>
+volume = tk_read_volume(file-header)
+Copyright (c) 2010, Dirk-Jan Kroon
+All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions %are met:</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Redistributions of source code must retain the above copyright %notice, this
+list of conditions and the following disclaimer.</p></li>
+<li><p>Redistributions in binary form must reproduce the above copyright %notice,
+this list of conditions and the following disclaimer in the %documentation
+and/or other materials provided with the distribution
+examples:</p></li>
+</ul>
+<blockquote>
+<div><dl class="simple">
+<dt>1: info = mha_read_header()</dt><dd><p>V = mha_read_volume(info);
+imshow(squeeze(V(:,:,round(end/2))),[]);</p>
+</dd>
+</dl>
+<p>2: V = mha_read_volume(‘test.mha’);</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="LCD.mhd_read_image">
+<span class="sig-prename descclassname"><span class="pre">LCD.</span></span><span class="sig-name descname"><span class="pre">mhd_read_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">mhd_header</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.mhd_read_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>MHD_READ_IMAGE Summary of this function goes here
+Detailed explanation goes here</p>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="LCD.roc">
+<span class="sig-prename descclassname"><span class="pre">LCD.</span></span><span class="sig-name descname"><span class="pre">roc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">varargin</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.roc" title="Permalink to this definition">¶</a></dt>
+<dd><p>ROC - Receiver Operating Characteristics.
+The ROC graphs are a useful tecnique for organizing classifiers and
+visualizing their performance. ROC graphs are commonly used in medical
+decision making.
+If you have downloaded partest
+<a class="reference external" href="http://www.mathworks.com/matlabcentral/fileexchange/12705">http://www.mathworks.com/matlabcentral/fileexchange/12705</a>
+the routine will compute several data on test performance.</p>
+<p>Syntax: roc(x,alpha)</p>
+<dl class="simple">
+<dt>Input: x - This is the data matrix. The first column is the column of the data value;</dt><dd><p>The second column is the column of the tag: unhealthy (1) and
+healthy (0).</p>
+</dd>
+</dl>
+<p>alpha - significance level (default 0.05)</p>
+<dl>
+<dt>Output: The ROC plot;</dt><dd><p>The Area under the curve with Standard error and Confidence
+interval and comment.
+Cut-off point for best sensitivity and specificity.
+(Optional) the test performances at cut-off point.</p>
+</dd>
+<dt>Example:</dt><dd><p>load rocdata
+roc(x)</p>
+<p>Created by Giuseppe Cardillo
+<a class="reference external" href="mailto:giuseppe&#46;cardillo-edta&#37;&#52;&#48;poste&#46;it">giuseppe<span>&#46;</span>cardillo-edta<span>&#64;</span>poste<span>&#46;</span>it</a></p>
+</dd>
+</dl>
+<p>To cite this file, this would be an appropriate format:
+Cardillo G. (2008) ROC curve: compute a Receiver Operating Characteristics curve.
+<a class="reference external" href="http://www.mathworks.com/matlabcentral/fileexchange/19950">http://www.mathworks.com/matlabcentral/fileexchange/19950</a></p>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="LCD.train_test_split">
+<span class="sig-prename descclassname"><span class="pre">LCD.</span></span><span class="sig-name descname"><span class="pre">train_test_split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">sa_imgs</span></em>, <em class="sig-param"><span class="pre">sp_imgs</span></em>, <em class="sig-param"><span class="pre">split_pct</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.train_test_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>[sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs, split_pct)
+=== inputs: ===</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>sa_imgs: 3D array of signal absent images</p></li>
+<li><p>sp_imgs: 3D array of signal present images</p></li>
+<li><p>split_pct: percent of images to be used for training, remainder (1 - split_pct) to be used for testing</p></li>
+</ol>
+</div></blockquote>
+<p>=== outputs: === 
+1. sa_train: training set of sample absent images
+2. sa_test: testing set of sample absent images
+3. sp_train: training set of sample present images
+4. sp_train: testing set of sample present images</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Example:</dt><dd><p>train_test_split(rand(64, 64, 10), rand(64, 64, 10), 0.3)</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<section id="module-LCD.functions">
+<span id="observer-functions"></span><h2>observer functions<a class="headerlink" href="#module-LCD.functions" title="Permalink to this heading">¶</a></h2>
+<dl class="mat function">
+<dt class="sig sig-object mat" id="LCD.functions.conv_LG_CHO_2d">
+<span class="sig-prename descclassname"><span class="pre">LCD.functions.</span></span><span class="sig-name descname"><span class="pre">conv_LG_CHO_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">trimg_sa</span></em>, <em class="sig-param"><span class="pre">trimg_sp</span></em>, <em class="sig-param"><span class="pre">testimg_sa</span></em>, <em class="sig-param"><span class="pre">testimg_sp</span></em>, <em class="sig-param"><span class="pre">ch_width</span></em>, <em class="sig-param"><span class="pre">nch</span></em>, <em class="sig-param"><span class="pre">b_conv</span></em>, <em class="sig-param"><span class="pre">ch2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.functions.conv_LG_CHO_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>[auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=conv_LG_CHO_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, ch_width, nch, b_conv, ch2)
+Filtered/convolutional Channels CHO, based on the paper:
+Diaz et al, IEEE-tmi-34(7), 2015, “Derivation of an observer model adapted
+to irregular signals based on covolution channels”
+Inputs</p>
+<blockquote>
+<div><p>testimg_sa: the test set of signal-absent, a stack of 2D array;
+testimg_sp: the test set of signal-present;
+trimg_sa: the training set of signal-absent;
+trimg_sp: the training set of signal-present;
+ch_width: channel width parameter;
+nch: number of channels to be used;
+b_conv: 1 or 0 to indicate whether to apply a convolution of the signal
+to the LG channels. Default is 1.
+ch2: an optional additional LG channel, 2-element vector form [ch_width
+nch] eg. for the spiculated mass, one may use a main channel of width
+matching the signal size and use an additional channel with small width
+for detecting the edge feature.</p>
+</div></blockquote>
+<p>Outputs</p>
+<blockquote>
+<div><p>auc: the AUC values
+snr: the detectibility SNR
+t_sp: t-scores of SP cases
+t_sa: t-scores of SA cases</p>
+</div></blockquote>
+<p>R Zeng, 6/2016, FDA/CDRH/OSEL/DIDSR</p>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="LCD.functions.dog_cho_2d">
+<span class="sig-prename descclassname"><span class="pre">LCD.functions.</span></span><span class="sig-name descname"><span class="pre">dog_cho_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">trimg_sa</span></em>, <em class="sig-param"><span class="pre">trimg_sp</span></em>, <em class="sig-param"><span class="pre">testimg_sa</span></em>, <em class="sig-param"><span class="pre">testimg_sp</span></em>, <em class="sig-param"><span class="pre">DOGtype</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.functions.dog_cho_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>[auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=dog_cho_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, DOGtype)
+Calculating lesion detectability using difference-of-Gaussian channelized Hoteling model observer.</p>
+<p>Inputs</p>
+<blockquote>
+<div><p>trimg_sa: the training set of signal-absent (SA) images;
+trimg_sp: the training set of signal-present (SP) images;
+testimg_sa: the test set of signal-absent images; 
+testimg_sp: the test set of signal-present iamges;
+DOGtype: ‘dense’ or ‘sparse’ (default is ‘dense’), based on the parameter settings in Abbey&amp;Barrett2001-josa-v18n3.</p>
+</div></blockquote>
+<p>Outputs</p>
+<blockquote>
+<div><p>auc: the AUC values
+snr: the detectibility SNR
+t_sa: t-scores of SA cases
+t_sp: t-scores of SP cases
+meanSA: mean of training SP ROIs 
+meanSP: mean of traning SA ROIs
+meanSig: mean singal images (= meanSP-meanSA)
+tplimg: the template of the model observer
+chimg: channel images
+k_ch: the channelized data covariance matrix estimated from the training data</p>
+</div></blockquote>
+<p>R Zeng, 11/2022, FDA/CDRH/OSEL/DIDSR</p>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="LCD.functions.gabor_cho_2d">
+<span class="sig-prename descclassname"><span class="pre">LCD.functions.</span></span><span class="sig-name descname"><span class="pre">gabor_cho_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">trimg_sa</span></em>, <em class="sig-param"><span class="pre">trimg_sp</span></em>, <em class="sig-param"><span class="pre">testimg_sa</span></em>, <em class="sig-param"><span class="pre">testimg_sp</span></em>, <em class="sig-param"><span class="pre">nband</span></em>, <em class="sig-param"><span class="pre">ntheta</span></em>, <em class="sig-param"><span class="pre">phase</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.functions.gabor_cho_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>[auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=gabor_cho_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, nband, ntheta, phase)
+Calculating lesion detectability using Gabor channelized Hoteling model observer.
+Inputs</p>
+<blockquote>
+<div><p>testimg_sa: the test set of signal-absent, a stack of 2D array;
+testimg_sp: the test set of signal-present;
+trimg_sa: the training set of signal-absent;
+trimg_sp: the training set of signal-present;
+nband: number of octave bands; (default is 4)
+ntheta: number of angles; (default is 4)
+phase: a vector containing the phase values in radian such as 0,pi/3,pi/2 etc.(default is 0)</p>
+</div></blockquote>
+<p>Outputs</p>
+<blockquote>
+<div><p>auc: the AUC values
+snr: the detectibility SNR
+t_sa: t-scores of SA cases
+t_sp: t-scores of SP cases
+meanSA: mean of training SP ROIs 
+meanSP: mean of traning SA ROIs
+meanSig: mean singal images (= meanSP-meanSA)
+tplimg: the template of the model observer
+chimg: channel images
+k_ch: the channelized data covariance matrix estimated from the training data</p>
+</div></blockquote>
+<p>R Zeng, 11/2022, FDA/CDRH/OSEL/DIDSR</p>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="LCD.functions.lg_cho_2d">
+<span class="sig-prename descclassname"><span class="pre">LCD.functions.</span></span><span class="sig-name descname"><span class="pre">lg_cho_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">trimg_sa</span></em>, <em class="sig-param"><span class="pre">trimg_sp</span></em>, <em class="sig-param"><span class="pre">testimg_sa</span></em>, <em class="sig-param"><span class="pre">testimg_sp</span></em>, <em class="sig-param"><span class="pre">ch_width</span></em>, <em class="sig-param"><span class="pre">nch</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.functions.lg_cho_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>[auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=LG_CHO_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, ch_width, nch)
+Calculating lesion detectability using Laguerre-Gauss channelized model observer.</p>
+<dl class="simple">
+<dt>Inputs</dt><dd><p>trimg_sa: the training set of signal-absent (SA) images;
+trimg_sp: the training set of signal-present (SP) images;
+testimg_sa: the test set of signal-absent images; 
+testimg_sp: the test set of signal-present iamges;
+ch_width: channel width parameter; (suggest setting this parameter to be about 2/3 of the disk radius (in pixel)). 
+nch: number of channels to be used; default is 5.</p>
+</dd>
+</dl>
+<p>Outputs</p>
+<blockquote>
+<div><p>auc: the AUC values
+snr: the detectibility SNR
+t_sa: t-scores of SA cases
+t_sp: t-scores of SP cases
+meanSA: mean of training SP ROIs 
+meanSP: mean of traning SA ROIs
+meanSig: mean singal images (= meanSP-meanSA)
+tplimg: the template of the model observer
+chimg: channel images
+k_ch: the channelized data covariance matrix estimated from the training data</p>
+</div></blockquote>
+<p>R Zeng, 6/2016, FDA/CDRH/OSEL/DIDSR</p>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="LCD.functions.npwe_2d">
+<span class="sig-prename descclassname"><span class="pre">LCD.functions.</span></span><span class="sig-name descname"><span class="pre">npwe_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">trimg_sa</span></em>, <em class="sig-param"><span class="pre">trimg_sp</span></em>, <em class="sig-param"><span class="pre">testimg_sa</span></em>, <em class="sig-param"><span class="pre">testimg_sp</span></em>, <em class="sig-param"><span class="pre">eye</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.functions.npwe_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>[auc,snr,t_sp, t_sa,meanSP,meanSA,meanSig, tplimg, eyefunc]=NPWE_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, eye)
+Calculating lesion detectability using non-prewhitening model observer with or without the eye filter model observer.</p>
+<p>Inputs</p>
+<blockquote>
+<div><p>testimg_sa: the test set of signal-absent, a stack of 2D array;
+testimg_sp: the test set of signal-present;
+trimg_sa: the training set of signal-absent;
+trimg_sp: the training set of signal-present;
+eye: 1 or 0 indicating the use of eye filter or not. (default is 0, no eye filter)</p>
+</div></blockquote>
+<p>Outputs</p>
+<blockquote>
+<div><p>auc: the AUC values
+snr: the detectibility SNR
+t_sp: t-scores of SP cases
+t_sa: t-scores of SA cases
+meanSA: mean of training SP ROIs 
+meanSP: mean of traning SA ROIs
+meanSig: mean singal images (= meanSP-meanSA)
+tplimg: the template of the model observer
+eyefunc: the eye function in spatial domain</p>
+</div></blockquote>
+<p>R Zeng, 11/2022, FDA/CDRH/OSEL/DIDSR</p>
+</dd></dl>
+
+</section>
+<section id="module-LCD.classes">
+<span id="observer-classes"></span><h2>observer classes<a class="headerlink" href="#module-LCD.classes" title="Permalink to this heading">¶</a></h2>
+<dl class="mat class">
+<dt class="sig sig-object mat" id="LCD.classes.BaseObserver">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">LCD.classes.</span></span><span class="sig-name descname"><span class="pre">BaseObserver</span></span><a class="headerlink" href="#LCD.classes.BaseObserver" title="Permalink to this definition">¶</a></dt>
+<dd><p>BASEOBSERVER Summary of this class goes here
+Detailed explanation goes here</p>
+<dl class="mat method">
+<dt class="sig sig-object mat" id="LCD.classes.BaseObserver.perform_study">
+<span class="sig-name descname"><span class="pre">perform_study</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">signal_absent_train</span></em>, <em class="sig-param"><span class="pre">signal_present_train</span></em>, <em class="sig-param"><span class="pre">signal_absent_test</span></em>, <em class="sig-param"><span class="pre">signal_present_test</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.classes.BaseObserver.perform_study" title="Permalink to this definition">¶</a></dt>
+<dd><p>METHOD1 Summary of this method goes here
+Detailed explanation goes here</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="mat class">
+<dt class="sig sig-object mat" id="LCD.classes.DOG_CHO_2D">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">LCD.classes.</span></span><span class="sig-name descname"><span class="pre">DOG_CHO_2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">DOGtype</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.classes.DOG_CHO_2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>DOG_CHO_2D Summary of this class goes here
+Detailed explanation goes here</p>
+<dl class="mat method">
+<dt class="sig sig-object mat" id="LCD.classes.DOG_CHO_2D.DOG_CHO_2D">
+<span class="sig-name descname"><span class="pre">DOG_CHO_2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">DOGtype</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.classes.DOG_CHO_2D.DOG_CHO_2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>DOG_CHO_2D Construct an instance of this class
+Detailed explanation goes here</p>
+</dd></dl>
+
+<dl class="mat method">
+<dt class="sig sig-object mat" id="LCD.classes.DOG_CHO_2D.perform_study">
+<span class="sig-name descname"><span class="pre">perform_study</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">signal_absent_train</span></em>, <em class="sig-param"><span class="pre">signal_present_train</span></em>, <em class="sig-param"><span class="pre">signal_absent_test</span></em>, <em class="sig-param"><span class="pre">signal_present_test</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.classes.DOG_CHO_2D.perform_study" title="Permalink to this definition">¶</a></dt>
+<dd><p>METHOD1 Summary of this method goes here
+Detailed explanation goes here</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="mat class">
+<dt class="sig sig-object mat" id="LCD.classes.GABOR_CHO_2D">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">LCD.classes.</span></span><span class="sig-name descname"><span class="pre">GABOR_CHO_2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">nband</span></em>, <em class="sig-param"><span class="pre">ntheta</span></em>, <em class="sig-param"><span class="pre">phase</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.classes.GABOR_CHO_2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>GABOR_CHO_2D Summary of this class goes here
+Detailed explanation goes here
+nband: number of octave bands; (default is 4)
+ntheta: number of angles; (default is 4)
+phase: a vector containing the phase values in radian such as 0,pi/3,pi/2 etc.(default is 0)</p>
+<dl class="mat method">
+<dt class="sig sig-object mat" id="LCD.classes.GABOR_CHO_2D.GABOR_CHO_2D">
+<span class="sig-name descname"><span class="pre">GABOR_CHO_2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">nband</span></em>, <em class="sig-param"><span class="pre">ntheta</span></em>, <em class="sig-param"><span class="pre">phase</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.classes.GABOR_CHO_2D.GABOR_CHO_2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>DOG_CHO_2D Construct an instance of this class
+Detailed explanation goes here</p>
+</dd></dl>
+
+<dl class="mat method">
+<dt class="sig sig-object mat" id="LCD.classes.GABOR_CHO_2D.perform_study">
+<span class="sig-name descname"><span class="pre">perform_study</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">signal_absent_train</span></em>, <em class="sig-param"><span class="pre">signal_present_train</span></em>, <em class="sig-param"><span class="pre">signal_absent_test</span></em>, <em class="sig-param"><span class="pre">signal_present_test</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.classes.GABOR_CHO_2D.perform_study" title="Permalink to this definition">¶</a></dt>
+<dd><p>METHOD1 Summary of this method goes here
+Detailed explanation goes here</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="mat class">
+<dt class="sig sig-object mat" id="LCD.classes.LG_CHO_2D">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">LCD.classes.</span></span><span class="sig-name descname"><span class="pre">LG_CHO_2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">channel_width</span></em>, <em class="sig-param"><span class="pre">n_channels</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.classes.LG_CHO_2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>LG_CHO_2D Summary of this class goes here
+Detailed explanation goes here</p>
+<dl class="mat method">
+<dt class="sig sig-object mat" id="LCD.classes.LG_CHO_2D.LG_CHO_2D">
+<span class="sig-name descname"><span class="pre">LG_CHO_2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">channel_width</span></em>, <em class="sig-param"><span class="pre">n_channels</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.classes.LG_CHO_2D.LG_CHO_2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>LG_CHO_2D Construct an instance of this class
+Detailed explanation goes here</p>
+</dd></dl>
+
+<dl class="mat method">
+<dt class="sig sig-object mat" id="LCD.classes.LG_CHO_2D.perform_study">
+<span class="sig-name descname"><span class="pre">perform_study</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">signal_absent_train</span></em>, <em class="sig-param"><span class="pre">signal_present_train</span></em>, <em class="sig-param"><span class="pre">signal_absent_test</span></em>, <em class="sig-param"><span class="pre">signal_present_test</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.classes.LG_CHO_2D.perform_study" title="Permalink to this definition">¶</a></dt>
+<dd><p>[results] = perform_study(obj,signal_absent_train, signal_present_train,signal_absent_test, signal_present_test)
+Detailed explanation goes here</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="mat class">
+<dt class="sig sig-object mat" id="LCD.classes.NPWE_2D">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">LCD.classes.</span></span><span class="sig-name descname"><span class="pre">NPWE_2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">use_eye</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.classes.NPWE_2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>NPWE_2D Summary of this class goes here
+eye: 1 or 0 indicating the use of eye filter or not. (default is 0, no eye filter)</p>
+<dl class="mat method">
+<dt class="sig sig-object mat" id="LCD.classes.NPWE_2D.NPWE_2D">
+<span class="sig-name descname"><span class="pre">NPWE_2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">use_eye</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.classes.NPWE_2D.NPWE_2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>NPWE_2D Construct an instance of this class
+Detailed explanation goes here</p>
+</dd></dl>
+
+<dl class="mat method">
+<dt class="sig sig-object mat" id="LCD.classes.NPWE_2D.perform_study">
+<span class="sig-name descname"><span class="pre">perform_study</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">signal_absent_train</span></em>, <em class="sig-param"><span class="pre">signal_present_train</span></em>, <em class="sig-param"><span class="pre">signal_absent_test</span></em>, <em class="sig-param"><span class="pre">signal_present_test</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.classes.NPWE_2D.perform_study" title="Permalink to this definition">¶</a></dt>
+<dd><p>METHOD1 Summary of this method goes here
+Detailed explanation goes here</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -60,7 +460,11 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-LCD.functions">observer functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-LCD.classes">observer classes</a></li>
+</ul>
+</li>
 </ul>
 
 <div class="relations">

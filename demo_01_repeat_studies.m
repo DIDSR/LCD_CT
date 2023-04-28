@@ -1,5 +1,5 @@
 clear all; close all; clc;
-addpath(genpath('bin'))
+addpath(genpath('src'))
 
 base_dir = 'Sample_Data/MITA_LCD';
 

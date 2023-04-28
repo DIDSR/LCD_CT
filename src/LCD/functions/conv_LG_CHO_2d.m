@@ -1,9 +1,10 @@
-
-%[auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=conv_LG_CHO_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, ch_width, nch, b_conv, ch2)
-%Filtered/convolutional Channels CHO, based on the paper:
-%Diaz et al, IEEE-tmi-34(7), 2015, "Derivation of an observer model adapted
-%to irregular signals based on covolution channels"
-%Inputs
+function [auc, snr,chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa]=conv_LG_CHO_2d(trimg_sa, trimg_sp,testimg_sa, testimg_sp,  ch_width, nch, b_conv, ch2)
+% [auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=conv_LG_CHO_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, ch_width, nch, b_conv, ch2)
+% Filtered/convolutional Channels CHO, based on the paper:
+% Diaz et al, IEEE-tmi-34(7), 2015, "Derivation of an observer model adapted
+% to irregular signals based on covolution channels"
+% Inputs
+%
 %   testimg_sa: the test set of signal-absent, a stack of 2D array;
 %   testimg_sp: the test set of signal-present;
 %   trimg_sa: the training set of signal-absent;
@@ -16,16 +17,15 @@
 %   nch] eg. for the spiculated mass, one may use a main channel of width
 %   matching the signal size and use an additional channel with small width
 %   for detecting the edge feature.
-%Outputs
+%
+% Outputs
+%
 %   auc: the AUC values
 %   snr: the detectibility SNR
 %   t_sp: t-scores of SP cases
 %   t_sa: t-scores of SA cases
 %
-%R Zeng, 6/2016, FDA/CDRH/OSEL/DIDSR
-
-function [auc, snr,chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa]=conv_LG_CHO_2d(trimg_sa, trimg_sp,testimg_sa, testimg_sp,  ch_width, nch, b_conv, ch2)
-
+% R Zeng, 6/2016, FDA/CDRH/OSEL/DIDSR
 if(nargin<7)
     b_conv=1;
 end

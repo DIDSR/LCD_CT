@@ -1,7 +1,20 @@
 API
 ===
 
-..automodule:: 'bin/observer functions'
+.. automodule:: LCD
+    :imported-members:
+    :members:
 
-.. autosummary::
-   :toctree: generated
+observer functions
+------------------
+
+.. automodule:: LCD.functions
+    :imported-members:
+    :members:
+
+observer classes
+----------------
+
+.. automodule:: LCD.classes
+    :imported-members:
+    :members:

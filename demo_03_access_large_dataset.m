@@ -12,17 +12,17 @@
 %next show an example of how to access the large dataset on Zenodod with
 %200 sims
 % clear all
-addpath(genpath('bin'))
+addpath(genpath('src'))
 
 if ~exist('base_dir', 'var')
-    base_dir = ''; %<-- Replace with directory containing large data set
+    base_dir = 'data'; %<-- Replace with directory containing large data set
 end
 
 offset = 1000;
 
 ground_truth_fname = fullfile(base_dir, 'ground_truth.mhd');
 if ~exist(ground_truth_fname, 'file')
-   data_dir = input(['No dataset found in: ', base_dir, 'Please enter a target directory to download dataset (~1 gb) or hit enter for default [./data]:'],'s');
+   data_dir = input(['No dataset found in: ', base_dir, 'Please enter a target directory to download dataset (~1 gb) or hit enter for default [', base_dir, ']:','s');
    if isempty(data_dir)
       data_dir = './data';
    end
@@ -38,6 +38,7 @@ if ~exist(ground_truth_fname, 'file')
    unzip(fname, data_dir);
    [FILEPATH, NAME, ~] = fileparts(fname);
    base_dir = fullfile(FILEPATH, NAME);
+   ground_truth_fname = fullfile(base_dir, 'ground_truth.mhd');
    delete(fname)
    disp(['Dataset saved to ', base_dir])
    clear FILEPATH NAME what_obj

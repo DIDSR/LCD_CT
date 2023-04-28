@@ -12,7 +12,8 @@ function ROCdata=roc(varargin)
 % Input: x - This is the data matrix. The first column is the column of the data value;
 %            The second column is the column of the tag: unhealthy (1) and
 %            healthy (0).
-%          alpha - significance level (default 0.05)
+%
+% alpha - significance level (default 0.05)
 %
 % Output: The ROC plot;
 %         The Area under the curve with Standard error and Confidence

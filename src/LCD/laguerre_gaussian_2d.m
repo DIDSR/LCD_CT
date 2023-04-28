@@ -2,6 +2,7 @@ function u=laguerre_gaussian_2d(x,J,h)
 %function u=laguerre_gaussian_2d(x,J,h)
 %Calculate the Laguerre-gaussian function
 %Inputs
+%
 %       x: 1d vector of pixel locations
 %       J: # of channels
 %       h: the Guassian width 

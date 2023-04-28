@@ -1,10 +1,11 @@
 function [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs, split_pct)
-%[sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs, split_pct)
+% [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs, split_pct)
 % === inputs: === 
+%
 %  1. sa_imgs: 3D array of signal absent images
 %  2. sp_imgs: 3D array of signal present images
-%  3. split_pct: percent of images to be used for training, remainder (1 -
-%  split_pct) to be used for testing
+%  3. split_pct: percent of images to be used for training, remainder (1 - split_pct) to be used for testing
+%
 % === outputs: === 
 % 1. sa_train: training set of sample absent images
 % 2. sa_test: testing set of sample absent images

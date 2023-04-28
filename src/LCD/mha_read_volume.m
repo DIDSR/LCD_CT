@@ -2,11 +2,11 @@ function V = mha_read_volume(info)
 % Function for reading the volume of a Insight Meta-Image (.mha, .mhd) file
 % https://www.mathworks.com/matlabcentral/fileexchange/29344-read-medical-data-3d
 % volume = tk_read_volume(file-header)
-%Copyright (c) 2010, Dirk-Jan Kroon
-%All rights reserved.
-
-%Redistribution and use in source and binary forms, with or without
-%modification, are permitted provided that the following conditions %are met:
+% Copyright (c) 2010, Dirk-Jan Kroon
+% All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions %are met:
 %
 %* Redistributions of source code must retain the above copyright %notice, this
 %  list of conditions and the following disclaimer.
@@ -14,7 +14,8 @@ function V = mha_read_volume(info)
 %* Redistributions in binary form must reproduce the above copyright %notice,
 %  this list of conditions and the following disclaimer in the %documentation
 %  and/or other materials provided with the distribution
-% examples:
+%  examples:
+%
 % 1: info = mha_read_header()
 %    V = mha_read_volume(info);
 %    imshow(squeeze(V(:,:,round(end/2))),[]);
