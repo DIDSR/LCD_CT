@@ -1,0 +1,8 @@
+ObjectType = Image
+NDims = 3
+DimSize = 256 256 10
+ElementType = MET_SHORT
+ElementSize = 1 1 1
+ElementSpacing = 1 1 1
+ElementByteOrderMSB = False
+ElementDataFile = signal_absent_%03d.raw 1 10 1
