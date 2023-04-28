@@ -15,14 +15,14 @@
 addpath(genpath('src'))
 
 if ~exist('base_dir', 'var')
-    base_dir = 'data'; %<-- Replace with directory containing large data set
+    base_dir = 'data/MITA_LCD'; %<-- Replace with directory containing large data set
 end
 
 offset = 1000;
 
 ground_truth_fname = fullfile(base_dir, 'ground_truth.mhd');
 if ~exist(ground_truth_fname, 'file')
-   data_dir = input(['No dataset found in: ', base_dir, 'Please enter a target directory to download dataset (~1 gb) or hit enter for default [', base_dir, ']:','s');
+   data_dir = input(['No dataset found in: ', base_dir, '. Please enter a target directory to download dataset (~1 gb) or hit enter for default: [', base_dir, ']'],'s');
    if isempty(data_dir)
       data_dir = './data';
    end

@@ -41,6 +41,13 @@
 <img alt="_images/signal_example.png" src="_images/signal_example.png" />
 <p>For this ease of use, model observers are routinely used by image processing device sponsors to support their device dose reduction or image quality claims. However,</p>
 <p>There are many types of model observers, some are designed to mimic human performance and act as surragates to human readers while others outperform human readers and can be used as a measure of the inherent information in an image. With</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">sa_train</span><span class="p">,</span><span class="w"> </span><span class="n">sa_test</span><span class="p">,</span><span class="w"> </span><span class="n">sp_train</span><span class="p">,</span><span class="w"> </span><span class="n">sp_test</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">train_test_split</span><span class="p">(</span><span class="n">sa_imgs</span><span class="p">,</span><span class="w"> </span><span class="n">sp_imgs</span><span class="p">);</span>
+<span class="hll"><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">observer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">DOG_CHO_2D</span><span class="p">();</span>
+</span><span class="hll"><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">dog_res</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">observer</span><span class="p">.</span><span class="n">perform_study</span><span class="p">(</span><span class="n">sa_train</span><span class="p">,</span><span class="w"> </span><span class="n">sp_train</span><span class="p">,</span><span class="w"> </span><span class="n">sa_test</span><span class="p">,</span><span class="w"> </span><span class="n">sp_test</span><span class="p">);</span>
+</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;DOG CHO auc: %f\n&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">dog_res</span><span class="p">.</span><span class="n">auc</span><span class="p">)</span>
+<span class="n">DOG</span><span class="w"> </span><span class="s">CHO</span><span class="w"> </span><span class="s">auc:</span><span class="w"> </span><span class="s">0.800000</span>
+</pre></div>
+</div>
 </section>
 <section id="images-from-a-directory">
 <h2>0. Images from a Directory<a class="headerlink" href="#images-from-a-directory" title="Permalink to this heading">¶</a></h2>

@@ -21,6 +21,11 @@ disp("demo_00_images_from_directory.m")
 clear all; clc
 addpath(genpath('src'))
 
+if is_octave
+  pkg load image
+  pkg load tablicious
+end
+
 base_dir = 'Sample_Data/MITA_LCD';
 
 signal_present_dir = fullfile(base_dir, 'dose_100', 'signal_present');

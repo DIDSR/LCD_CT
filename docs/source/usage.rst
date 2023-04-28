@@ -14,6 +14,15 @@ For this ease of use, model observers are routinely used by image processing dev
 
 There are many types of model observers, some are designed to mimic human performance and act as surragates to human readers while others outperform human readers and can be used as a measure of the inherent information in an image. With
 
+.. code-block:: matlab
+  :emphasize-lines: 2, 3
+
+  >> [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs);
+  >> observer = DOG_CHO_2D();
+  >> dog_res = observer.perform_study(sa_train, sp_train, sa_test, sp_test);
+  >> fprintf('DOG CHO auc: %f\n', dog_res.auc)
+  DOG CHO auc: 0.800000
+
 0. Images from a Directory
 --------------------------
 

@@ -7,6 +7,8 @@ Low Contrast Detectability for CT Toolbox provides a common and simple interface
 
 Look how easy it is to use:
 
+.. code-block:: matlab
+  :emphasize-lines: 2,4
     >> [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs);
 
     >> observer = DOG_CHO_2D();
