@@ -31,6 +31,10 @@ this_dir = os.path.dirname(os.path.abspath(__file__))
 matlab_src_dir = os.path.abspath(os.path.join(this_dir, '../../src'))
 primary_domain = 'mat'
 
+
+formats:
+  - pdf
+
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
