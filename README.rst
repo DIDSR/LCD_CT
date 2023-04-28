@@ -44,7 +44,7 @@ LCD_RST is compatible with Octave, however some functions such as `medfilt2` are
 Getting Started
 ---------------
 
-After installing review the LCD RST Documentation docs/source/index.rst and the demos to learn how to use the tool to assess low contrast detectability and to learn more about selecting and optimizing model observers for your task.
+After installing review the LCD RST Documentation https://lcd-ct.readthedocs.io/en/latest/ and the demos to learn how to use the tool to assess low contrast detectability and to learn more about selecting and optimizing model observers for your task.
 
 Contribute
 ----------
