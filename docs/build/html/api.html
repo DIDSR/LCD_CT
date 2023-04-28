@@ -186,32 +186,34 @@ Cardillo G. (2008) ROC curve: compute a Receiver Operating Characteristics curve
 <dl class="mat function">
 <dt class="sig sig-object mat" id="LCD.functions.conv_LG_CHO_2d">
 <span class="sig-prename descclassname"><span class="pre">LCD.functions.</span></span><span class="sig-name descname"><span class="pre">conv_LG_CHO_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">trimg_sa</span></em>, <em class="sig-param"><span class="pre">trimg_sp</span></em>, <em class="sig-param"><span class="pre">testimg_sa</span></em>, <em class="sig-param"><span class="pre">testimg_sp</span></em>, <em class="sig-param"><span class="pre">ch_width</span></em>, <em class="sig-param"><span class="pre">nch</span></em>, <em class="sig-param"><span class="pre">b_conv</span></em>, <em class="sig-param"><span class="pre">ch2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#LCD.functions.conv_LG_CHO_2d" title="Permalink to this definition">¶</a></dt>
-<dd><p>[auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=conv_LG_CHO_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, ch_width, nch, b_conv, ch2)
-Filtered/convolutional Channels CHO, based on the paper:
-Diaz et al, IEEE-tmi-34(7), 2015, “Derivation of an observer model adapted
-to irregular signals based on covolution channels”
-Inputs</p>
-<blockquote>
-<div><p>testimg_sa: the test set of signal-absent, a stack of 2D array;
-testimg_sp: the test set of signal-present;
-trimg_sa: the training set of signal-absent;
-trimg_sp: the training set of signal-present;
-ch_width: channel width parameter;
-nch: number of channels to be used;
-b_conv: 1 or 0 to indicate whether to apply a convolution of the signal
-to the LG channels. Default is 1.
-ch2: an optional additional LG channel, 2-element vector form [ch_width
-nch] eg. for the spiculated mass, one may use a main channel of width
-matching the signal size and use an additional channel with small width
-for detecting the edge feature.</p>
-</div></blockquote>
-<p>Outputs</p>
-<blockquote>
-<div><p>auc: the AUC values
-snr: the detectibility SNR
-t_sp: t-scores of SP cases
-t_sa: t-scores of SA cases</p>
-</div></blockquote>
+<dd><p>Filtered/convolutional Channels CHO</p>
+<p>Based on the paper: Diaz et al, IEEE-tmi-34(7), 2015, “Derivation of an observer model adapted to irregular signals based on covolution channels” &lt;<a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/25622313/">https://pubmed.ncbi.nlm.nih.gov/25622313/</a>&gt;</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>testimg_sa</strong> – the test set of signal-absent, a stack of 2D array</p></li>
+<li><p><strong>testimg_sp</strong> – the test set of signal-present</p></li>
+<li><p><strong>trimg_sa</strong> – the training set of signal-absent</p></li>
+<li><p><strong>trimg_sp</strong> – the training set of signal-present</p></li>
+<li><p><strong>ch_width</strong> – channel width parameter;</p></li>
+<li><p><strong>nch</strong> – number of channels to be used;</p></li>
+<li><p><strong>b_conv</strong> – 1 or 0 to indicate whether to apply a convolution of the signal to the LG channels. Default is 1.</p></li>
+<li><p><strong>ch2</strong> – an optional additional LG channel, 2-element vector form [ch_width nch] eg. for the spiculated mass, one may use a main channel of width matching the signal size and use an additional channel with small width for detecting the edge feature.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns auc<span class="colon">:</span></dt>
+<dd class="field-even"><p>the AUC values</p>
+</dd>
+<dt class="field-odd">Returns snr<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the detectibility SNR</p>
+</dd>
+<dt class="field-even">Returns t_sp<span class="colon">:</span></dt>
+<dd class="field-even"><p>t-scores of SP cases</p>
+</dd>
+<dt class="field-odd">Returns t_sa<span class="colon">:</span></dt>
+<dd class="field-odd"><p>t-scores of SA cases</p>
+</dd>
+</dl>
 <p>R Zeng, 6/2016, FDA/CDRH/OSEL/DIDSR</p>
 </dd></dl>
 
@@ -498,7 +500,7 @@ Detailed explanation goes here</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2023, Brandon Nelson, Rongping Zeng.
+      &copy;2023, Brandon Nelson, Rongping Zeng, Prabhat Kc.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 6.2.1</a>

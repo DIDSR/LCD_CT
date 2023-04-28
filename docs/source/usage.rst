@@ -54,4 +54,4 @@ demo_03_access_large_dataset.m
 - The large dataset used can be downloaded here:
 
 .. image:: https://sandbox.zenodo.org/badge/DOI/10.5072/zenodo.1150650.svg
-   :target: https://doi.org/10.5072/zenodo.1150650
+   :target: https://sandbox.zenodo.org/record/1150650

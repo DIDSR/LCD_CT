@@ -1,31 +1,25 @@
 function [auc, snr,chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa]=conv_LG_CHO_2d(trimg_sa, trimg_sp,testimg_sa, testimg_sp,  ch_width, nch, b_conv, ch2)
-% [auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=conv_LG_CHO_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, ch_width, nch, b_conv, ch2)
-% Filtered/convolutional Channels CHO, based on the paper:
-% Diaz et al, IEEE-tmi-34(7), 2015, "Derivation of an observer model adapted
-% to irregular signals based on covolution channels"
-% Inputs
+% Filtered/convolutional Channels CHO
 %
-%   testimg_sa: the test set of signal-absent, a stack of 2D array;
-%   testimg_sp: the test set of signal-present;
-%   trimg_sa: the training set of signal-absent;
-%   trimg_sp: the training set of signal-present;
-%   ch_width: channel width parameter;
-%   nch: number of channels to be used;
-%   b_conv: 1 or 0 to indicate whether to apply a convolution of the signal
-%   to the LG channels. Default is 1.
-%   ch2: an optional additional LG channel, 2-element vector form [ch_width
-%   nch] eg. for the spiculated mass, one may use a main channel of width
-%   matching the signal size and use an additional channel with small width
-%   for detecting the edge feature.
+% Based on the paper: Diaz et al, IEEE-tmi-34(7), 2015, "Derivation of an observer model adapted to irregular signals based on covolution channels" <https://pubmed.ncbi.nlm.nih.gov/25622313/>
+% 
+% :param testimg_sa: the test set of signal-absent, a stack of 2D array
+% :param testimg_sp: the test set of signal-present
+% :param trimg_sa: the training set of signal-absent
+% :param trimg_sp: the training set of signal-present
+% :param ch_width: channel width parameter;
+% :param nch: number of channels to be used;
+% :param b_conv: 1 or 0 to indicate whether to apply a convolution of the signal to the LG channels. Default is 1.
+% :param ch2: an optional additional LG channel, 2-element vector form [ch_width nch] eg. for the spiculated mass, one may use a main channel of width matching the signal size and use an additional channel with small width for detecting the edge feature.
 %
-% Outputs
+% :returns auc: the AUC values
+% :returns snr: the detectibility SNR
+% :returns t_sp: t-scores of SP cases
+% :returns t_sa: t-scores of SA cases
 %
-%   auc: the AUC values
-%   snr: the detectibility SNR
-%   t_sp: t-scores of SP cases
-%   t_sa: t-scores of SA cases
-%
+% 
 % R Zeng, 6/2016, FDA/CDRH/OSEL/DIDSR
+
 if(nargin<7)
     b_conv=1;
 end
