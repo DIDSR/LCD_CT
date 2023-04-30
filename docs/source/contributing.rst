@@ -6,7 +6,7 @@ Contributing Guide
 docstrings
 ----------
 
-The easiest and most effective way to start contributing to the user manual and documentation of the project is by helping improve our docstrings, these are the comments just below the function signature in Matlab before the function content. Here is a simple example in matlab:
+The easiest and most effective way to start contributing to the user manual and documentation of the project is by helping improve our `docstrings <https://www.mathworks.com/help/matlab/matlab_prog/add-help-for-your-program.html>`_, these are the comments just below the function signature in Matlab before the function content. Here is a simple example in matlab:
 
 .. code-block:: matlab
 
