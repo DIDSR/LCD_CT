@@ -3,7 +3,7 @@ API
 
 Reference page for individual observer functions_, observer classes_, helper_ functions and and scripts.
 
-.. functions:
+.. _functions:
 
 observer functions
 ------------------
@@ -25,7 +25,7 @@ Observer functions wrapped in classes for more consistent and convenient use.
     :imported-members:
     :members:
 
-.. helper:
+.. _helper:
 
 helper functions
 ----------------
