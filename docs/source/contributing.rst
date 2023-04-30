@@ -30,11 +30,12 @@ Contributing other pages to the manual requires two steps:
 
 2. Add the filename without the extension to "docs/source/index.rst", specifically adding to the list under "toctree". For example, after creating a new manual page called "my_new_doc_page.rst", the list item under toctree would be the following:
 
-.. code-block:: rst
-	..toctree::
+	toctree::
 
 	usage
+
 	api
+
 	my_new_doc_page
 
 "rst" stands for `reStructuredText <https://en.wikipedia.org/wiki/ReStructuredText>`_. The content in the :ref:`docstrings` after the comment symbol "%" is also written in reStructuredText, which is mostly plain text with a few special rules for defining headers and cross-references. You can use look at the raw source of this page for examples of how to write rst files or check out these resources for more:
