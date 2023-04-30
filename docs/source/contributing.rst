@@ -24,7 +24,14 @@ These commented lines will be exported and make up the documentation for the fun
 Adding new pages to the user manual
 -----------------------------------
 
-Contributing Other pages to the manual can be done by creating a new text file with the file extension ".rst" in the "LCD-CT/docs/source" folder. ".rst" stands for `reStructuredText <https://en.wikipedia.org/wiki/ReStructuredText>`_. The content in the :ref:`docstrings` after the comment symbol "%" is also written in reStructuredText, which is mostly plain text with a few special rules for defining headers and cross-references. You can use look at the raw source of this page for examples of how to write rst files or check out these resources for more:
+Contributing other pages to the manual requires two steps. First,create a new text file with the file extension ".rst" in the "LCD-CT/docs/source" folder. Second, add the filename without the extension to "docs/source/index.rst", specifically adding to the list under "toctree". For example, after creating a new manual page called "my_new_doc_page.rst", the list item under toctree would be the following:
+
+	toctree::
+	usage
+	api
+	my_new_doc_page
+
+".rst" stands for `reStructuredText <https://en.wikipedia.org/wiki/ReStructuredText>`_. The content in the :ref:`docstrings` after the comment symbol "%" is also written in reStructuredText, which is mostly plain text with a few special rules for defining headers and cross-references. You can use look at the raw source of this page for examples of how to write rst files or check out these resources for more:
 
 - https://sphinx-rtd-tutorial.readthedocs.io/en/latest/docstrings.html
 - https://dev.to/zenulabidin/sphinx-docstring-best-practices-2fca
