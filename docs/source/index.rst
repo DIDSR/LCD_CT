@@ -8,13 +8,20 @@ Welcome to LCD for CT Toolbox's documentation!
 
 This documentation provides information regarding how to download, install, and use the LCD for CT Toolbox which is designed to low contrast detectactability in CT images.
 
+Users
+-----
+
 Check out the :doc:`usage` section for further information.
 
-This is a readthedocs test
+Developers
+----------
+
+If you'd like to contribute to the code or documentation of this project, please check out our :doc:`contributing` page.
 
 .. toctree::
    usage
    api
+   contributing
    :maxdepth: 2
    :caption: Contents:
 
