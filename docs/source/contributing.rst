@@ -31,7 +31,7 @@ Contributing other pages to the manual requires two steps:
 2. Add the filename without the extension to "docs/source/index.rst", specifically adding to the list under "toctree". For example, after creating a new manual page called "my_new_doc_page.rst", the list item under toctree would be the following:
 
 .. code-block:: rst
-	.. toctree::
+	..toctree::
 
 	usage
 	api
