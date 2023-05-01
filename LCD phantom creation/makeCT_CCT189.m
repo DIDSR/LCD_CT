@@ -2,8 +2,7 @@
 % Purpose: To simulate CT images of the MITA LCD body phantom CCT189 and a 
 % uniform phantom. This generates multiple noisy realizations. Noise level 
 % is specified by 'I0'.
-%
-% R Zeng, FDA/CDRH/OSEL, 2023
+
  
 close all; 
 
