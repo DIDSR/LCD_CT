@@ -38,7 +38,12 @@ Contributing other pages to the manual requires two steps:
 
 	my_new_doc_page
 
-"rst" stands for `reStructuredText <https://en.wikipedia.org/wiki/ReStructuredText>`_. The content in the :ref:`docstrings` after the comment symbol "%" is also written in reStructuredText, which is mostly plain text with a few special rules for defining headers and cross-references. You can use look at the raw source of this page for examples of how to write rst files or check out these resources for more:
+Writting rst files
+------------------
 
-- https://sphinx-rtd-tutorial.readthedocs.io/en/latest/docstrings.html
-- https://dev.to/zenulabidin/sphinx-docstring-best-practices-2fca
+reStructuredText is mostly plain text with a few special rules for defining headers and cross-references. Like `Markdown <https://en.wikipedia.org/wiki/Markdown>`_, it is a common format for writing technical documentation for software. "rst" stands for `reStructuredText <https://en.wikipedia.org/wiki/ReStructuredText>`_. The content in the :ref:`docstrings` after the comment symbol "%" is also written in rst format.
+
+For examples of how to write rst files, you can use look at the `raw source <https://github.com/bnel1201/LCD-CT/edit/main/docs/source/contributing.rst>`_ of this page. More complete references on writing rst files and code documentation can be found here:
+
+- `basics of restructured text (rst files) https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html`_
+- `writing docstrings in rst format <https://sphinx-rtd-tutorial.readthedocs.io/en/latest/docstrings.html>`_
