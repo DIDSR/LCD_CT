@@ -2,26 +2,26 @@ function [auc, snr,t_sa, t_sp, meanSA, meanSP, meanSig, tplimg, chimg, k_ch]=dog
 % [auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=dog_cho_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, DOGtype)
 % Calculating lesion detectability using difference-of-Gaussian channelized Hoteling model observer.
 %
-% Inputs
+% :Parameters:
 %
-%   trimg_sa: the training set of signal-absent (SA) images;
-%   trimg_sp: the training set of signal-present (SP) images;
-%   testimg_sa: the test set of signal-absent images; 
-%   testimg_sp: the test set of signal-present iamges;
-%   DOGtype: 'dense' or 'sparse' (default is 'dense'), based on the parameter settings in Abbey&Barrett2001-josa-v18n3.
+%   :trimg_sa: the training set of signal-absent (SA) images;
+%   :trimg_sp: the training set of signal-present (SP) images;
+%   :testimg_sa: the test set of signal-absent images; 
+%   :testimg_sp: the test set of signal-present iamges;
+%   :DOGtype: 'dense' or 'sparse' (default is 'dense'), based on the parameter settings in Abbey&Barrett2001-josa-v18n3.
 %
-% Outputs
+% :Returns:
 %
-%   auc: the AUC values
-%   snr: the detectibility SNR
-%   t_sa: t-scores of SA cases
-%   t_sp: t-scores of SP cases
-%   meanSA: mean of training SP ROIs 
-%   meanSP: mean of traning SA ROIs
-%   meanSig: mean singal images (= meanSP-meanSA)
-%   tplimg: the template of the model observer
-%   chimg: channel images
-%   k_ch: the channelized data covariance matrix estimated from the training data 
+%   :auc: the AUC values
+%   :snr: the detectibility SNR
+%   :t_sa: t-scores of SA cases
+%   :t_sp: t-scores of SP cases
+%   :meanSA: mean of training SP ROIs 
+%   :meanSP: mean of traning SA ROIs
+%   :meanSig: mean singal images (= meanSP-meanSA)
+%   :tplimg: the template of the model observer
+%   :chimg: channel images
+%   :k_ch: the channelized data covariance matrix estimated from the training data 
 %
 % R Zeng, 11/2022, FDA/CDRH/OSEL/DIDSR
 
