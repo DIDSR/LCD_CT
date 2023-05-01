@@ -45,5 +45,5 @@ reStructuredText is mostly plain text with a few special rules for defining head
 
 For examples of how to write rst files, you can use look at the `raw source <https://github.com/bnel1201/LCD-CT/edit/main/docs/source/contributing.rst>`_ of this page. More complete references on writing rst files and code documentation can be found here:
 
-- `basics of restructured text (rst files) https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html`_
+- `basics of restructured text (rst files) <https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html>`_
 - `writing docstrings in rst format <https://sphinx-rtd-tutorial.readthedocs.io/en/latest/docstrings.html>`_
