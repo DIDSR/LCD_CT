@@ -2,26 +2,26 @@ function [auc, snr,t_sa, t_sp, meanSA, meanSP, meanSig, tplimg, chimg, k_ch]=lg_
 % [auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=LG_CHO_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, ch_width, nch)
 % Calculating lesion detectability using Laguerre-Gauss channelized model observer.
 %
-% Inputs
-%   trimg_sa: the training set of signal-absent (SA) images;
-%   trimg_sp: the training set of signal-present (SP) images;
-%   testimg_sa: the test set of signal-absent images; 
-%   testimg_sp: the test set of signal-present iamges;
-%   ch_width: channel width parameter; (suggest setting this parameter to be about 2/3 of the disk radius (in pixel)). 
-%   nch: number of channels to be used; default is 5.
+% :Parameters:
+%   :trimg_sa: the training set of signal-absent (SA) images;
+%   :trimg_sp: the training set of signal-present (SP) images;
+%   :testimg_sa: the test set of signal-absent images; 
+%   :testimg_sp: the test set of signal-present iamges;
+%   :ch_width: channel width parameter; (suggest setting this parameter to be about 2/3 of the disk radius (in pixel)). 
+%   :nch: number of channels to be used; default is 5.
 %   
-% Outputs
+% :Returns:
 %
-%   auc: the AUC values
-%   snr: the detectibility SNR
-%   t_sa: t-scores of SA cases
-%   t_sp: t-scores of SP cases
-%   meanSA: mean of training SP ROIs 
-%   meanSP: mean of traning SA ROIs
-%   meanSig: mean singal images (= meanSP-meanSA)
-%   tplimg: the template of the model observer
-%   chimg: channel images
-%   k_ch: the channelized data covariance matrix estimated from the training data 
+%   :auc: the AUC values
+%   :snr: the detectibility SNR
+%   :t_sa: t-scores of SA cases
+%   :t_sp: t-scores of SP cases
+%   :meanSA: mean of training SP ROIs 
+%   :meanSP: mean of traning SA ROIs
+%   :meanSig: mean singal images (= meanSP-meanSA)
+%   :tplimg: the template of the model observer
+%   :chimg: channel images
+%   :k_ch: the channelized data covariance matrix estimated from the training data 
 %
 % R Zeng, 6/2016, FDA/CDRH/OSEL/DIDSR
 if(nargin<6)
