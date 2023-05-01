@@ -26,9 +26,9 @@ Adding new pages to the user manual
 
 Contributing other pages to the manual requires two steps: 
 
-1. Create a new text file with the file extension ".rst" in the "LCD-CT/docs/source" folder. 
+1. Create a new text file with the file extension ".rst" in the `LCD-CT/docs/source <https://github.com/bnel1201/LCD-CT/tree/main/docs/source>`_ folder. 
 
-2. Add the filename without the extension to "docs/source/index.rst", specifically adding to the list under "toctree". For example, after creating a new manual page called "my_new_doc_page.rst", the list item under toctree would be the following:
+2. Add the filename without the extension to `docs/source/index.rst <https://github.com/bnel1201/LCD-CT/blob/main/docs/source/index.rst>`_, specifically adding to the list under "toctree". For example, after creating a new manual page called "my_new_doc_page.rst", the list item under toctree would be the following:
 
 	toctree::
 
