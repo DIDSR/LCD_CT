@@ -5,21 +5,21 @@ function [auc, snr,chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa]=conv_LG
 % 
 % :Paremeters:
 %
-% :testimg_sa: the test set of signal-absent, a stack of 2D array
-% :testimg_sp: the test set of signal-present
-% :trimg_sa: the training set of signal-absent
-% :trimg_sp: the training set of signal-present
-% :ch_width: channel width parameter;
-% :nch: number of channels to be used;
-% :b_conv: 1 or 0 to indicate whether to apply a convolution of the signal to the LG channels. Default is 1.
-% :ch2: an optional additional LG channel, 2-element vector form [ch_width nch] eg. for the spiculated mass, one may use a main channel of width matching the signal size and use an additional channel with small width for detecting the edge feature.
+%  :testimg_sa: the test set of signal-absent, a stack of 2D array
+%  :testimg_sp: the test set of signal-present
+%  :trimg_sa: the training set of signal-absent
+%  :trimg_sp: the training set of signal-present
+%  :ch_width: channel width parameter;
+%  :nch: number of channels to be used;
+%  :b_conv: 1 or 0 to indicate whether to apply a convolution of the signal to the LG channels. Default is 1.
+%  :ch2: an optional additional LG channel, 2-element vector form [ch_width nch] eg. for the spiculated mass, one may use a main channel of width matching the signal size and use an additional channel with small width for detecting the edge feature.
 %
 % :Returns:
 %
-% :auc: the AUC values
-% :snr: the detectibility SNR
-% :t_sp: t-scores of SP cases
-% :t_sa: t-scores of SA cases
+%  :auc: the AUC values
+%  :snr: the detectibility SNR
+%  :t_sp: t-scores of SP cases
+%  :t_sa: t-scores of SA cases
 % 
 % R Zeng, 6/2016, FDA/CDRH/OSEL/DIDSR
 
