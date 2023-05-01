@@ -3,19 +3,21 @@ function [auc, snr,chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa]=conv_LG
 %
 % Based on the paper: Diaz et al, IEEE-tmi-34(7), 2015, "Derivation of an observer model adapted to irregular signals based on covolution channels" <https://pubmed.ncbi.nlm.nih.gov/25622313/>
 % 
-% :param testimg_sa: the test set of signal-absent, a stack of 2D array
-% :param testimg_sp: the test set of signal-present
-% :param trimg_sa: the training set of signal-absent
-% :param trimg_sp: the training set of signal-present
-% :param ch_width: channel width parameter;
-% :param nch: number of channels to be used;
-% :param b_conv: 1 or 0 to indicate whether to apply a convolution of the signal to the LG channels. Default is 1.
-% :param ch2: an optional additional LG channel, 2-element vector form [ch_width nch] eg. for the spiculated mass, one may use a main channel of width matching the signal size and use an additional channel with small width for detecting the edge feature.
+% :Paremeters:
+% :testimg_sa: the test set of signal-absent, a stack of 2D array
+% :testimg_sp: the test set of signal-present
+% :trimg_sa: the training set of signal-absent
+% :trimg_sp: the training set of signal-present
+% :ch_width: channel width parameter;
+% :nch: number of channels to be used;
+% :b_conv: 1 or 0 to indicate whether to apply a convolution of the signal to the LG channels. Default is 1.
+% :ch2: an optional additional LG channel, 2-element vector form [ch_width nch] eg. for the spiculated mass, one may use a main channel of width matching the signal size and use an additional channel with small width for detecting the edge feature.
 %
-% :return: auc: the AUC values
-% :return: snr: the detectibility SNR
-% :return: t_sp: t-scores of SP cases
-% :return: t_sa: t-scores of SA cases
+% :Returns:
+% :auc: the AUC values
+% :snr: the detectibility SNR
+% :t_sp: t-scores of SP cases
+% :t_sa: t-scores of SA cases
 % 
 % R Zeng, 6/2016, FDA/CDRH/OSEL/DIDSR
 
