@@ -13,16 +13,16 @@ function [auc, snr,t_sa, t_sp, meanSA, meanSP, meanSig, tplimg, chimg, k_ch]=gab
 %
 % Outputs
 %
-%   :auc: the AUC values
-%   :snr: the detectibility SNR
-%   :t_sa: t-scores of SA cases
-%   :t_sp: t-scores of SP cases
-%   :meanSA: mean of training SP ROIs 
-%   :meanSP: mean of traning SA ROIs
-%   :meanSig: mean singal images (= meanSP-meanSA)
-%   tplimg: the template of the model observer
-%   chimg: channel images
-%   k_ch: the channelized data covariance matrix estimated from the training data 
+%   :return: auc: the AUC values
+%   :return: snr: the detectibility SNR
+%   :return: t_sa: t-scores of SA cases
+%   :return: t_sp: t-scores of SP cases
+%   :return: meanSA: mean of training SP ROIs 
+%   :return: meanSP: mean of traning SA ROIs
+%   :return: meanSig: mean singal images (= meanSP-meanSA)
+%   :return: tplimg: the template of the model observer
+%   :return: chimg: channel images
+%   :return: k_ch: the channelized data covariance matrix estimated from the training data 
 %
 % R Zeng, 11/2022, FDA/CDRH/OSEL/DIDSR
 
