@@ -1,28 +1,28 @@
 function [auc, snr,t_sa, t_sp, meanSA, meanSP, meanSig, tplimg, chimg, k_ch]=gabor_cho_2d(trimg_sa, trimg_sp,testimg_sa, testimg_sp, nband, ntheta, phase)
 % [auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=gabor_cho_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, nband, ntheta, phase)
 % Calculating lesion detectability using Gabor channelized Hoteling model observer.
-% Inputs
+% :Parameters:
 %
-%   :param testimg_sa: the test set of signal-absent, a stack of 2D array;
-%   :param testimg_sp: the test set of signal-present;
-%   :param trimg_sa: the training set of signal-absent;
-%   :param trimg_sp: the training set of signal-present;
-%   :param nband: number of octave bands; (default is 4)
-%   :param ntheta: number of angles; (default is 4)
-%   :param phase: a vector containing the phase values in radian such as 0,pi/3,pi/2 etc.(default is 0)
+%   :testimg_sa: the test set of signal-absent, a stack of 2D array;
+%   :testimg_sp: the test set of signal-present;
+%   :trimg_sa: the training set of signal-absent;
+%   :trimg_sp: the training set of signal-present;
+%   :nband: number of octave bands; (default is 4)
+%   :ntheta: number of angles; (default is 4)
+%   :phase: a vector containing the phase values in radian such as 0,pi/3,pi/2 etc.(default is 0)
 %
-% Outputs
+% :Returns:
 %
-%   :return: auc: the AUC values
-%   :return: snr: the detectibility SNR
-%   :return: t_sa: t-scores of SA cases
-%   :return: t_sp: t-scores of SP cases
-%   :return: meanSA: mean of training SP ROIs 
-%   :return: meanSP: mean of traning SA ROIs
-%   :return: meanSig: mean singal images (= meanSP-meanSA)
-%   :return: tplimg: the template of the model observer
-%   :return: chimg: channel images
-%   :return: k_ch: the channelized data covariance matrix estimated from the training data 
+%   :auc: the AUC values
+%   :snr: the detectibility SNR
+%   :t_sa: t-scores of SA cases
+%   :t_sp: t-scores of SP cases
+%   :meanSA: mean of training SP ROIs 
+%   :meanSP: mean of traning SA ROIs
+%   :meanSig: mean singal images (= meanSP-meanSA)
+%   :tplimg: the template of the model observer
+%   :chimg: channel images
+%   :k_ch: the channelized data covariance matrix estimated from the training data 
 %
 % R Zeng, 11/2022, FDA/CDRH/OSEL/DIDSR
 
