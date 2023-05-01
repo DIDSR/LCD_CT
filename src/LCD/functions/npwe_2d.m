@@ -2,7 +2,7 @@ function [auc, snr, t_sp, t_sa, meanSA,meanSP,meanSig, tplimg, eyefunc]=npwe_2d(
 % [auc,snr,t_sp, t_sa,meanSP,meanSA,meanSig, tplimg, eyefunc]=NPWE_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, eye)
 % Calculating lesion detectability using non-prewhitening model observer with or without the eye filter model observer.
 %
-% :Parameterw:
+% :Parameters:
 %
 %   :testimg_sa: the test set of signal-absent, a stack of 2D array;
 %   :testimg_sp: the test set of signal-present;
