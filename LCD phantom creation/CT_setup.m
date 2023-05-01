@@ -45,7 +45,7 @@ ig = image_geom('nx', nx, 'fov', fov, 'down', down);
 fbp_kernel = 'hann205'; % 'hannxxx', xxx/100 = the cutoff frequency, see fbp2_window.m in MIRT for details.
                         %'hann205' approximate a sharp kernel D45 in Siemens Force.
                         %'hann85' approximate a smooth kernel B30 in
-                        %Siemens Force.
+                       
 % Generate the forward projection operator -------
 fg = fbp2(sg, ig,'type','std:mat'); %choose 'std:mat' to be able to using different recon filter
                                     
