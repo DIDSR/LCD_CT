@@ -1,6 +1,7 @@
 function [auc, snr,t_sa, t_sp, meanSA, meanSP, meanSig, tplimg, chimg, k_ch]=gabor_cho_2d(trimg_sa, trimg_sp,testimg_sa, testimg_sp, nband, ntheta, phase)
 % [auc,snr, chimg,tplimg,meanSP,meanSA,meanSig, k_ch, t_sp, t_sa,]=gabor_cho_2d(trimg_sa, trimg_sp, testimg_sa, testimg_sp, nband, ntheta, phase)
 % Calculating lesion detectability using Gabor channelized Hoteling model observer.
+%
 % :Parameters:
 %
 %   :testimg_sa: the test set of signal-absent, a stack of 2D array;
