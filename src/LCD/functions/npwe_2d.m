@@ -4,23 +4,23 @@ function [auc, snr, t_sp, t_sa, meanSA,meanSP,meanSig, tplimg, eyefunc]=npwe_2d(
 %
 % Inputs
 %
-%   testimg_sa: the test set of signal-absent, a stack of 2D array;
-%   testimg_sp: the test set of signal-present;
-%   trimg_sa: the training set of signal-absent;
-%   trimg_sp: the training set of signal-present;
-%   eye: 1 or 0 indicating the use of eye filter or not. (default is 0, no eye filter)
+%   :param testimg_sa: the test set of signal-absent, a stack of 2D array;
+%   :param testimg_sp: the test set of signal-present;
+%   :param trimg_sa: the training set of signal-absent;
+%   :param trimg_sp: the training set of signal-present;
+%   :param eye: 1 or 0 indicating the use of eye filter or not. (default is 0, no eye filter)
 %
 % Outputs
 %
-%   auc: the AUC values
-%   snr: the detectibility SNR
-%   t_sp: t-scores of SP cases
-%   t_sa: t-scores of SA cases
-%   meanSA: mean of training SP ROIs 
-%   meanSP: mean of traning SA ROIs
-%   meanSig: mean singal images (= meanSP-meanSA)
-%   tplimg: the template of the model observer
-%   eyefunc: the eye function in spatial domain
+%   :return: auc: the AUC values
+%   :return: snr: the detectibility SNR
+%   :return: t_sp: t-scores of SP cases
+%   :return: t_sa: t-scores of SA cases
+%   :return: meanSA: mean of training SP ROIs 
+%   :return: meanSP: mean of traning SA ROIs
+%   :return: meanSig: mean singal images (= meanSP-meanSA)
+%   :return: tplimg: the template of the model observer
+%   :return: eyefunc: the eye function in spatial domain
 % 
 % R Zeng, 11/2022, FDA/CDRH/OSEL/DIDSR
 
