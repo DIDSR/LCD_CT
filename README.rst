@@ -1,14 +1,8 @@
 Low Contrast Detectability for CT Toolbox
 =========================================
 
-Low Contrast Detectability for CT Toolbox provides a common and simple interface to quickly evaluate the low contrast detectability performance of CT image reconstruction and denoising products with several builtin model observers. By providing examples of signal present and signal absent images like shown below, low contrast detectability performance can be calculated in just a few lines.
+Low Contrast Detectability for CT Toolbox provides a common interface to evaluate the low contrast detectability performance of CT image reconstruction and denoising products with several builtin model observers. By providing examples of signal present and signal absent images like shown below, low contrast detectability performance can be calculated in just a few lines:
 
-.. image:: signal_example.png
-
-Look how easy it is to use:
-
-.. code-block:: matlab
-  :emphasize-lines: 2,4
     >> [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs);
 
     >> observer = DOG_CHO_2D();
@@ -19,7 +13,9 @@ Look how easy it is to use:
 
     DOG CHO auc: 0.800000
 
-Several model observers are builtin to the toolbox as well as examples on how to add others. The narrative demos provided can be adapted to your dataset to evaluate performance trends across dose levels, lesion size and contrast, as well as model observer choice:
+.. image:: signal_example.png
+
+Several example demos are given for how to run the tool over several dose, lesion conditions, and model observer types to measure how LCD varies under these conditions:
 
 .. image:: fbp_lcd_v_dose.png
 
