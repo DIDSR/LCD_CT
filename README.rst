@@ -39,6 +39,8 @@ Then open the LCD_CT directory in Matlab and start working through the demos.
 
 LCD_RST is compatible with Octave, however some functions such as `medfilt2` are not loaded by default, follow the command line instructions, e.g.: `pkg load image` to have `medfilt2` available, this only needs to be done once for a given Octave session.
 
+To generate simulated CT images of background and signal modules of the MITA-LCD phantom (CCT189), first download MIRT (the github version) from https://github.com/JeffFessler/mirt and the run the file "setup.m" included in MIRT to add all the MIRT subdirectories to the MATLAB path. Then you can run "MakeCT_CCT189.m" to generate simualted CT images.    
+
 Getting Started
 ---------------
 
