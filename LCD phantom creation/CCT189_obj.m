@@ -4,11 +4,11 @@ function [cct189_disk_geo, cct189_bkg_geo] = CCT189_obj(mu_water);
 % module with the following ellipse format: [x_center y_center x_radius y_radius angle_degrees mu]
 % Check here for the CCT189 specifications: https://www.phantomlab.com/catphan-mita
 % Input:
-%   :param mu_water: attenuation value of water in mm^(-1), default was set to
+%   mu_water: attenuation value of water in mm^(-1), default was set to
 %   0.2059 mm^-1, water attenuation at 60 KeV according to NIST table 
 % Outputs:
-%   :return: cct189_disk_geo: geometry of the low-contrast disk module
-%   :return: cct189_bkg_geo: geometry of the background module
+%   cct189_disk_geo: geometry of the low-contrast disk module
+%   cct189_bkg_geo: geometry of the background module
 %
 % R Zeng, FDA/CDRH/OSEL, 2023
 
@@ -18,7 +18,7 @@ if(nargin==0)
 end
 d = 40; %peripheral distance from the disk centers to the phantom enter
 
-%define the background module: [x_center y_center x_radius y_radius angle_degrees mu]
+%define the background module:[x_center y_center x_radius y_radius angle_degrees mu]
 cct189_bkg_geo = [0 0 200/2 200/2 0 mu_water];               % 200 mm, water
 
 %define the low contrast disk module

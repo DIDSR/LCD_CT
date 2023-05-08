@@ -2,14 +2,15 @@
 % Purpose: To simulate CT images of the MITA LCD body phantom CCT189 and a 
 % uniform phantom. This generates multiple noisy realizations. Noise level 
 % is specified by 'I0'.
-
+%
+% R Zeng, FDA/CDRH/OSEL, 2023
  
 close all; 
 
 % ------ Note -----
 % The CT simulation code is based on the Michigan Image Reconstruction Toolbox (MIRT). 
 % Follow this two steps to set up the toolbox
-%   1. Download and upzip MIRT(http://web.eecs.umich.edu/~fessler/irt/fessler.tgz) 
+%   1. Download and upzip the MIRT Github version (https://github.com/JeffFessler/mirt)) 
 %      to your local directory.
 %   2. MIRT contains a code named "setup.m", run it to include MIRT files to
 %      your matlab path.

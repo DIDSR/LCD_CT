@@ -9,7 +9,7 @@
 %
 % Note: the simulation code is based on the Michigan Image Reconstruction
 % Toolbox (MIRT), follow this two steps to set up the toolbox
-%   1. Download and upzip MIRT(http://web.eecs.umich.edu/~fessler/irt/fessler.tgz) 
+%   1. Download and upzip the MIRT Github version (https://github.com/JeffFessler/mirt) 
 %      to your local directory.
 %   2. MIRT contains a code named "setup.m", run it to include MIRT files to
 %      your matlab path.
@@ -18,7 +18,9 @@
 down = 2;%Downsample rate. set it to "1" to generate 512x512 full size image 
          %Set "down" to 2 to generate downsampled sinogram/image to save 
          %compuation time for testing purpose.
-disp(sprintf('Downsample rate is %d', down));
+if(down>1)
+    disp(sprintf('Downsample rate is: down=%d for testing purpose. \nYou can set down=1 to generate full-size images.', down));
+end
 
 % CT geometry (the following parameter values simulate Siemens Force) 
 sid = 595;          %(mm) source-to-isocenter distance (value based on AAPM LDCT data dicom header)
@@ -42,10 +44,10 @@ nx = 512; % number of imge pixels in x-dimension
 dx = 0.664; %PixelSpacing (mm). This value equal to 340/512, corresponding to FOV of 340 mm for a 512x512 image matrix
 fov = dx*nx;      % mm
 ig = image_geom('nx', nx, 'fov', fov, 'down', down);
-fbp_kernel = 'hann205'; % 'hannxxx', xxx/100 = the cutoff frequency, see fbp2_window.m in MIRT for details.
-                        %'hann205' approximate a sharp kernel D45 in Siemens Force.
-                        %'hann85' approximate a smooth kernel B30 in
-                       
+fbp_kernel = 'hanning,2.05'; % 'hanning,xxx', xxx = the cutoff frequency, see fbp2_window.m in MIRT for details.
+                        %'hanning,2.05' approximate a sharp kernel D45 in Siemens Force.
+                        %'hanning, 0.85' approximate a smooth kernel B30 in
+                        %Siemens Force.
 % Generate the forward projection operator -------
 fg = fbp2(sg, ig,'type','std:mat'); %choose 'std:mat' to be able to using different recon filter
                                     
