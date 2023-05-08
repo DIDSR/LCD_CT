@@ -1,0 +1,1700 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>demo_02_multiple_dose_levels</title><meta name="generator" content="MATLAB 9.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-05-07"><meta name="DC.source" content="demo_02_multiple_dose_levels.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">clear <span class="string">all</span>; close <span class="string">all</span>; clc;
+addpath(genpath(<span class="string">'src'</span>))
+
+base_dir = <span class="string">'Sample_Data/MITA_LCD'</span>;
+
+offset = 1000;
+xtrue = mhd_read_image(fullfile(base_dir, <span class="string">'ground_truth.mhd'</span>)) - offset;
+
+<span class="comment">% input is a binary mask specifying signal known exactly (SKE)</span>
+
+truth_masks = get_demo_truth_masks(xtrue);
+
+truth_mask = truth_masks(:,:,1);
+insert_r = get_insert_radius(truth_mask);
+
+<span class="comment">% observers can also be constructed ahead of time and then iterated through</span>
+observers = {LG_CHO_2D(2/3*insert_r),<span class="keyword">...</span>
+             DOG_CHO_2D(),<span class="keyword">...</span>
+             GABOR_CHO_2D(),<span class="keyword">...</span>
+             };
+
+dose = [];
+n_reader = 10;
+
+observer = [];
+dose_level = [];
+snr = [];
+auc = [];
+reader = [];
+insert_HU = [];
+insert_diameter_pix = [];
+
+<span class="keyword">if</span> is_octave
+string = @(x) x
+boolean = @(x) logical(x)
+<span class="keyword">end</span>
+
+<span class="keyword">for</span> i=1:length(observers)
+    model_observer = observers{i};
+
+    dose_level_dirs = dir(fullfile(base_dir, <span class="string">'dose_*'</span>));
+
+    <span class="keyword">for</span> d=1:length(dose_level_dirs)
+        dose_level_dir = dose_level_dirs(d);
+        dose = str2double(dose_level_dir.name(6:end));
+
+        signal_present_dir = fullfile(base_dir, dose_level_dir.name, <span class="string">'signal_present'</span>);
+        signal_absent_dir = fullfile(base_dir, dose_level_dir.name, <span class="string">'signal_absent'</span>);
+
+        sp_raw_array = mhd_read_image(fullfile(signal_present_dir, <span class="string">'signal_present.mhd'</span>)) - offset;
+        sa_raw_array = mhd_read_image(fullfile(signal_absent_dir, <span class="string">'signal_absent.mhd'</span>)) - offset;
+
+        sp_imgs = get_ROI_from_truth_mask(truth_mask, sp_raw_array);
+        sa_imgs = get_ROI_from_truth_mask(truth_mask, sa_raw_array);
+
+       <span class="keyword">for</span> n=1:n_reader
+           [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs);
+           res = model_observer.perform_study(sa_train, sp_train, sa_test, sp_test);
+
+           observer = [observer; string(model_observer.type)];
+           insert_HU = [insert_HU; mode(xtrue(boolean(truth_mask)))];
+           insert_diameter_pix = [insert_diameter_pix; 2*insert_r];
+           dose_level = [dose_level; round(dose)];
+           snr = [snr; res.snr];
+           auc = [auc; res.auc];
+           reader = [reader; n];
+
+       <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+res_table = table(observer, insert_HU, dose_level, snr, auc, reader);
+
+fname = mfilename;
+output_fname = [<span class="string">'results_'</span>, fname(1:7), <span class="string">'.csv'</span>];
+<span class="keyword">if</span> is_octave
+  headers = [<span class="string">"observer, insert_HU, dose_level, snr, auc, reader"</span>];
+  fid = fopen(output_fname, <span class="string">'w'</span>); fdisp(fid, headers);
+  <span class="keyword">for</span> r=1:length(dose_level)
+  fprintf(fid, <span class="string">"%s, %d, %d, %f, %f, %d\n"</span>, observer(r, :), insert_HU(r), dose_level(r), snr(r), auc(r), reader(r));
+  <span class="keyword">end</span>
+  fclose(fid);
+<span class="keyword">else</span>
+  writetable(res_table, output_fname);
+<span class="keyword">end</span>
+
+plot_results(res_table)
+
+res_table
+</pre><pre class="codeoutput">ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.34000			0.17989			-0.01258		0.69258			Failed test - less than chance
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+-0.8894				0.813112		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.54000			0.19077			0.16609		0.91391			Fail test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.2097				0.416961		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.22000			0.15442			-0.08266		0.52266			Failed test - less than chance
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+-1.8132				0.965100		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.44000			0.18988			0.06784		0.81216			Failed test - less than chance
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+-0.3160				0.623995		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.42000			0.18863			0.05030		0.78970			Failed test - less than chance
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+-0.4241				0.664261		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.50000			0.19149			0.12470		0.87530			Fail test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.0000				0.500000		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.30000			0.17317			-0.03941		0.63941			Failed test - less than chance
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+-1.1549				0.875936		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.54000			0.19077			0.16609		0.91391			Fail test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.2097				0.416961		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.42000			0.18863			0.05030		0.78970			Failed test - less than chance
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+-0.4241				0.664261		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.18000			0.14194			-0.09819		0.45819			Failed test - less than chance
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+-2.2545				0.987917		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.72000			0.16918			0.38841		1.05159			Fair test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.3004				0.096736		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.52000			0.19131			0.14504		0.89496			Fail test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.1045				0.458369		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.80000			0.14847			0.50900		1.09100			Good test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+2.0206				0.021663		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.72000			0.16918			0.38841		1.05159			Fair test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.3004				0.096736		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.68000			0.17674			0.33360		1.02640			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.0185				0.154231		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.60000			0.18701			0.23347		0.96653			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.5347				0.296415		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.52000			0.19131			0.14504		0.89496			Fail test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.1045				0.458369		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.76000			0.15983			0.44673		1.07327			Fair test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.6267				0.051901		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.64000			0.18265			0.28202		0.99798			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.7665				0.221688		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.50000			0.19149			0.12470		0.87530			Fail test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.0000				0.500000		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.72000			0.16918			0.38841		1.05159			Fair test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.3004				0.096736		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.76000			0.15983			0.44673		1.07327			Fair test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.6267				0.051901		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.64000			0.18265			0.28202		0.99798			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.7665				0.221688		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.48000			0.19131			0.10504		0.85496			Failed test - less than chance
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+-0.1045				0.541631		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+1.00000			0.00000			1.00000		1.00000			Perfect test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+Inf				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.68000			0.17674			0.33360		1.02640			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.0185				0.154231		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.96000			0.06915			0.82447		1.09553			Excellent test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+6.6523				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.76000			0.15983			0.44673		1.07327			Fair test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.6267				0.051901		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.88000			0.11808			0.64857		1.11143			Good test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+3.2181				0.000645		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.68000			0.17674			0.33360		1.02640			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.0185				0.154231		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.64000			0.18265			0.28202		0.99798			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.7665				0.221688		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.48000			0.19131			0.10504		0.85496			Failed test - less than chance
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+-0.1045				0.541631		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.70000			0.17317			0.36059		1.03941			Fair test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.1549				0.124064		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.54000			0.19077			0.16609		0.91391			Fail test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.2097				0.416961		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.46000			0.19077			0.08609		0.83391			Failed test - less than chance
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+-0.2097				0.583039		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.54000			0.19077			0.16609		0.91391			Fail test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.2097				0.416961		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.72000			0.16918			0.38841		1.05159			Fair test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.3004				0.096736		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.58000			0.18863			0.21030		0.94970			Fail test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.4241				0.335739		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.62000			0.18502			0.25738		0.98262			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.6486				0.258301		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.50000			0.19149			0.12470		0.87530			Fail test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.0000				0.500000		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.72000			0.16918			0.38841		1.05159			Fair test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.3004				0.096736		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.80000			0.14847			0.50900		1.09100			Good test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+2.0206				0.021663		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.68000			0.17674			0.33360		1.02640			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.0185				0.154231		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.92000			0.09726			0.72938		1.11062			Excellent test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+4.3184				0.000008		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.52000			0.19131			0.14504		0.89496			Fail test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.1045				0.458369		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.72000			0.16918			0.38841		1.05159			Fair test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.3004				0.096736		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.84000			0.13476			0.57588		1.10412			Good test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+2.5231				0.005817		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.72000			0.16918			0.38841		1.05159			Fair test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.3004				0.096736		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.72000			0.16918			0.38841		1.05159			Fair test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.3004				0.096736		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.26000			0.16474			-0.06289		0.58289			Failed test - less than chance
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+-1.4568				0.927416		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.50000			0.19149			0.12470		0.87530			Fail test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.0000				0.500000		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.92000			0.09726			0.72938		1.11062			Excellent test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+4.3184				0.000008		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.92000			0.09726			0.72938		1.11062			Excellent test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+4.3184				0.000008		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.96000			0.06915			0.82447		1.09553			Excellent test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+6.6523				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+1.00000			0.00000			1.00000		1.00000			Perfect test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+Inf				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.76000			0.15983			0.44673		1.07327			Fair test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.6267				0.051901		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.96000			0.06915			0.82447		1.09553			Excellent test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+6.6523				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+1.00000			0.00000			1.00000		1.00000			Perfect test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+Inf				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.68000			0.17674			0.33360		1.02640			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.0185				0.154231		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+1.00000			0.00000			1.00000		1.00000			Perfect test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+Inf				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.60000			0.18701			0.23347		0.96653			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.5347				0.296415		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.50000			0.19149			0.12470		0.87530			Fail test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.0000				0.500000		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.60000			0.18701			0.23347		0.96653			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.5347				0.296415		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.34000			0.17989			-0.01258		0.69258			Failed test - less than chance
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+-0.8894				0.813112		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.60000			0.18701			0.23347		0.96653			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.5347				0.296415		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.84000			0.13476			0.57588		1.10412			Good test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+2.5231				0.005817		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.88000			0.11808			0.64857		1.11143			Good test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+3.2181				0.000645		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.66000			0.17989			0.30742		1.01258			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.8894				0.186888		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.70000			0.17317			0.36059		1.03941			Fair test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.1549				0.124064		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.60000			0.18701			0.23347		0.96653			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.5347				0.296415		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+1.00000			0.00000			1.00000		1.00000			Perfect test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+Inf				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+1.00000			0.00000			1.00000		1.00000			Perfect test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+Inf				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+1.00000			0.00000			1.00000		1.00000			Perfect test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+Inf				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+1.00000			0.00000			1.00000		1.00000			Perfect test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+Inf				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+1.00000			0.00000			1.00000		1.00000			Perfect test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+Inf				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.80000			0.14847			0.50900		1.09100			Good test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+2.0206				0.021663		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.70000			0.17317			0.36059		1.03941			Fair test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+1.1549				0.124064		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+1.00000			0.00000			1.00000		1.00000			Perfect test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+Inf				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+1.00000			0.00000			1.00000		1.00000			Perfect test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+Inf				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.88000			0.11808			0.64857		1.11143			Good test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+3.2181				0.000645		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.80000			0.14847			0.50900		1.09100			Good test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+2.0206				0.021663		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.60000			0.18701			0.23347		0.96653			Poor test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.5347				0.296415		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.50000			0.19149			0.12470		0.87530			Fail test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+0.0000				0.500000		The area is not statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.96000			0.06915			0.82447		1.09553			Excellent test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+6.6523				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.80000			0.14847			0.50900		1.09100			Good test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+2.0206				0.021663		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+1.00000			0.00000			1.00000		1.00000			Perfect test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+Inf				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.92000			0.09726			0.72938		1.11062			Excellent test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+4.3184				0.000008		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+1.00000			0.00000			1.00000		1.00000			Perfect test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+Inf				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+0.96000			0.06915			0.82447		1.09553			Excellent test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+6.6523				0.000000		The area is statistically greater than 0.5
+ 
+ROC CURVE DATA
+--------------------------------------------------------------------------------
+Cut-off point		Sensivity	Specificity
+--------------------------------------------------------------------------------
+ 
+ROC CURVE ANALYSIS
+ 
+--------------------------------------------------------------------------------
+AUC			S.E.				95% C.I.			Comment
+--------------------------------------------------------------------------------
+1.00000			0.00000			1.00000		1.00000			Perfect test
+--------------------------------------------------------------------------------
+Standardized AUC		1-tail p-value
+Inf				0.000000		The area is statistically greater than 0.5
+ 
+
+res_table =
+
+  90&times;6 table
+
+           observer            insert_HU    dose_level       snr        auc     reader
+    _______________________    _________    __________    __________    ____    ______
+
+    "Laguerre-Gauss CHO 2D"       14            10          -0.64844    0.34       1  
+    "Laguerre-Gauss CHO 2D"       14            10           -0.4271    0.54       2  
+    "Laguerre-Gauss CHO 2D"       14            10           -1.5114    0.22       3  
+    "Laguerre-Gauss CHO 2D"       14            10        0.00032456    0.44       4  
+    "Laguerre-Gauss CHO 2D"       14            10           -0.5679    0.42       5  
+    "Laguerre-Gauss CHO 2D"       14            10          -0.73422     0.5       6  
+    "Laguerre-Gauss CHO 2D"       14            10          -0.49998     0.3       7  
+    "Laguerre-Gauss CHO 2D"       14            10          -0.36521    0.54       8  
+    "Laguerre-Gauss CHO 2D"       14            10          -0.58767    0.42       9  
+    "Laguerre-Gauss CHO 2D"       14            10           -1.8553    0.18      10  
+    "Laguerre-Gauss CHO 2D"       14            55           0.88182    0.72       1  
+    "Laguerre-Gauss CHO 2D"       14            55           0.28687    0.52       2  
+    "Laguerre-Gauss CHO 2D"       14            55            1.1899     0.8       3  
+    "Laguerre-Gauss CHO 2D"       14            55           0.84195    0.72       4  
+    "Laguerre-Gauss CHO 2D"       14            55           0.80385    0.68       5  
+    "Laguerre-Gauss CHO 2D"       14            55           0.24924     0.6       6  
+    "Laguerre-Gauss CHO 2D"       14            55           0.11639    0.52       7  
+    "Laguerre-Gauss CHO 2D"       14            55            1.2532    0.76       8  
+    "Laguerre-Gauss CHO 2D"       14            55            0.5864    0.64       9  
+    "Laguerre-Gauss CHO 2D"       14            55          -0.31356     0.5      10  
+    "Laguerre-Gauss CHO 2D"       14           100            1.0484    0.72       1  
+    "Laguerre-Gauss CHO 2D"       14           100           0.98149    0.76       2  
+    "Laguerre-Gauss CHO 2D"       14           100            0.7505    0.64       3  
+    "Laguerre-Gauss CHO 2D"       14           100          0.052381    0.48       4  
+    "Laguerre-Gauss CHO 2D"       14           100            1.5954       1       5  
+    "Laguerre-Gauss CHO 2D"       14           100           0.64948    0.68       6  
+    "Laguerre-Gauss CHO 2D"       14           100            1.7763    0.96       7  
+    "Laguerre-Gauss CHO 2D"       14           100            1.1982    0.76       8  
+    "Laguerre-Gauss CHO 2D"       14           100            1.5798    0.88       9  
+    "Laguerre-Gauss CHO 2D"       14           100           0.69944    0.68      10  
+    "DOG CHO 2D"                  14            10             0.395    0.64       1  
+    "DOG CHO 2D"                  14            10           0.38852    0.48       2  
+    "DOG CHO 2D"                  14            10         0.0023273     0.7       3  
+    "DOG CHO 2D"                  14            10            0.4173    0.54       4  
+    "DOG CHO 2D"                  14            10           0.62013    0.46       5  
+    "DOG CHO 2D"                  14            10          0.015464    0.54       6  
+    "DOG CHO 2D"                  14            10           0.28841    0.72       7  
+    "DOG CHO 2D"                  14            10           0.14034    0.58       8  
+    "DOG CHO 2D"                  14            10          0.031145    0.62       9  
+    "DOG CHO 2D"                  14            10           0.41466     0.5      10  
+    "DOG CHO 2D"                  14            55           0.70375    0.72       1  
+    "DOG CHO 2D"                  14            55           0.86231     0.8       2  
+    "DOG CHO 2D"                  14            55           0.91918    0.68       3  
+    "DOG CHO 2D"                  14            55            1.9697    0.92       4  
+    "DOG CHO 2D"                  14            55           0.15395    0.52       5  
+    "DOG CHO 2D"                  14            55           0.79488    0.72       6  
+    "DOG CHO 2D"                  14            55            1.0183    0.84       7  
+    "DOG CHO 2D"                  14            55           0.89645    0.72       8  
+    "DOG CHO 2D"                  14            55           0.74664    0.72       9  
+    "DOG CHO 2D"                  14            55           0.89743    0.26      10  
+    "DOG CHO 2D"                  14           100           0.26372     0.5       1  
+    "DOG CHO 2D"                  14           100            1.9477    0.92       2  
+    "DOG CHO 2D"                  14           100            2.3112    0.92       3  
+    "DOG CHO 2D"                  14           100            2.1655    0.96       4  
+    "DOG CHO 2D"                  14           100            4.6792       1       5  
+    "DOG CHO 2D"                  14           100           0.94789    0.76       6  
+    "DOG CHO 2D"                  14           100            2.2304    0.96       7  
+    "DOG CHO 2D"                  14           100            2.6633       1       8  
+    "DOG CHO 2D"                  14           100           0.84086    0.68       9  
+    "DOG CHO 2D"                  14           100            2.6056       1      10  
+    "Gabor CHO 2D"                14            10           0.09107     0.6       1  
+    "Gabor CHO 2D"                14            10          -0.78959     0.5       2  
+    "Gabor CHO 2D"                14            10           0.29444     0.6       3  
+    "Gabor CHO 2D"                14            10           -1.4352    0.34       4  
+    "Gabor CHO 2D"                14            10           0.21233     0.6       5  
+    "Gabor CHO 2D"                14            10            1.5017    0.84       6  
+    "Gabor CHO 2D"                14            10            1.2453    0.88       7  
+    "Gabor CHO 2D"                14            10         -0.013349    0.66       8  
+    "Gabor CHO 2D"                14            10          -0.50741     0.7       9  
+    "Gabor CHO 2D"                14            10           0.61793     0.6      10  
+    "Gabor CHO 2D"                14            55            1.6833       1       1  
+    "Gabor CHO 2D"                14            55            2.1076       1       2  
+    "Gabor CHO 2D"                14            55            5.0004       1       3  
+    "Gabor CHO 2D"                14            55            3.1241       1       4  
+    "Gabor CHO 2D"                14            55            2.7049       1       5  
+    "Gabor CHO 2D"                14            55            1.8006     0.8       6  
+    "Gabor CHO 2D"                14            55          -0.23392     0.7       7  
+    "Gabor CHO 2D"                14            55            3.1995       1       8  
+    "Gabor CHO 2D"                14            55            2.2233       1       9  
+    "Gabor CHO 2D"                14            55            1.8377    0.88      10  
+    "Gabor CHO 2D"                14           100            1.4288     0.8       1  
+    "Gabor CHO 2D"                14           100           0.78044     0.6       2  
+    "Gabor CHO 2D"                14           100          -0.54469     0.5       3  
+    "Gabor CHO 2D"                14           100            2.0056    0.96       4  
+    "Gabor CHO 2D"                14           100            1.3375     0.8       5  
+    "Gabor CHO 2D"                14           100            1.8917       1       6  
+    "Gabor CHO 2D"                14           100            2.3979    0.92       7  
+    "Gabor CHO 2D"                14           100            3.4706       1       8  
+    "Gabor CHO 2D"                14           100            1.7033    0.96       9  
+    "Gabor CHO 2D"                14           100            2.7699       1      10  
+
+</pre><img vspace="5" hspace="5" src="demo_02_multiple_dose_levels_01.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clear all; close all; clc;
+addpath(genpath('src'))
+
+base_dir = 'Sample_Data/MITA_LCD';
+
+offset = 1000;
+xtrue = mhd_read_image(fullfile(base_dir, 'ground_truth.mhd')) - offset;
+
+% input is a binary mask specifying signal known exactly (SKE)
+
+truth_masks = get_demo_truth_masks(xtrue);
+
+truth_mask = truth_masks(:,:,1);
+insert_r = get_insert_radius(truth_mask);
+
+% observers can also be constructed ahead of time and then iterated through
+observers = {LG_CHO_2D(2/3*insert_r),...
+             DOG_CHO_2D(),...
+             GABOR_CHO_2D(),...
+             };
+
+dose = [];
+n_reader = 10;
+
+observer = [];
+dose_level = [];
+snr = [];
+auc = [];
+reader = [];
+insert_HU = [];
+insert_diameter_pix = [];
+
+if is_octave
+string = @(x) x
+boolean = @(x) logical(x)
+end
+
+for i=1:length(observers)
+    model_observer = observers{i};
+
+    dose_level_dirs = dir(fullfile(base_dir, 'dose_*'));
+
+    for d=1:length(dose_level_dirs)
+        dose_level_dir = dose_level_dirs(d);
+        dose = str2double(dose_level_dir.name(6:end));
+
+        signal_present_dir = fullfile(base_dir, dose_level_dir.name, 'signal_present');
+        signal_absent_dir = fullfile(base_dir, dose_level_dir.name, 'signal_absent');
+
+        sp_raw_array = mhd_read_image(fullfile(signal_present_dir, 'signal_present.mhd')) - offset;
+        sa_raw_array = mhd_read_image(fullfile(signal_absent_dir, 'signal_absent.mhd')) - offset;
+
+        sp_imgs = get_ROI_from_truth_mask(truth_mask, sp_raw_array);
+        sa_imgs = get_ROI_from_truth_mask(truth_mask, sa_raw_array);
+
+       for n=1:n_reader
+           [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs);
+           res = model_observer.perform_study(sa_train, sp_train, sa_test, sp_test);
+
+           observer = [observer; string(model_observer.type)];
+           insert_HU = [insert_HU; mode(xtrue(boolean(truth_mask)))];
+           insert_diameter_pix = [insert_diameter_pix; 2*insert_r];
+           dose_level = [dose_level; round(dose)];
+           snr = [snr; res.snr];
+           auc = [auc; res.auc];
+           reader = [reader; n];
+
+       end
+    end
+end
+
+res_table = table(observer, insert_HU, dose_level, snr, auc, reader);
+
+fname = mfilename;
+output_fname = ['results_', fname(1:7), '.csv'];
+if is_octave
+  headers = ["observer, insert_HU, dose_level, snr, auc, reader"];
+  fid = fopen(output_fname, 'w'); fdisp(fid, headers);
+  for r=1:length(dose_level)
+  fprintf(fid, "%s, %d, %d, %f, %f, %d\n", observer(r, :), insert_HU(r), dose_level(r), snr(r), auc(r), reader(r));
+  end
+  fclose(fid);
+else
+  writetable(res_table, output_fname);
+end
+
+plot_results(res_table)
+
+res_table
+
+##### SOURCE END #####
+--></body></html>
