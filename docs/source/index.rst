@@ -8,6 +8,16 @@ Welcome to LCD for CT Toolbox's documentation!
 
 This documentation provides information regarding how to download, install, and use the LCD for CT Toolbox which is designed to low contrast detectactability in CT images.
 
+Install
+-------
+Install Low Contrast Detectability for CT Toolbox by locally cloning the repository:
+
+   git clone https://github.com/DIDSR/LCD_CT
+
+To check that everything installed and is functioning correctly, change directory into the repository directory in Matlab or Octave and run the "test" command
+
+   > test
+
 Users
 -----
 
