@@ -17,6 +17,8 @@ Install Low Contrast Detectability for CT Toolbox by locally cloning the reposit
 To check that everything installed and is functioning correctly, change directory into the repository directory in Matlab or Octave and run the "test" command
 
    > test
+   
+ All tests running to completion without errors indicates the software is working as expected, please follow any error messages and consult our FAQ section for more details regarding installation issues. 
 
 Users
 -----
