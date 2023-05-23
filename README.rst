@@ -49,6 +49,8 @@ After installing review the LCD RST Documentation https://lcd-ct.readthedocs.io/
 - demo_xx
 - demo_xx
 
+(probablay show the updated AUC-vs-dose curves here)
+
 Contribute
 ----------
 
