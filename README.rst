@@ -1,10 +1,14 @@
 Low Contrast Detectability for CT Toolbox
 =========================================
-Low Contrast Detectability for CT (LCD-CT) Toolbox provides a common interface to evaluate the low contrast detectability (LCD) performance of advanced nonlinear CT image reconstruction and denoising algorithms. The toolbox uses model observer (MO) to evaluate the LCD of targets with known locations in test images obtained with the MITA-LCD phantom. The model oberver detection accuracy is measured by the area under the receiver operating characteristic curve (AUC) and the detectability signal-to-noise ratio (d’_{snr}).  The LCD-CT toolbox can be used by CT developers to perform initial evaluation on image quality impprovement or dose reduction potential of their reconstruction and denoising algorithms.
+**Low Contrast Detectability for CT (LCD-CT) Toolbox** provides a common interface to evaluate the low contrast detectability (LCD) performance of advanced nonlinear CT image reconstruction and denoising algorithms. The toolbox uses model observer (MO) to evaluate the LCD of targets with known locations in test images obtained with the MITA-LCD phantom. The model oberver detection accuracy is measured by the area under the receiver operating characteristic curve (AUC) and the detectability signal-to-noise ratio (d’_{snr}).  The LCD-CT toolbox can be used by CT developers to perform initial evaluation on image quality impprovement or dose reduction potential of their reconstruction and denoising algorithms.
 
 .. image:: diagram.png
         :width: 800
         :align: center
+
+**Regulatory Science Tool:** Check the FDA website for a description of the LCD-CT toolbox in the Regulatory Science Tool catalog.
+
+*LCD-CT team: Brandon Nelson, PhD, Prabhat Kc, PhD, Rongping Zeng, PhD*
 
 Disclaimer
 --------
@@ -40,7 +44,10 @@ Then test whether the setup is successful by runing "demo_test_phantomcreation.m
 Getting Started
 ---------------
 
-After installing review the LCD RST Documentation https://lcd-ct.readthedocs.io/en/latest/ and the demos to learn how to use the tool to assess low contrast detectability and to learn more about selecting and optimizing model observers for your task.
+After installing review the LCD RST Documentation https://lcd-ct.readthedocs.io/en/latest/ and the demos to learn how to use the tool to assess low contrast detectability:
+
+- demo_xx
+- demo_xx
 
 Contribute
 ----------
