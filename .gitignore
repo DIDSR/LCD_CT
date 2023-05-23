@@ -1,6 +1,7 @@
 *__pycache__
-.m~
+*.m~
 *.csv
 _*
 .vscode
 data
+mirt-main

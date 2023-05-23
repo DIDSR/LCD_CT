@@ -39,10 +39,12 @@ fprintf('signal present directory: %s: %d images found\n', signal_present_dir, n
 fprintf('signal absent directory: %s: %d images found\n', signal_absent_dir, n_sa);
 
 %% define your function for loading each image
-% e.g.
-% TODO switch over to ITK headers (.mhd) still raw files but easieer to
-% open in ImageJ, SLicer and other programs
+% e.g. using MetaIO raw format by ITK, this is a raw data format (brick of pixels) with an accompanying text header file (.mhd) that holds the image size and format info. These header files can be dragged into a variety of open-source viewers such as ImageJ or Slicer3D. For more information on MetaIO format please see <https://itk.org/Wiki/ITK/MetaIO/Documentation>
+% Note you can use any image IO format or method, this is just an example.
+
 header = mha_read_header(fullfile(base_dir, 'ground_truth.mhd'));
+% our images were saved with no-negative numbers, that's a +1000 offset since air was saved with a mean value of 0. We need to subtract off this offset to get back to HUs.
+
 offset_HU = 1000;
 xtrue = mhd_read_image(fullfile(base_dir, 'ground_truth.mhd')) - offset_HU;
 

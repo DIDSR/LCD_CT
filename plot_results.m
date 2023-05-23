@@ -31,9 +31,15 @@ end
 dose_levels = unique(res_table.dose_level);
 insert_HUs = unique(res_table.insert_HU);
 
+if ~ismember('recon', res_table.Properties.VariableNames)
+    res_table.recon(:) = "";
+end
+recons = unique(res_table.recon);
+
 ndoses = length(dose_levels);
 nobservers = length(observers);
 ninserts = length(insert_HUs);
+nrecons = length(recons);
 
 switch ninserts
   case 1
@@ -44,22 +50,41 @@ switch ninserts
     subx = 2; suby = 2;
 end
 
+
 for inst_idx = 1:ninserts
-    means = zeros(ndoses, nobservers);
-    stds = zeros(ndoses, nobservers);
+    means = zeros(ndoses, nobservers*nrecons);
+    stds = zeros(ndoses, nobservers*nrecons);
     insert_HU = insert_HUs(inst_idx);
+    recon_observer_pairs = [];
+    
     for obsv_idx = 1:nobservers
-        for dose_idx = 1:ndoses
-            table_filter = res_table.insert_HU == insert_HU & ...
-                           string(res_table.observer) == string(observers(obsv_idx)) & ...
-                           res_table.dose_level == dose_levels(dose_idx);
-            means(dose_idx, obsv_idx) = mean(res_table.auc(table_filter));
-            stds(dose_idx, obsv_idx) = std(res_table.auc(table_filter));
+        for recon_idx = 1:nrecons
+            recon_observer_pairs = [recons(recon_idx) + " "...
+                                    + observers(obsv_idx), recon_observer_pairs];
+            for dose_idx = 1:ndoses
+                table_filter = res_table.insert_HU == insert_HU & ...
+                               string(res_table.observer) == string(observers(obsv_idx)) & ...
+                               res_table.dose_level == dose_levels(dose_idx) & ...
+                               res_table.recon == recons(recon_idx);
+                means(dose_idx, length(recon_observer_pairs)) = mean(res_table.auc(table_filter));
+                stds(dose_idx, length(recon_observer_pairs)) = std(res_table.auc(table_filter));
+            end
         end
     end
     subplot(subx,suby,inst_idx);
-    errorbar(repmat(dose_levels, [1 nobservers]), means, stds)
-
+    p = errorbar(repmat(dose_levels, [1 nobservers*nrecons]), means, stds);
+    colorVec = {'b', 'r', 'y', 'm', 'g', 'c'};
+    c_idx = 1;
+    for i =1:length(p)
+        if mod(i, nrecons)==0
+            p(i).LineStyle = '--';
+            p(i).Color = colorVec{c_idx};
+            c_idx = c_idx + 1;
+        else
+            p(i).LineStyle = '-';
+            p(i).Color = colorVec{c_idx};
+        end
+    end
     switch insert_HU
         case 3
             insert_size = "10 mm";
@@ -75,7 +100,7 @@ for inst_idx = 1:ninserts
     title(sprintf('%s, %d HU insert', insert_size, insert_HU))
     ylabel('AUC')
     xlabel('dose level %')
-    legend(observers)
+    legend(recon_observer_pairs)
 end
 
 end

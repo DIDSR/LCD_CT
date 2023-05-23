@@ -6,6 +6,12 @@
 % R Zeng, FDA/CDRH/OSEL, 2023
  
 close all; 
+if ~exist('mirt-main', 'dir')
+download_dataset('https://github.com/JeffFessler/mirt/archive/refs/heads/main.zip', '.', false);
+irtdir = 'mirt-main';
+addpath(irtdir)
+end
+setup
 
 % ------ Note -----
 % The CT simulation code is based on the Michigan Image Reconstruction Toolbox (MIRT). 
