@@ -1,47 +1,35 @@
 Low Contrast Detectability for CT Toolbox
 =========================================
+Low Contrast Detectability for CT (LCD-CT) Toolbox provides a common interface to evaluate the low contrast detectability (LCD) performance of advanced nonlinear CT image reconstruction and denoising algorithms. The toolbox uses model observer (MO) to evaluate the LCD of targets with known locations in test images obtained with the MITA-LCD phantom. The model oberver detection accuracy is measured by the area under the receiver operating characteristic curve (AUC) and the detectability signal-to-noise ratio (d’_{snr}).  The LCD-CT toolbox can be used by CT developers to perform initial evaluation on image quality impprovement or dose reduction potential of their reconstruction and denoising algorithms.
 
 .. image:: diagram.png
-
-Low Contrast Detectability for CT Toolbox provides a common interface to evaluate the low contrast detectability performance of CT image reconstruction and denoising products with several builtin model observers. By providing examples of signal present and signal absent images like shown below, low contrast detectability performance can be calculated in just a few lines:
-
-    >> [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs);
-
-    >> observer = DOG_CHO_2D();
-
-    >> dog_res = observer.perform_study(sa_train, sp_train, sa_test, sp_test);
-
-    >> fprintf('DOG CHO auc: %f\n', dog_res.auc)
-
-    DOG CHO auc: 0.800000
-
-.. image:: signal_example.png
-
-Several example demos are given for how to run the tool over several dose, lesion conditions, and model observer types to measure how LCD varies under these conditions:
-
-.. image:: fbp_lcd_v_dose.png
 
 Features
 --------
 
-- Creating digital replica of the background and signal modules of the MITA-LCD phantom.  
-- Simuating sinogram and generate fan-beam CT scans of the digital phantoms based on the publicly available Michigan Image Reconstruction Tolbox (MIRT).
-- Estimating low contrast detectability performance from the MITA-LCD phantom CT images using model observers.
+- Creating digital replica of the background and signal modules of the MITA-LCD phantom https://www.phantomlab.com/catphan-mita.  
+- Simuating sinogram and generate fan-beam CT scans of the digital phantoms based on the publicly available Michigan Image Reconstruction Tolbox (MIRT) https://github.com/JeffFessler/mirt.
+- Estimating low contrast detectability performance from the MITA-LCD phantom CT images using model observer.
 
 .. _installation:
 
 Installation
 ------------
 
-Install Low Contrast Detectability for CT Toolbox by running:
+- Install Low Contrast Detectability for CT Toolbox by running:
 
     git clone https://github.com/DIDSR/LCD_CT
 
-Then open the LCD_CT directory in Matlab and start working through the demos.
+Then open the LCD_CT directory in Matlab and run "demo_00_test_smalldata.m" to test the LCD estimation code .
 
-LCD_RST is compatible with Octave, however some functions such as `medfilt2` are not loaded by default, follow the command line instructions, e.g.: `pkg load image` to have `medfilt2` available, this only needs to be done once for a given Octave session.
+- Note that the LCD Phantom Creation code uses functions from Michigan Image Recosntruction Toolkit (MIRT). Following the following steps to make the MIRT functions ready in Matlab path to support the run of LCD phantom creation code: 
+1) download MIRT from https://github.com/JeffFessler/mirt; 
+2) Upzip MIRT to a local directory; 
+3) In Matlab, Run the file "setup.m" in the MIRT local directory to add all the MIRT subdirectories to the MATLAB path;  
 
-To generate simulated CT images of background and signal modules of the MITA-LCD phantom (CCT189), first download MIRT (the github version) from https://github.com/JeffFessler/mirt and the run the file "setup.m" included in MIRT to add all the MIRT subdirectories to the MATLAB path. Then you can run "MakeCT_CCT189.m" to generate simualted CT images.    
+Then test whether the setup is successful by runing "demo_test_phantomcreation.m".
+
+- LCD_CT is compatible with Octave, however some functions such as `medfilt2` are not loaded by default, follow the command line instructions, e.g.: `pkg load image` to have `medfilt2` available, this only needs to be done once for a given Octave session.
 
 Getting Started
 ---------------
