@@ -1,6 +1,8 @@
 Low Contrast Detectability for CT Toolbox
 =========================================
 
+.. image:: diagram.png
+
 Low Contrast Detectability for CT Toolbox provides a common interface to evaluate the low contrast detectability performance of CT image reconstruction and denoising products with several builtin model observers. By providing examples of signal present and signal absent images like shown below, low contrast detectability performance can be calculated in just a few lines:
 
     >> [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs);
