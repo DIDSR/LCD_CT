@@ -40,9 +40,8 @@ insert_HU = [];
 insert_diameter_pix = [];
 
 if is_octave
-    error('octave')
-%     string = @(x) x;
-%     boolean = @(x) logical(x);
+     string = @(x) x;
+     boolean = @(x) logical(x);
 end
 
 for i=1:length(observers_list)

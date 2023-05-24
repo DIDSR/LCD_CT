@@ -32,7 +32,11 @@ dose_levels = unique(res_table.dose_level);
 insert_HUs = unique(res_table.insert_HU);
 
 if ~ismember('recon', res_table.Properties.VariableNames)
+  if is_octave
+    res_table.recon = "";
+  else
     res_table.recon(:) = "";
+  end
 end
 recons = unique(res_table.recon);
 
@@ -56,34 +60,41 @@ for inst_idx = 1:ninserts
     stds = zeros(ndoses, nobservers*nrecons);
     insert_HU = insert_HUs(inst_idx);
     recon_observer_pairs = [];
-    
+    idx = 1;
     for obsv_idx = 1:nobservers
         for recon_idx = 1:nrecons
+          if is_octave
+            recon_observer_pairs = strvcat([recons{recon_idx} ' ' observers{obsv_idx}], recon_observer_pairs);
+          else
             recon_observer_pairs = [recons(recon_idx) + " "...
-                                    + observers(obsv_idx), recon_observer_pairs];
+                                   + observers(obsv_idx), recon_observer_pairs];
+          end
             for dose_idx = 1:ndoses
                 table_filter = res_table.insert_HU == insert_HU & ...
                                string(res_table.observer) == string(observers(obsv_idx)) & ...
                                res_table.dose_level == dose_levels(dose_idx) & ...
-                               res_table.recon == recons(recon_idx);
-                means(dose_idx, length(recon_observer_pairs)) = mean(res_table.auc(table_filter));
-                stds(dose_idx, length(recon_observer_pairs)) = std(res_table.auc(table_filter));
+                               string(res_table.recon) == string(recons(recon_idx));
+                means(dose_idx, idx) = mean(res_table.auc(table_filter));
+                stds(dose_idx, idx) = std(res_table.auc(table_filter));
             end
+            idx = idx + 1;
         end
     end
     subplot(subx,suby,inst_idx);
     p = errorbar(repmat(dose_levels, [1 nobservers*nrecons]), means, stds);
     colorVec = {'b', 'r', 'y', 'm', 'g', 'c'};
     c_idx = 1;
-    for i =1:length(p)
-        if mod(i, nrecons)==0
-            p(i).LineStyle = '--';
-            p(i).Color = colorVec{c_idx};
-            c_idx = c_idx + 1;
-        else
-            p(i).LineStyle = '-';
-            p(i).Color = colorVec{c_idx};
-        end
+    if ~is_octave
+      for i =1:length(p)
+          if mod(i, nrecons)==0
+              p(i).LineStyle = '--';
+              p(i).Color = colorVec{c_idx};
+              c_idx = c_idx + 1;
+          else
+              p(i).LineStyle = '-';
+              p(i).Color = colorVec{c_idx};
+          end
+    end
     end
     switch insert_HU
         case 3
