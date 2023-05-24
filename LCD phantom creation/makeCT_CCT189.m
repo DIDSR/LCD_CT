@@ -3,29 +3,38 @@
 % uniform phantom. This generates multiple noisy realizations. Noise level 
 % is specified by 'I0'.
 %
-% R Zeng, FDA/CDRH/OSEL, 2023
  
 close all; 
+% ------ Note -----
+% The CT simulation is implemented based on the Michigan Image Reconstruction Toolbox (MIRT). 
+% MIRT is downloaded the first time when the phantom creation code runs:
+%   1. Download MIRT from https://github.com/JeffFessler/mirt to a local directory.
+%   2. Include MIRT functions to the Matlab path by running "setup.m" in MIRT
+
 if ~exist('mirt-main', 'dir')
 download_dataset('https://github.com/JeffFessler/mirt/archive/refs/heads/main.zip', '.', false);
 irtdir = 'mirt-main';
 addpath(irtdir)
 end
 setup
-
-% ------ Note -----
-% The CT simulation code is based on the Michigan Image Reconstruction Toolbox (MIRT). 
-% Follow this two steps to set up the toolbox
-%   1. Download and upzip the MIRT Github version (https://github.com/JeffFessler/mirt)) 
-%      to your local directory.
-%   2. MIRT contains a code named "setup.m", run it to include MIRT files to
-%      your matlab path.
 %-------------------
 
 % ------ define the CT scanner setting ------
-CT_setup;   %this will create "sg" (sinogram geometry), "ig" (image geometry)and "fg" (forward 
-            % projection operator). See CT_setup.m for details. 
-I0 = 3e6; %Photon flux, related to dose level. 
+CT_setup;   %this will load in CT parameters. See "CT_setup.m" for details. 
+I0 = 3e6; %Photon flux, related to dose level.      
+                                                   
+%Create "sg", sinogram geometry
+sg = sino_geom('fan', 'units', 'mm', ...
+    'nb', nb, 'na', na, 'ds', ds, ...
+    'dsd', sdd, 'dod', dod, 'offset_s', offset_s, ...
+    'strip_width', ds, 'down', down); 
+                                                   
+ %create "ig" (image geometry)                                                  
+ig = image_geom('nx', nx, 'fov', fov, 'down', down);
+                                                   
+ % Generate the forward projection operator. Choose 'std:mat' to be able to using different recon filter                                            
+fg = fbp2(sg, ig,'type','std:mat');                                                  
+ 
 nsim = 1; %number of noisy simulations. 
            %Suggest 200 noisy realizations for the LCD task performance evaluation
 
