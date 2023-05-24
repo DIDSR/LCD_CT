@@ -10,7 +10,7 @@ Low Contrast Detectability for CT Toolbox
 - **How to cite** 
    (*for paper*) Vaishnav, J.Y., Jung, W.C., Popescu, L.M., Zeng, R. and Myers, K.J. (2014), Objective assessment of image quality and dose reduction in CT iterative reconstruction. Med. Phys., 41: 071904. https://doi.org/10.1118/1.4881148
 
-   (*for code*) ... the RST link to the LCD-CT tool...
+   (*for code*) ... the LCD-CT RST tool...
 
 *LCD-CT tool developers: Brandon Nelson, PhD, Prabhat Kc, PhD, Rongping Zeng, PhD*
 
@@ -63,16 +63,13 @@ Contribute
 
 - Issue Tracker: https://github.com/DIDSR/LCD_CT/issues
 - Source Code: https://github.com/DIDSR/LCD_CT
-
-This project uses sphinx <https://www.sphinx-doc.org/en/master/tutorial/narrative-documentation.html>, and specific details for the Matlab Domain: <https://github.com/sphinx-contrib/matlabdomain>
-
-More resources on documentation: https://www.writethedocs.org/guide/
+- Contributing Guide: https://lcd-ct.readthedocs.io/en/latest/contributing.html
 
 Support
 -------
 
 If you are having issues, please let us know.
-brandon.nelson@fda.hhs.gov
+brandon.nelson@fda.hhs.gov; rongping.zeng@fda.hhs.gov
 
 License
 -------
@@ -94,3 +91,4 @@ Alternatives
   - Statistical Software for Task-Based Image Quality Assessment with Model (or Human) Observers
 
 - DIDSR/VICTRE_MO: https://github.com/DIDSR/VICTRE_MO
+- to be added: noise insertion code from Prabhat's GitHub site

@@ -1,6 +1,11 @@
 Contributing Guide
 ==================
 
+One of the best ways to contribute is by improving our documentation. This project uses sphinx <https://www.sphinx-doc.org/en/master/tutorial/narrative-documentation.html> as a documentor, and specific details for the Matlab Domain are given here: <https://github.com/sphinx-contrib/matlabdomain>
+
+More resources on documentation: https://www.writethedocs.org/guide/
+
+
 .. _docstrings:
 
 docstrings
