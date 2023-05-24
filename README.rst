@@ -6,9 +6,13 @@ Low Contrast Detectability for CT Toolbox
         :width: 800
         :align: center
 
-**Regulatory Science Tool:** Check the FDA website for a description of the LCD-CT toolbox in the Regulatory Science Tool catalog.
+- **Regulatory Science Tool:** Check the FDA website for a description of the LCD-CT toolbox (*a link to be added*) in the Regulatory Science Tool catalog.
+- **How to cite** 
+   (*for paper*) Vaishnav, J.Y., Jung, W.C., Popescu, L.M., Zeng, R. and Myers, K.J. (2014), Objective assessment of image quality and dose reduction in CT iterative reconstruction. Med. Phys., 41: 071904. https://doi.org/10.1118/1.4881148
 
-*LCD-CT team: Brandon Nelson, PhD, Prabhat Kc, PhD, Rongping Zeng, PhD*
+   (*for code*) ... the RST link to the LCD-CT tool...
+
+*LCD-CT tool developers: Brandon Nelson, PhD, Prabhat Kc, PhD, Rongping Zeng, PhD*
 
 Disclaimer
 --------
@@ -48,6 +52,7 @@ After installing review the LCD RST Documentation https://lcd-ct.readthedocs.io/
 
 - demo_xx
 - demo_xx
+- ...
 
 (probablay show the updated AUC-vs-dose curves here)
 
