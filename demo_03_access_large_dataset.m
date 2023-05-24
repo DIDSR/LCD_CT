@@ -15,12 +15,12 @@
 addpath(genpath('src'))
 
 if ~exist('base_dir', 'var')
-    base_dir = 'data/MITA_LCD'; %<-- Replace with directory containing large data set
+    base_dir = 'data/fbp'; %<-- Replace with directory containing large data set
 end
 
-ground_truth_fname = fullfile(base_dir, 'ground_truth.mhd');
-if ~exist(ground_truth_fname, 'file')
-    base_dir = download_dataset('https://sandbox.zenodo.org/record/1150650/files/MITA_LCD.zip', base_dir)
+confirm_download = true;
+if ~exist(base_dir, 'dir')
+    unzip('https://sandbox.zenodo.org/record/1205888/files/fbp.zip?download=1', base_dir)
 end
 
 res_table = make_auc_curve(base_dir);

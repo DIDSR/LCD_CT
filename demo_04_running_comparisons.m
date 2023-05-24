@@ -3,12 +3,25 @@
 %
 % This demo outputs AUC curves of two recon options to show how the LCD-CT tool can be used to compare to denoising devices or recon methods
 
-base_dir = '/gpfs_projects/brandon.nelson/RSTs/LCD_datasets'
-recon_1_dir = fullfile(base_dir, 'fbp'); % <-replace with downloaded location
+recon_1_dir = 'data/fbp';
+if ~exist(recon_1_dir, 'dir')
+    disp(['dataset not found in: ', recon_1_dir])
+    disp('now downloading from ')
+    fbp_url = 'https://sandbox.zenodo.org/record/1205888/files/fbp.zip?download=1'
+    unzip(fbp_url, 'data');
+end
+
 recon_1_res = make_auc_curve(recon_1_dir);
 recon_1_res.recon(:) = "fbp";
 
-recon_2_dir = fullfile(base_dir, 'DL_denoised');
+recon_2_dir  = 'data/DL_denoised';
+if ~exist(recon_2_dir, 'dir')
+    disp(['dataset not found in: ', recon_2_dir])
+    disp('now downloading from ')
+    dl_url = 'https://sandbox.zenodo.org/record/1205888/files/DL_denoised.zip?download=1'
+    unzip(dl_url, 'data')
+end
+
 recon_2_res = make_auc_curve(recon_2_dir);
 recon_2_res.recon(:) = "DL denoised";
 

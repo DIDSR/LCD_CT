@@ -12,7 +12,7 @@ close all;
 %   2. Include MIRT functions to the Matlab path by running "setup.m" in MIRT
 
 if ~exist('mirt-main', 'dir')
-download_dataset('https://github.com/JeffFessler/mirt/archive/refs/heads/main.zip', '.', false);
+unzip('https://github.com/JeffFessler/mirt/archive/refs/heads/main.zip', '.');
 irtdir = 'mirt-main';
 addpath(irtdir)
 end
