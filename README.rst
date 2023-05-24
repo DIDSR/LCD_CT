@@ -63,10 +63,7 @@ Contribute
 
 - Issue Tracker: https://github.com/DIDSR/LCD_CT/issues
 - Source Code: https://github.com/DIDSR/LCD_CT
-
-This project uses sphinx <https://www.sphinx-doc.org/en/master/tutorial/narrative-documentation.html>, and specific details for the Matlab Domain: <https://github.com/sphinx-contrib/matlabdomain>
-
-More resources on documentation: https://www.writethedocs.org/guide/
+- Contributing Guide: https://lcd-ct.readthedocs.io/en/latest/contributing.html
 
 Support
 -------
