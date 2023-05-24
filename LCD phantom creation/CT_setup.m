@@ -1,18 +1,8 @@
 %**************************************************************************
-% CT_setup.m: Define the parameters of a fan-bean CT scanner. This code prepare 
-% the variables "sg" (sinogram geometry), "ig" (image geometry), "fg" (forward 
-% projection operator) to be used in the phantom CT image simulation code
-% named "makeCT_CCT189.m".
+% CT_setup.m: Define the parameters of a fan-bean CT scanner
 %
 % Users can change the parameter values included in the code to define the 
 % the CT system they want to simulate.
-%
-% Note: the simulation code is based on the Michigan Image Reconstruction
-% Toolbox (MIRT), follow this two steps to set up the toolbox
-%   1. Download and upzip the MIRT Github version (https://github.com/JeffFessler/mirt) 
-%      to your local directory.
-%   2. MIRT contains a code named "setup.m", run it to include MIRT files to
-%      your matlab path.
 %*************************************************************************
 
 down = 2;%Downsample rate. set it to "1" to generate 512x512 full size image 
@@ -34,20 +24,15 @@ na = 1160;          % number of views in a rotation
 ds = 1;        % detector column size 
 offset_s = 1.25;    % lateral shift of detector
 
-sg = sino_geom('fan', 'units', 'mm', ...
-    'nb', nb, 'na', na, 'ds', ds, ...
-    'dsd', sdd, 'dod', dod, 'offset_s', offset_s, ...
-    'strip_width', ds, 'down', down);
 
 % Define the reconstruction image matrix: pixel size, fov, kernel
 nx = 512; % number of imge pixels in x-dimension 
 dx = 0.664; %PixelSpacing (mm). This value equal to 340/512, corresponding to FOV of 340 mm for a 512x512 image matrix
 fov = dx*nx;      % mm
-ig = image_geom('nx', nx, 'fov', fov, 'down', down);
+
 fbp_kernel = 'hanning,2.05'; % 'hanning,xxx', xxx = the cutoff frequency, see fbp2_window.m in MIRT for details.
                         %'hanning,2.05' approximate a sharp kernel D45 in Siemens Force.
                         %'hanning, 0.85' approximate a smooth kernel B30 in
                         %Siemens Force.
-% Generate the forward projection operator -------
-fg = fbp2(sg, ig,'type','std:mat'); %choose 'std:mat' to be able to using different recon filter
+
                                     
