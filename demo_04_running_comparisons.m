@@ -2,6 +2,12 @@
 % authors: Brandon Nelson, Rongping Zeng
 %
 % This demo outputs AUC curves of two recon options to show how the LCD-CT tool can be used to compare to denoising devices or recon methods
+addpath(genpath('src'))
+
+if is_octave
+  pkg load image
+  pkg load tablicious
+end
 
 recon_1_dir = 'data/fbp';
 if ~exist(recon_1_dir, 'dir')
