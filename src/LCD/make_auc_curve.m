@@ -39,11 +39,6 @@ reader = [];
 insert_HU = [];
 insert_diameter_pix = [];
 
-if is_octave
-     string = @(x) x;
-     boolean = @(x) logical(x);
-end
-
 for i=1:length(observers_list)
     model_observer = observers_list{i};
 
@@ -72,7 +67,11 @@ for i=1:length(observers_list)
            for n=1:n_reader
                [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs);
                res = model_observer.perform_study(sa_train, sp_train, sa_test, sp_test);
-               observer = strvcat(observer, model_observer.type);
+               if is_octave
+                   observer = strvcat(observer, model_observer.type);
+               else
+                   observer = [string(observer); string(model_observer.type)];
+               end
                insert_HU = [insert_HU; mode(xtrue(logical(truth_mask)))];
                insert_diameter_pix = [insert_diameter_pix; 2*insert_r];
                dose_level = [dose_level; round(dose)];
