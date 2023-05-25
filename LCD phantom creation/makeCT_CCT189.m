@@ -13,9 +13,9 @@ close all;
 
 if ~exist('mirt-main', 'dir')
 unzip('https://github.com/JeffFessler/mirt/archive/refs/heads/main.zip', '.');
+end
 irtdir = 'mirt-main';
 addpath(irtdir)
-end
 setup
 %-------------------
 
