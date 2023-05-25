@@ -18,7 +18,11 @@ if ~exist(recon_1_dir, 'dir')
 end
 
 recon_1_res = make_auc_curve(recon_1_dir);
-recon_1_res.recon(:) = "fbp";
+if is_octave
+  recon_1_res.recon = "fbp"
+else
+  recon_1_res.recon(:) = "fbp";
+end
 
 recon_2_dir  = 'data/DL_denoised';
 if ~exist(recon_2_dir, 'dir')
@@ -29,16 +33,29 @@ if ~exist(recon_2_dir, 'dir')
 end
 
 recon_2_res = make_auc_curve(recon_2_dir);
-recon_2_res.recon(:) = "DL denoised";
+if is_octave
+  recon_2_res.recon = "DL denoised";
+else
+  recon_2_res.recon(:) = "DL denoised";
+end
 
-combined_res = cat(1, recon_1_res, recon_2_res);
+if is_octave
+  combined_res = vertcat(recon_1_res, recon_2_res);
+else
+  combined_res = cat(1, recon_1_res, recon_2_res);
+end
+
 write_lcd_results(combined_res, 'fbp_DL_auc_comparison.csv')
 %%
 plot_results(combined_res)
 
-%% 
+%%
 % let's just look at a subset
-idx = combined_res.observer == "Laguerre-Gauss CHO 2D" & combined_res.insert_HU < 7
+if is_octave
+  idx = contains(combined_res.observer, "Laguerre-Gauss CHO 2D") & combined_res.insert_HU < 7;
+else
+  idx = combined_res.observer == "Laguerre-Gauss CHO 2D" & combined_res.insert_HU < 7;
+end
 filtered_res = combined_res(idx, :)
 
 plot_results(filtered_res)
