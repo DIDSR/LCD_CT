@@ -1,10 +1,47 @@
 clear all; close all; clc;
 addpath(genpath('src'))
 
-base_dir = 'Sample_Data/MITA_LCD';
+if is_octave
+  pkg load image tablicious
+end
+
+%%
+% specify the `base_directory` containing images to be evaluated
+use_large_dataset = true;
+if use_large_dataset
+    base_directory = 'data/fbp'
+else
+    base_directory = 'Sample_Data/MITA_LCD';
+end
+
+% The required structure used in this demo is given below in detail for one dose level,
+% note the XXX denotes other image files not shown:
+% Sample_Data/
+% └── MITA_LCD
+%     ├── dose_010
+%     │   ├── signal_absent
+%     │   │   ├── signal_absent_001.raw
+%     │   │   ├── signal_absent_002.raw
+%     │   │   ├── signal_absent_XXX.raw
+%     │   │   └── signal_absent.mhd
+%     │   └── signal_present
+%     │       ├── signal_present_001.raw
+%     │       ├── signal_present_002.raw
+%     │       ├── signal_present_XXX.raw
+%     │       └── signal_present.mhd
+%     ├── dose_0XX
+%     ├── dose_100       
+%% Next specify a ground truth image
+% This is used to determine the center of each lesion for Location Known Exactly (LKE) low contrast detection
 
 offset = 1000;
-xtrue = mhd_read_image(fullfile(base_dir, 'ground_truth.mhd')) - offset;
+
+ground_truth_filename = fullfile(base_directory, 'ground_truth1.mhd');
+if exist(ground_truth_filename, 'file')
+    xtrue = mhd_read_image(ground_truth_filename ) - offset;
+else
+    xtrue = approximate_xtrue(base_directory, ground_truth_filename, offset);
+end
 
 % input is a binary mask specifying signal known exactly (SKE)
 
@@ -14,10 +51,11 @@ truth_mask = truth_masks(:,:,1);
 insert_r = get_insert_radius(truth_mask);
 
 % observers can also be constructed ahead of time and then iterated through
-observers = {LG_CHO_2D(2/3*insert_r),...
-             DOG_CHO_2D(),...
-             GABOR_CHO_2D(),...
-             };
+observers = {LG_CHO_2D(2/3*insert_r)};
+% observers = {LG_CHO_2D(2/3*insert_r),...
+%              DOG_CHO_2D(),...
+%              GABOR_CHO_2D(),...
+%              };
 
 dose = [];
 n_reader = 10;
@@ -38,14 +76,14 @@ end
 for i=1:length(observers)
     model_observer = observers{i};
 
-    dose_level_dirs = dir(fullfile(base_dir, 'dose_*'));
+    dose_level_dirs = dir(fullfile(base_directory, 'dose_*'));
 
     for d=1:length(dose_level_dirs)
         dose_level_dir = dose_level_dirs(d);
         dose = str2double(dose_level_dir.name(6:end));
 
-        signal_present_dir = fullfile(base_dir, dose_level_dir.name, 'signal_present');
-        signal_absent_dir = fullfile(base_dir, dose_level_dir.name, 'signal_absent');
+        signal_present_dir = fullfile(base_directory, dose_level_dir.name, 'signal_present');
+        signal_absent_dir = fullfile(base_directory, dose_level_dir.name, 'signal_absent');
 
         sp_raw_array = mhd_read_image(fullfile(signal_present_dir, 'signal_present.mhd')) - offset;
         sa_raw_array = mhd_read_image(fullfile(signal_absent_dir, 'signal_absent.mhd')) - offset;

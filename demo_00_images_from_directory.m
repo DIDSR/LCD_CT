@@ -2,7 +2,7 @@
 % authors: Brandon Nelson, Rongping Zeng
 %
 % This script is the first demonstrates how to use the Low Contrast
-% Detectability toole for multiple model observers on
+% Detectability tool for multiple model observers on
 % pre-existing signal-present (sp) and signal absent (sa) image sets.
 %
 % This script uses the data provided in the Sample_Data/MITA_LCD folder

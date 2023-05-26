@@ -1,4 +1,8 @@
-function truth_masks = get_demo_truth_masks(xtrue)
+function truth_masks = get_demo_truth_masks(xtrue, tol)
+    % :param tol: relative tolerance
+    if ~exist('tol', 'var')
+        tol = 1;
+    end
     roi_HUs = [14, 7, 5, 3];
     n_roi = length(roi_HUs);
     [nx, ny] = size(xtrue);
@@ -6,6 +10,7 @@ function truth_masks = get_demo_truth_masks(xtrue)
 
     for i = 1:n_roi
         truth_mask = xtrue == roi_HUs(i);
+%         truth_mask = abs(double(xtrue) - roi_HUs(i)) < tol;
         truth_masks(:, :, i) = medfilt2(truth_mask); %this shouldn't be necesarry but defining the truth mask is up to the user
     end
 end

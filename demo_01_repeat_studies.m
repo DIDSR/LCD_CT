@@ -1,6 +1,11 @@
 clear all; close all; clc;
 addpath(genpath('src'))
 
+if is_octave
+  pkg load image
+  pkg load tablicious
+end
+
 base_dir = 'Sample_Data/MITA_LCD';
 
 offset = 1000;
