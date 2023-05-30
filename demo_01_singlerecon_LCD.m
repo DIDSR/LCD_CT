@@ -15,19 +15,33 @@ if ~exist('use_large_dataset', 'var')
     use_large_dataset = false;
 end
 
-if ~use_large_dataset
-    warning("`use_large_dataset` (line 31) is set to false`. This script is using a small dataset (10 repeat scans) to demonstrate usage of the LCD tool. For more accurate results, set `use_large_dataset = true`")
-end
-
 dose = 100;
 
+%% Select datasets
+% download if necesarry
 base_directory = 'data';
 if use_large_dataset
     base_directory = fullfile(base_directory, 'large_dataset');
+    recon_1_dir = fullfile(base_directory, 'fbp');
+    if ~exist(recon_1_dir, 'dir')
+        disp(['dataset not found in: ', recon_1_dir])
+        disp('now downloading from ')
+        fbp_url = 'https://sandbox.zenodo.org/record/1205888/files/fbp.zip?download=1'
+        unzip(fbp_url, recon_1_dir);
+    end
+
+    recon_2_dir  = fullfile(base_directory, 'DL_denoised');
+    if ~exist(recon_2_dir, 'dir')
+        disp(['dataset not found in: ', recon_2_dir])
+        disp('now downloading from ')
+        dl_url = 'https://sandbox.zenodo.org/record/1205888/files/DL_denoised.zip?download=1'
+        unzip(dl_url, recon_2_dir);
+    end
 else
     base_directory = fullfile(base_directory, 'small_dataset');
+    recon_1_dir = fullfile(base_directory, 'fbp');
+    recon_2_dir  = fullfile(base_directory, 'DL_denoised');
 end
-base_directory = fullfile(base_directory, recon_name);
 
 % The required structure used in this demo is given below in detail for one dose level,
 % note the XXX denotes other image files not shown:
@@ -81,3 +95,7 @@ set_ylim = [0 1.1];
 plot_results(res_table, set_ylim)
 
 res_table
+
+if ~use_large_dataset
+    warning("`use_large_dataset` (line 15) is set to false`. This script is using a small dataset (10 repeat scans) to demonstrate usage of the LCD tool. For more accurate results, set `use_large_dataset = true`")
+end
