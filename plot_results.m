@@ -1,7 +1,8 @@
-function plot_results(results, set_ylim)
+function plot_objects = plot_results(results, set_ylim)
 % results can be a csv filename, Matlab Table, or 2D array
 % :param results: Table or csv filename of LCD results from `make_auc_curve`
 % :param set_ylim: y limits for plotting AUC
+% :param comparison: (default is none []) method for comparing different recons
 %% plotting examples
 
 if ~exist('results', 'var')
@@ -87,24 +88,25 @@ for inst_idx = 1:ninserts
         end
     end
     subplot(subx,suby,inst_idx);
+    plot_objects = [];
     if length(dose_levels) < 2
        bar(categorical(recon_observer_pairs), means)
        hold on
        errorbar(categorical(recon_observer_pairs), means, stds, "LineStyle","none")
        hold off
     else
-        p = errorbar(repmat(dose_levels, [1 nobservers*nrecons]), means, stds);
+        plot_objects = errorbar(repmat(dose_levels, [1 nobservers*nrecons]), means, stds);
         colorVec = {'b', 'r', 'y', 'm', 'g', 'c'};
         c_idx = 1;
         if ~is_octave
-          for i =1:length(p)
+          for i =1:length(plot_objects)
               if mod(i, nrecons)==0
-                  p(i).LineStyle = '--';
-                  p(i).Color = colorVec{c_idx};
+                  plot_objects(i).LineStyle = '--';
+                  plot_objects(i).Color = colorVec{c_idx};
                   c_idx = c_idx + 1;
               else
-                  p(i).LineStyle = '-';
-                  p(i).Color = colorVec{c_idx};
+                  plot_objects(i).LineStyle = '-';
+                  plot_objects(i).Color = colorVec{c_idx};
               end
           end
         end    
@@ -128,7 +130,6 @@ for inst_idx = 1:ninserts
     end
     ylabel('AUC')
     title(sprintf('%s, %d HU insert', insert_size, insert_HU))
-
 end
 
 end

@@ -110,3 +110,11 @@ if ~use_large_dataset
     warning("`use_large_dataset` (line 31) is set to false`. This script is using a small dataset (10 repeat scans) to demonstrate usage of the LCD tool. For more accurate results, set `use_large_dataset = true`")
 end
 plot_results(res_table, set_ylim)
+
+%% plot the difference
+% let's just look at a subset
+diff_auc = recon_2_res.auc - recon_1_res.auc;
+diff_res = recon_1_res;
+diff_res.auc = diff_auc;
+diff_res.recon(:) = "DL denoised - fbp";
+plot_results(diff_res)

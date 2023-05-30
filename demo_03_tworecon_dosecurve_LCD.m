@@ -59,14 +59,11 @@ ground_truth = mhd_read_image(ground_truth_fname) - offset; %need to build in of
 
 %% run
 recon_1_res = make_auc_curve(recon_1_dir, observers, ground_truth, offset);
-
 if is_octave
   recon_1_res.recon = "fbp"
 else
   recon_1_res.recon(:) = "fbp";
 end
-
-recon_2_dir = fullfile(recon_2_dir, ['dose_' num2str(dose)]);
 
 recon_2_res = make_auc_curve(recon_2_dir, observers, ground_truth, offset);
 if is_octave
@@ -74,13 +71,12 @@ if is_octave
 else
   recon_2_res.recon(:) = "DL denoised";
 end
-
+%% combine results
 if is_octave
   res_table = vertcat(recon_1_res, recon_2_res);
 else
   res_table = cat(1, recon_1_res, recon_2_res);
 end
-
 %% save results
 fname = mfilename;
 output_fname = ['results_', fname(1:7), '.csv'];
@@ -95,13 +91,13 @@ if ~use_large_dataset
 end
 plot_results(res_table, set_ylim)
 
-%%
+res_table
+%% plot the difference
 % let's just look at a subset
-if is_octave
-  idx = contains(res_table.observer, "Laguerre-Gauss CHO 2D") & res_table.insert_HU < 7;
-else
-  idx = res_table.observer == "Laguerre-Gauss CHO 2D" & res_table.insert_HU < 7;
-end
-filtered_res = res_table(idx, :)
+diff_auc = recon_2_res.auc - recon_1_res.auc;
+diff_res = recon_1_res;
+diff_res.auc = diff_auc;
+diff_res.recon(:) = "DL denoised - fbp";
+plot_results(diff_res)
 
-plot_results(filtered_res)
+diff_res
