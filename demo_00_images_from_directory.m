@@ -26,7 +26,7 @@ if is_octave
   pkg load tablicious
 end
 
-base_dir = 'Sample_Data/MITA_LCD';
+base_dir = 'data/small_dataset/fbp';
 
 signal_present_dir = fullfile(base_dir, 'dose_100', 'signal_present');
 signal_absent_dir = fullfile(base_dir, 'dose_100', 'signal_absent');
