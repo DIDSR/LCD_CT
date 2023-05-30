@@ -69,7 +69,7 @@ observers = {LG_CHO_2D()};
 %              };
 %% Next specify a ground truth image
 % This is used to determine the center of each lesion for Location Known Exactly (LKE) low contrast detection
-
+base_directory = fullfile(base_directory, recon_name);
 ground_truth_fname = fullfile(base_directory,'ground_truth.mhd');
 offset = 1000;
 ground_truth = mhd_read_image(ground_truth_fname) - offset; %need to build in offset to dataset

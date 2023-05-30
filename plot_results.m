@@ -89,7 +89,7 @@ for inst_idx = 1:ninserts
     end
     subplot(subx,suby,inst_idx);
     plot_objects = [];
-    if length(dose_levels) < 2
+    if length(dose_levels) < 2 & ~is_octave
        bar(categorical(recon_observer_pairs), means)
        hold on
        errorbar(categorical(recon_observer_pairs), means, stds, "LineStyle","none")

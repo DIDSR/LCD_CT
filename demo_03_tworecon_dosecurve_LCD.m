@@ -89,11 +89,13 @@ end
 if ~use_large_dataset
     warning("`use_large_dataset` (line 31) is set to false`. This script is using a small dataset (10 repeat scans) to demonstrate usage of the LCD tool. For more accurate results, set `use_large_dataset = true`")
 end
+figure('NumberTitle', 'off', 'Name', 'AUC vs. Dose Curves');
 plot_results(res_table, set_ylim)
 
 res_table
 %% plot the difference
 % let's just look at a subset
+figure('NumberTitle', 'off', 'Name', 'AUC Difference');
 diff_auc = recon_2_res.auc - recon_1_res.auc;
 diff_res = recon_1_res;
 diff_res.auc = diff_auc;
