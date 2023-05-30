@@ -3,6 +3,7 @@
 *.csv
 _*
 .vscode
-data
+data/large_dataset
 mirt-main
 */.nfs0*
+*.asv

@@ -1,9 +1,15 @@
-function plot_results(results)
+function plot_results(results, set_ylim)
 % results can be a csv filename, Matlab Table, or 2D array
+% :param results: Table or csv filename of LCD results from `make_auc_curve`
+% :param set_ylim: y limits for plotting AUC
 %% plotting examples
 
 if ~exist('results', 'var')
    results = "results_demo_02.csv";
+end
+
+if ~exist('set_ylim', 'var')
+    set_ylim = [];
 end
 
 if is_octave
@@ -81,20 +87,29 @@ for inst_idx = 1:ninserts
         end
     end
     subplot(subx,suby,inst_idx);
-    p = errorbar(repmat(dose_levels, [1 nobservers*nrecons]), means, stds);
-    colorVec = {'b', 'r', 'y', 'm', 'g', 'c'};
-    c_idx = 1;
-    if ~is_octave
-      for i =1:length(p)
-          if mod(i, nrecons)==0
-              p(i).LineStyle = '--';
-              p(i).Color = colorVec{c_idx};
-              c_idx = c_idx + 1;
-          else
-              p(i).LineStyle = '-';
-              p(i).Color = colorVec{c_idx};
+    if length(dose_levels) < 2
+       bar(categorical(recon_observer_pairs), means)
+       hold on
+       errorbar(categorical(recon_observer_pairs), means, stds, "LineStyle","none")
+       hold off
+    else
+        p = errorbar(repmat(dose_levels, [1 nobservers*nrecons]), means, stds);
+        colorVec = {'b', 'r', 'y', 'm', 'g', 'c'};
+        c_idx = 1;
+        if ~is_octave
+          for i =1:length(p)
+              if mod(i, nrecons)==0
+                  p(i).LineStyle = '--';
+                  p(i).Color = colorVec{c_idx};
+                  c_idx = c_idx + 1;
+              else
+                  p(i).LineStyle = '-';
+                  p(i).Color = colorVec{c_idx};
+              end
           end
-    end
+        end    
+        xlabel('dose level %')
+        legend(recon_observer_pairs)
     end
     switch insert_HU
         case 3
@@ -108,10 +123,12 @@ for inst_idx = 1:ninserts
         otherwise
             insert_size = "";
     end
-    title(sprintf('%s, %d HU insert', insert_size, insert_HU))
+    if ~isempty(set_ylim)
+        ylim(set_ylim);
+    end
     ylabel('AUC')
-    xlabel('dose level %')
-    legend(recon_observer_pairs)
+    title(sprintf('%s, %d HU insert', insert_size, insert_HU))
+
 end
 
 end

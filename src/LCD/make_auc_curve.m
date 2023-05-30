@@ -1,31 +1,45 @@
-function res_table = make_auc_curve(base_dir)
+function res_table = make_auc_curve(base_dir, observers, ground_truth, offset)
 % given a dataset calculate auc curves and return as a table ready for saving or plotting
 % 
 % :param base_dir: directory containing dataset
-%
+% :param observers: list of observer objects or strings of name of
+% observers. Options: LG_CHO_2D, DOG_CHO_2D, GABOR_CHO_2D
+% :param ground_truth: image or filename of image with no noise of MITA LCD
+% phantom, see `approximate_xtrue` for details on how to turn repeat 
+% :
 % :return res_table: table ready for saving or plotting
 
-offset = 1000;
+%% define observers
+if ~exist('observers', 'var')
+    observers = {LG_CHO_2D()};
+%   observers = {LG_CHO_2D(),... % will need to modify .channel_width attribute later when insert width known
+%                     DOG_CHO_2D(),...
+%                     GABOR_CHO_2D(),...
+%                     };
+end
 
-ground_truth_fname = fullfile(base_dir, 'ground_truth.mhd');
+%% check for ground truth
+if ~exist('ground_truth', 'var')
+    ground_truth_fname = fullfile(base_dir, 'ground_truth.mhd');
+    offset = 1000;
+    ground_truth = mhd_read_image(ground_truth_fname) - offset; %need to build in offset to dataset
+end
 
-xtrue = mhd_read_image(ground_truth_fname) - offset; %need to build in offset to dataset
+if ~exist('offset', 'var')
+    offset = 0;
+end
 % input is a binary mask specifying signal known exactly (SKE)
 
-truth_masks = get_demo_truth_masks(xtrue);
+truth_masks = get_demo_truth_masks(ground_truth);
 
 insert_rs = [];
 n_inserts = size(truth_masks, 3);
 for i=1:n_inserts
+    crop_r = max(insert_rs);
     insert_r = get_insert_radius(truth_masks(:,:,i));
     insert_rs = [insert_rs insert_r];
 end
-crop_r = max(insert_rs);
-%% define observers
-observers_list = {LG_CHO_2D(),... % will need to modify .channel_width attribute later when insert width known
-                  DOG_CHO_2D(),...
-                  GABOR_CHO_2D(),...
-                 };
+
 %% iterate through conditions
 
 dose = [];
@@ -39,10 +53,19 @@ reader = [];
 insert_HU = [];
 insert_diameter_pix = [];
 
-for i=1:length(observers_list)
-    model_observer = observers_list{i};
+for i=1:length(observers)
+    model_observer = observers{i};
 
     dose_level_dirs = dir(fullfile(base_dir, 'dose_*'));
+    if length(dose_level_dirs) < 1
+        clear dose_level_dirs
+        [filepath, name, ext] = fileparts(base_dir);
+        if ~startsWith(name, 'dose_')
+            error('please check that `base_directory` is named `dose_XXX` or contains a `dose_level` folder')
+        end
+        dose_level_dirs.name = name;
+        base_dir = filepath;
+    end
 
     for d=1:length(dose_level_dirs)
         dose_level_dir = dose_level_dirs(d);
@@ -72,7 +95,7 @@ for i=1:length(observers_list)
                else
                    observer = [string(observer); string(model_observer.type)];
                end
-               insert_HU = [insert_HU; mode(xtrue(logical(truth_mask)))];
+               insert_HU = [insert_HU; mode(ground_truth(logical(truth_mask)))];
                insert_diameter_pix = [insert_diameter_pix; 2*insert_r];
                dose_level = [dose_level; round(dose)];
                snr = [snr; res.snr];
