@@ -1,5 +1,5 @@
 %% add relevant source files and packages
-clear all;
+% clear all;
 % close all;
 clc;
 addpath(genpath('src'))
@@ -11,14 +11,23 @@ end
 %%
 % specify the `base_directory` containing images to be evaluated
 recon_name = "fbp";
-use_large_dataset = false;
-dose = 100;
-set_ylim = [0 1.1];
-if use_large_dataset
-    base_directory = fullfile('data','fbp', ['dose_' num2str(dose, '%03d')])
-else
-    base_directory = fullfile('Sample_Data','MITA_LCD', ['dose_' num2str(dose, '%03d')])
+if ~exist('use_large_dataset', 'var')
+    use_large_dataset = false;
 end
+
+if ~use_large_dataset
+    warning("`use_large_dataset` (line 31) is set to false`. This script is using a small dataset (10 repeat scans) to demonstrate usage of the LCD tool. For more accurate results, set `use_large_dataset = true`")
+end
+
+dose = 100;
+
+base_directory = 'data';
+if use_large_dataset
+    base_directory = fullfile(base_directory, 'large_dataset');
+else
+    base_directory = fullfile(base_directory, 'small_dataset');
+end
+base_directory = fullfile(base_directory, recon_name);
 
 % The required structure used in this demo is given below in detail for one dose level,
 % note the XXX denotes other image files not shown:
@@ -47,10 +56,13 @@ observers = {LG_CHO_2D()};
 %% Next specify a ground truth image
 % This is used to determine the center of each lesion for Location Known Exactly (LKE) low contrast detection
 
-ground_truth_fname = fullfile('Sample_Data','MITA_LCD','ground_truth.mhd');
+ground_truth_fname = fullfile(base_directory,'ground_truth.mhd');
 offset = 1000;
 ground_truth = mhd_read_image(ground_truth_fname) - offset; %need to build in offset to dataset
+%% select a single dose level for this demo
 
+base_directory = fullfile(base_directory, ['dose_' num2str(dose, '%03d')]);
+%% run
 res_table = make_auc_curve(base_directory, observers, ground_truth, offset);
 
 if is_octave
@@ -59,10 +71,13 @@ else
   res_table.recon(:) = recon_name;
 end
 
+%% save results
 fname = mfilename;
 output_fname = ['results_', fname(1:7), '.csv'];
 write_lcd_results(res_table, output_fname)
 
+%% plot results
+set_ylim = [0 1.1];
 plot_results(res_table, set_ylim)
 
 res_table

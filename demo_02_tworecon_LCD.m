@@ -19,7 +19,7 @@
 
 %% add relevant source files and packages
 addpath(genpath('src'))
-clear all;
+% clear all;
 % close all;
 clc;
 
@@ -28,35 +28,54 @@ if is_octave
 end
 %% User specified parameters
 % specify the `base_directory` containing images to be evaluated
-use_large_dataset = false;
+if ~exist('use_large_dataset', 'var')
+    use_large_dataset = false;
+end
+
 dose = 100;
-set_ylim = [0 1.1];
 
 observers = {LG_CHO_2D()};
 % observers = {LG_CHO_2D(),...
 %              DOG_CHO_2D(),...
 %              GABOR_CHO_2D(),...
 %              };
+%% Select datasets
+% download if necesarry
+base_directory = 'data';
+if use_large_dataset
+    base_directory = fullfile(base_directory, 'large_dataset');
+    recon_1_dir = fullfile(base_directory, 'fbp');
+    if ~exist(recon_1_dir, 'dir')
+        disp(['dataset not found in: ', recon_1_dir])
+        disp('now downloading from ')
+        fbp_url = 'https://sandbox.zenodo.org/record/1205888/files/fbp.zip?download=1'
+        unzip(fbp_url, recon_1_dir);
+    end
+
+    recon_2_dir  = fullfile(base_directory, 'DL_denoised');
+    if ~exist(recon_2_dir, 'dir')
+        disp(['dataset not found in: ', recon_2_dir])
+        disp('now downloading from ')
+        dl_url = 'https://sandbox.zenodo.org/record/1205888/files/DL_denoised.zip?download=1'
+        unzip(dl_url, recon_2_dir);
+    end
+else
+    base_directory = fullfile(base_directory, 'small_dataset');
+    recon_1_dir = fullfile(base_directory, 'fbp');
+    recon_2_dir  = fullfile(base_directory, 'DL_denoised');
+end
+%% select a single dose level for this demo
+
+recon_1_dir = fullfile(recon_1_dir, ['dose_' num2str(dose, '%03d')]);
+recon_2_dir = fullfile(recon_2_dir, ['dose_' num2str(dose, '%03d')]);
 %% Next specify a ground truth image
 % This is used to determine the center of each lesion for Location Known Exactly (LKE) low contrast detection
 
-ground_truth_fname = fullfile('Sample_Data','MITA_LCD','ground_truth.mhd');
+ground_truth_fname = fullfile(base_directory,'fbp','ground_truth.mhd');
 offset = 1000;
 ground_truth = mhd_read_image(ground_truth_fname) - offset; %need to build in offset to dataset
 
-%% Select datasets
-% download if necesarry
-
-if use_large_dataset
-recon_1_dir = 'data/fbp';
-if ~exist(recon_1_dir, 'dir')
-    disp(['dataset not found in: ', recon_1_dir])
-    disp('now downloading from ')
-    fbp_url = 'https://sandbox.zenodo.org/record/1205888/files/fbp.zip?download=1'
-    unzip(fbp_url, 'data');
-end
-recon_1_dir = fullfile(recon_1_dir, ['dose_' num2str(dose)]);
-
+%% run
 recon_1_res = make_auc_curve(recon_1_dir, observers, ground_truth, offset);
 
 if is_octave
@@ -64,15 +83,6 @@ if is_octave
 else
   recon_1_res.recon(:) = "fbp";
 end
-%% re
-recon_2_dir  = 'data/DL_denoised';
-if ~exist(recon_2_dir, 'dir')
-    disp(['dataset not found in: ', recon_2_dir])
-    disp('now downloading from ')
-    dl_url = 'https://sandbox.zenodo.org/record/1205888/files/DL_denoised.zip?download=1'
-    unzip(dl_url, 'data')
-end
-recon_2_dir = fullfile(recon_2_dir, ['dose_' num2str(dose)]);
 
 recon_2_res = make_auc_curve(recon_2_dir, observers, ground_truth, offset);
 if is_octave
@@ -82,13 +92,21 @@ else
 end
 
 if is_octave
-  combined_res = vertcat(recon_1_res, recon_2_res);
+  res_table = vertcat(recon_1_res, recon_2_res);
 else
-  combined_res = cat(1, recon_1_res, recon_2_res);
+  res_table = cat(1, recon_1_res, recon_2_res);
 end
 
-write_lcd_results(combined_res, 'fbp_DL_auc_comparison.csv')
-%%
-plot_results(combined_res)
-
-
+%% save results
+fname = mfilename;
+output_fname = ['results_', fname(1:7), '.csv'];
+write_lcd_results(res_table, output_fname)
+%% plot results
+set_ylim = [];
+if use_large_dataset
+    set_ylim = [0.9 1.01];
+end
+if ~use_large_dataset
+    warning("`use_large_dataset` (line 31) is set to false`. This script is using a small dataset (10 repeat scans) to demonstrate usage of the LCD tool. For more accurate results, set `use_large_dataset = true`")
+end
+plot_results(res_table, set_ylim)

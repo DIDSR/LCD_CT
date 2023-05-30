@@ -63,7 +63,7 @@ for i=1:length(observers)
         if ~startsWith(name, 'dose_')
             error('please check that `base_directory` is named `dose_XXX` or contains a `dose_level` folder')
         end
-        dose_level_dirs.name = name;
+        dose_level_dirs.name = char(name);
         base_dir = filepath;
     end
 

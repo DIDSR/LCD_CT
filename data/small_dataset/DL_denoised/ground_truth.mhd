@@ -1,0 +1,6 @@
+ObjectType = Image
+NDims = 2
+BinaryDataByteOrderMSB = False
+DimSize = 256 256
+ElementType = MET_USHORT
+ElementDataFile = ground_truth.raw
