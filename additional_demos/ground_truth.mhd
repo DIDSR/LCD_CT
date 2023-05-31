@@ -1,0 +1,10 @@
+ObjectType = Image
+NDims = 2
+BinaryData = True
+BinaryDataByteOrderMSB = False
+CompressedData = False
+AnatomicalOrientation = RAI
+DimSize = 512  512
+ElementNumberOfChannels = 1
+ElementType = MET_DOUBLE
+ElementDataFile = ground_truth.raw

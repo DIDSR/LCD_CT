@@ -1,6 +1,6 @@
 function plot_objects = plot_results(results, set_ylim)
 % results can be a csv filename, Matlab Table, or 2D array
-% :param results: Table or csv filename of LCD results from `make_auc_curve`
+% :param results: Table or csv filename of LCD results from `measure_LCD`
 % :param set_ylim: y limits for plotting AUC
 % :param comparison: (default is none []) method for comparing different recons
 %% plotting examples

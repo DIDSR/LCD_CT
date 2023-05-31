@@ -77,7 +77,7 @@ ground_truth = mhd_read_image(ground_truth_fname) - offset; %need to build in of
 
 base_directory = fullfile(base_directory, ['dose_' num2str(dose, '%03d')]);
 %% run
-res_table = make_auc_curve(base_directory, observers, ground_truth, offset);
+res_table = measure_LCD(base_directory, observers, ground_truth, offset);
 
 if is_octave
   res_table.recon = recon_name;

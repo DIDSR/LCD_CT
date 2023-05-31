@@ -76,7 +76,7 @@ offset = 1000;
 ground_truth = mhd_read_image(ground_truth_fname) - offset; %need to build in offset to dataset
 
 %% run
-recon_1_res = make_auc_curve(recon_1_dir, observers, ground_truth, offset);
+recon_1_res = measure_LCD(recon_1_dir, observers, ground_truth, offset);
 
 if is_octave
   recon_1_res.recon = "fbp"
@@ -84,7 +84,7 @@ else
   recon_1_res.recon(:) = "fbp";
 end
 
-recon_2_res = make_auc_curve(recon_2_dir, observers, ground_truth, offset);
+recon_2_res = measure_LCD(recon_2_dir, observers, ground_truth, offset);
 if is_octave
   recon_2_res.recon = "DL denoised";
 else

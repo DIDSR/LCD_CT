@@ -1,7 +1,8 @@
-function xtrue = find_insert_centers(extrue, smoothing_window_size, search_range)
-  % :param extrue: high dose/low noise MITA-LCD image used to find centers
-  % :param smoothing_window_size: [optional]
-  % :param search_range: [optional]
+function xtrue = find_insert_centers(signal_present_image, smoothing_window_size, search_range)
+% given a signal-present MITA-LCD image with 14, 7, 5, and 3 HU inserts, segment the inserts and yield a noise-free ground truth mask
+% :param signal_present_image: high dose/low noise MITA-LCD signal-present image used to find centers
+% :param smoothing_window_size: [optional] defaults to 11 pixels wide. Larger values can be used to increase smoothing of image to help find circlular inserts in highly noisy images
+% :param search_range: [optional] circle radius serch range in pixels to detect circlar inserts. Try `help imfindcircles` to learn more
 
   if ~exist('smoothing_window_size', 'var')
     smoothing_window_size = 11;
@@ -11,8 +12,8 @@ function xtrue = find_insert_centers(extrue, smoothing_window_size, search_range
   if ~exist('search_range', 'var')
     search_range = [8 22]
   end
-  imshow(extrue,[]);
-  [c, r] = imfindcircles(medfilt2(extrue, [w w]), search_range);
+  imshow(signal_present_image,[]);
+  [c, r] = imfindcircles(medfilt2(signal_present_image, [w w]), search_range);
   viscircles(c, r)
   out = input('Please confirm segmentation quality [y] or n');
   if isempty(out)
@@ -20,7 +21,7 @@ function xtrue = find_insert_centers(extrue, smoothing_window_size, search_range
   end
   
   if out == 'y'
-    xtrue = createCirclesMask(extrue, c, r);
+    xtrue = createCirclesMask(signal_present_image, c, r);
   else
     xtrue = false;
   end

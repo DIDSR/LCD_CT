@@ -1,5 +1,5 @@
-function res_table = make_auc_curve(base_dir, observers, ground_truth, offset)
-% given a dataset calculate auc curves and return as a table ready for saving or plotting
+function res_table = measure_LCD(base_dir, observers, ground_truth, offset)
+% given a dataset calculate low contrast detectability as auc curves and return as a table ready for saving or plotting
 % 
 % :param base_dir: directory containing dataset
 % :param observers: list of observer objects or strings of name of
