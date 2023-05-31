@@ -48,16 +48,16 @@ if use_large_dataset
     if ~exist(recon_1_dir, 'dir')
         disp(['dataset not found in: ', recon_1_dir])
         disp('now downloading from ')
-        fbp_url = 'https://sandbox.zenodo.org/record/1205888/files/fbp.zip?download=1'
-        unzip(fbp_url, recon_1_dir);
+        fbp_url = 'https://sandbox.zenodo.org/record/1205888/files/fbp.zip'
+        unzip(fbp_url, base_directory);
     end
 
     recon_2_dir  = fullfile(base_directory, 'DL_denoised');
     if ~exist(recon_2_dir, 'dir')
         disp(['dataset not found in: ', recon_2_dir])
         disp('now downloading from ')
-        dl_url = 'https://sandbox.zenodo.org/record/1205888/files/DL_denoised.zip?download=1'
-        unzip(dl_url, recon_2_dir);
+        dl_url = 'https://sandbox.zenodo.org/record/1205888/files/DL_denoised.zip'
+        unzip(dl_url, base_directory);
     end
 else
     base_directory = fullfile(base_directory, 'small_dataset');

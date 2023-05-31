@@ -33,7 +33,7 @@ if use_large_dataset
     if ~exist(recon_1_dir, 'dir')
         disp(['dataset not found in: ', recon_1_dir])
         disp('now downloading from ')
-        fbp_url = 'https://sandbox.zenodo.org/record/1205888/files/fbp.zip?download=1'
+        fbp_url = 'https://sandbox.zenodo.org/record/1205888/files/fbp.zip'
         unzip(fbp_url, recon_1_dir);
     end
 
