@@ -20,35 +20,11 @@ Demos
 -----
 These demos are intended to be run linearly and demonstrate the use of the LCD-CT tool and how it can be used in more sophisticated loops to understand LCD relationships with different imaging conditions, lesions, and model observer types.
 
-0. Images from a Directory
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. autoscript:: demo_01_singlerecon_LCD.m
 
-`demo_00_images_from_directory.m <./_static/demo_00_images_from_directory.html>`_
+.. autoscript:: demo_02_tworecon_LCD.m
 
-- demonstrates basics of loading signal-absent and signal-present image series in a 3D array to run a single model-observer study using provided small dataset
-- This script also demonstrates how to load up multiple different types of Model Observer
-
-1. Repeated Studies
-^^^^^^^^^^^^^^^^^^^
-
-`demo_01_repeat_studies.m <./_static/demo_01_repeat_studies.m>`_
-
-- builds upon `demo_00_images_from_directory.m <./_static/demo_00_images_from_directory.html>`_ by demonstrating how to perform repeat studies to get a uncertainty estimates and export results to a csv file
-
-2. Multiple Dose Levels
-^^^^^^^^^^^^^^^^^^^^^^^
-
-`demo_02_multiple_dose_levels.m <./_static/demo_02_multiple_dose_levels.m>`_
-
-- builds upon `demo_01_repeat_studies.m <./_static/demo_01_repeat_studies.m>`_ by demonstrating how to perform repeat studies at multiple dose levels to get detectability (e.g. auc or snr) as a function of dose level for multiple different observers
-
-3. Accessing a large dataset
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-`demo_03_access_large_dataset.m <./_static/demo_03_access_large_dataset.m>`_
-
-- builds upon `demo_02_multiple_dose_levels.m <./_static/demo_02_multiple_dose_levels.m>`_ by demonstrating how to perform repeat studies at multiple dose levels to get detectability (e.g. auc or snr) as a function of dose level for multiple different observers
-- The large dataset used can be downloaded here:
+.. autoscript:: demo_03_tworecon_dosecurve_LCD.m
 
 .. image:: https://sandbox.zenodo.org/badge/DOI/10.5072/zenodo.1150650.svg
    :target: https://sandbox.zenodo.org/record/1150650
