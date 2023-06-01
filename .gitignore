@@ -8,3 +8,4 @@ mirt-main
 */.nfs0*
 *.asv
 octave-workspace
+*.zip

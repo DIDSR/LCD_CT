@@ -20,28 +20,19 @@ dose = 100;
 % download if necesarry
 base_directory = 'data';
 if use_large_dataset
-    base_directory = fullfile(base_directory, 'large_dataset');
-    recon_1_dir = fullfile(base_directory, 'fbp');
-    if ~exist(recon_1_dir, 'dir')
-        disp(['dataset not found in: ', recon_1_dir])
+    large_dataset_directory = fullfile(base_directory, 'large_dataset');
+    if ~exist(large_dataset_directory, 'dir')
+        disp(['dataset not found in: ', base_directory])
         disp('now downloading from ')
-        fbp_url = 'https://sandbox.zenodo.org/record/1205888/files/fbp.zip'
-        unzip(fbp_url, base_directory);
+        dataset_url = 'https://zenodo.org/record/7991067/files/large_dataset.zip'
+        unzip(dataset_url, base_directory);
     end
-
-    recon_2_dir  = fullfile(base_directory, 'DL_denoised');
-    if ~exist(recon_2_dir, 'dir')
-        disp(['dataset not found in: ', recon_2_dir])
-        disp('now downloading from ')
-        dl_url = 'https://sandbox.zenodo.org/record/1205888/files/DL_denoised.zip'
-        unzip(dl_url, base_directory);
-    end
+    base_directory = large_dataset_directory;
 else
     base_directory = fullfile(base_directory, 'small_dataset');
-    recon_1_dir = fullfile(base_directory, 'fbp');
-    recon_2_dir  = fullfile(base_directory, 'DL_denoised');
 end
-
+recon_1_dir = fullfile(base_directory, 'fbp');
+recon_2_dir  = fullfile(base_directory, 'DL_denoised');
 % The required structure used in this demo is given below in detail for one dose level,
 % note the XXX denotes other image files not shown:
 % Sample_Data/

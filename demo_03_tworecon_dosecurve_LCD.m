@@ -22,34 +22,24 @@ observers = {LG_CHO_2D()};
 %              DOG_CHO_2D(),...
 %              GABOR_CHO_2D(),...
 %              };
-%% Select datasets
-% download if necesarry
+
 %% Select datasets
 % download if necesarry
 base_directory = 'data';
 if use_large_dataset
-    base_directory = fullfile(base_directory, 'large_dataset');
-    recon_1_dir = fullfile(base_directory, 'fbp');
-    if ~exist(recon_1_dir, 'dir')
-        disp(['dataset not found in: ', recon_1_dir])
+    large_dataset_directory = fullfile(base_directory, 'large_dataset');
+    if ~exist(large_dataset_directory, 'dir')
+        disp(['dataset not found in: ', base_directory])
         disp('now downloading from ')
-        fbp_url = 'https://sandbox.zenodo.org/record/1205888/files/fbp.zip'
-        unzip(fbp_url, recon_1_dir);
+        dataset_url = 'https://zenodo.org/record/7991067/files/large_dataset.zip'
+        unzip(dataset_url, base_directory);
     end
-
-    recon_2_dir  = fullfile(base_directory, 'DL_denoised');
-    if ~exist(recon_2_dir, 'dir')
-        disp(['dataset not found in: ', recon_2_dir])
-        disp('now downloading from ')
-        dl_url = 'https://sandbox.zenodo.org/record/1205888/files/DL_denoised.zip?download=1'
-        unzip(dl_url, recon_2_dir);
-    end
+    base_directory = large_dataset_directory;
 else
     base_directory = fullfile(base_directory, 'small_dataset');
-    recon_1_dir = fullfile(base_directory, 'fbp');
-    recon_2_dir  = fullfile(base_directory, 'DL_denoised');
 end
-
+recon_1_dir = fullfile(base_directory, 'fbp');
+recon_2_dir  = fullfile(base_directory, 'DL_denoised');
 %% Next specify a ground truth image
 % This is used to determine the center of each lesion for Location Known Exactly (LKE) low contrast detection
 

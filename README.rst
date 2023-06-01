@@ -1,3 +1,6 @@
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.7991067.svg
+:target: https://doi.org/10.5281/zenodo.7991067
+
 Low Contrast Detectability for CT Toolbox
 =========================================
 **Low Contrast Detectability for CT (LCD-CT) Toolbox** provides a common interface to evaluate the low contrast detectability (LCD) performance of advanced nonlinear CT image reconstruction and denoising algorithms. The toolbox uses model observers (MO) to evaluate the LCD of targets with known locations in test images obtained with the `MITA-LCD phantom <https://www.phantomlab.com/catphan-mita>`_. The model oberver detection accuracy is measured by the area under the receiver operating characteristic curve (AUC) and the detectability signal-to-noise ratio (d’_{snr}).  The LCD-CT toolbox can be used by CT developers to perform initial evaluation on image quality impprovement or dose reduction potential of their reconstruction and denoising algorithms.
@@ -11,6 +14,8 @@ Low Contrast Detectability for CT Toolbox
    (*for paper*) Vaishnav, J.Y., Jung, W.C., Popescu, L.M., Zeng, R. and Myers, K.J. (2014), Objective assessment of image quality and dose reduction in CT iterative reconstruction. Med. Phys., 41: 071904. https://doi.org/10.1118/1.4881148
 
    (*for code*) ... the LCD-CT RST tool...
+
+   (*for data) Nelson, Brandon, Zeng, Rongping. CT Simulations of MITA Low Contrast Detectability Phantom for Model Observer Assessments. Published online May 31, 2023. doi:10.5281/zenodo.7991067
 
 *LCD-CT tool developers: Brandon Nelson, PhD, Prabhat Kc, PhD, Rongping Zeng, PhD*
 
@@ -34,14 +39,14 @@ Installation
 
     git clone https://github.com/DIDSR/LCD_CT
 
-Then open the LCD_CT directory in Matlab and run "demo_00_test_smalldata.m" to test the LCD estimation code .
+Then open the LCD_CT directory in Matlab or Octave and run `demo_01_singlerecon_LCD.m` to test the LCD estimation code .
 
-- Note that the LCD Phantom Creation code uses functions from Michigan Image Recosntruction Toolkit (MIRT). Following the following steps to make the MIRT functions ready in Matlab path to support the run of LCD phantom creation code: 
+- Note that the LCD Phantom Creation code uses functions from `Michigan Image Reconstruction Toolkit (MIRT) <https://github.com/JeffFessler/mirt>`_. If it is not already installed, it will be downloaded and installed automatically. If this does not work, this can be done manusally: 
 1) download MIRT from https://github.com/JeffFessler/mirt; 
 2) Upzip MIRT to a local directory; 
 3) In Matlab, Run the file "setup.m" in the MIRT local directory to add all the MIRT subdirectories to the MATLAB path;  
 
-Then test whether the setup is successful by runing "demo_test_phantomcreation.m".
+To test whether the setup is successful, run `demo_test_phantomcreation.m`.
 
 - LCD_CT is compatible with Octave, however some functions such as `medfilt2` are not loaded by default, follow the command line instructions, e.g.: `pkg load image` to have `medfilt2` available, this only needs to be done once for a given Octave session.
 
@@ -50,9 +55,11 @@ Getting Started
 
 After installing review the LCD RST Documentation https://lcd-ct.readthedocs.io/en/latest/ and the demos to learn how to use the tool to assess low contrast detectability:
 
-- demo_xx
-- demo_xx
-- ...
+- demo_01_singlerecon_LCD.m
+- demo_02_tworecon_LCD.m
+- demo_03_tworecon_dosecurve_LCD.m
+
+Additional demos of tool usage can be found in additional_demos
 
 .. image:: lcd_v_dose.png
         :width: 800
@@ -74,7 +81,7 @@ brandon.nelson@fda.hhs.gov; rongping.zeng@fda.hhs.gov
 License
 -------
 
-The project is licensed under the BSD license.
+The project is licensed under `Creative Commons Zero v1.0 Universal LICENSE`_.
 
 Alternatives
 ------------
