@@ -32,7 +32,7 @@ if ~exist('use_large_dataset', 'var')
     use_large_dataset = false;
 end
 
-dose = 100;
+dose = 10;
 
 observers = {LG_CHO_2D()};
 % observers = {LG_CHO_2D(),...
@@ -45,10 +45,7 @@ base_directory = 'data';
 if use_large_dataset
     large_dataset_directory = fullfile(base_directory, 'large_dataset');
     if ~exist(large_dataset_directory, 'dir')
-        disp(['dataset not found in: ', base_directory])
-        disp('now downloading from ')
-        dataset_url = 'https://zenodo.org/record/7991067/files/large_dataset.zip'
-        unzip(dataset_url, base_directory);
+        download_largedataset(base_directory)
     end
     base_directory = large_dataset_directory;
 else
@@ -96,7 +93,7 @@ write_lcd_results(res_table, output_fname)
 %% plot results
 set_ylim = [];
 if use_large_dataset
-    set_ylim = [0.9 1.01];
+    set_ylim = [0.7 1.01];
 end
 if ~use_large_dataset
     warning("`use_large_dataset` (line 31) is set to false`. This script is using a small dataset (10 repeat scans) to demonstrate usage of the LCD tool. For more accurate results, set `use_large_dataset = true`")

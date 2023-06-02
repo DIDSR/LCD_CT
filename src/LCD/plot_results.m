@@ -71,20 +71,20 @@ for inst_idx = 1:ninserts
     for obsv_idx = 1:nobservers
         for recon_idx = 1:nrecons
           if is_octave
-            recon_observer_pairs = strvcat([recons{recon_idx} ' ' observers{obsv_idx}], recon_observer_pairs);
+            recon_observer_pairs = strvcat(recon_observer_pairs, [recons{recon_idx} ' ' observers{obsv_idx}]);
           else
-            recon_observer_pairs = [recons(recon_idx) + " "...
-                                   + observers(obsv_idx), recon_observer_pairs];
+            recon_observer_pairs = [recon_observer_pairs
+                                    recons(recon_idx) + " " + observers(obsv_idx)];
           end
-            for dose_idx = 1:ndoses
-                table_filter = res_table.insert_HU == insert_HU & ...
-                               string(res_table.observer) == string(observers(obsv_idx)) & ...
-                               res_table.dose_level == dose_levels(dose_idx) & ...
-                               string(res_table.recon) == string(recons(recon_idx));
-                means(dose_idx, idx) = mean(res_table.auc(table_filter));
-                stds(dose_idx, idx) = std(res_table.auc(table_filter));
-            end
-            idx = idx + 1;
+          for dose_idx = 1:ndoses
+             table_filter = res_table.insert_HU == insert_HU & ...
+                            string(res_table.observer) == string(observers(obsv_idx)) & ...
+                            res_table.dose_level == dose_levels(dose_idx) & ...
+                            string(res_table.recon) == string(recons(recon_idx));
+             means(dose_idx, idx) = mean(res_table.auc(table_filter));
+             stds(dose_idx, idx) = std(res_table.auc(table_filter));
+          end
+          idx = idx + 1;
         end
     end
     subplot(subx,suby,inst_idx);

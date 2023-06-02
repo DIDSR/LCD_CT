@@ -18,21 +18,19 @@ if ~exist('use_large_dataset', 'var')
 end
 
 observers = {LG_CHO_2D()};
-% observers = {LG_CHO_2D(),...
-%              DOG_CHO_2D(),...
-%              GABOR_CHO_2D(),...
-%              };
+observers = {DOG_CHO_2D()}
+observers = {LG_CHO_2D(),...
+             DOG_CHO_2D(),...
+             GABOR_CHO_2D(),...
+             };
 
 %% Select datasets
 % download if necesarry
 base_directory = 'data';
 if use_large_dataset
-    large_dataset_directory = fullfile(base_directory, 'large_dataset');
+    fullfile(base_directory, 'large_dataset');
     if ~exist(large_dataset_directory, 'dir')
-        disp(['dataset not found in: ', base_directory])
-        disp('now downloading from ')
-        dataset_url = 'https://zenodo.org/record/7991067/files/large_dataset.zip'
-        unzip(dataset_url, base_directory);
+        download_largedataset(base_directory)
     end
     base_directory = large_dataset_directory;
 else
