@@ -1,5 +1,5 @@
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.7991067.svg
-:target: https://doi.org/10.5281/zenodo.7991067
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.7996580.svg
+   :target: https://doi.org/10.5281/zenodo.7996580
 
 Low Contrast Detectability for CT Toolbox
 =========================================
