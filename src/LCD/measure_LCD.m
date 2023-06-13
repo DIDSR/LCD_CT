@@ -99,6 +99,18 @@ for i=1:length(observers)
 
             sp_imgs = get_ROI_from_truth_mask(truth_mask, sp_raw_array, 2*crop_r);
             sa_imgs = get_ROI_from_truth_mask(truth_mask, sa_raw_array, 2*crop_r);
+            
+            % remove the dc component in images which human eyes do not perceive.
+            for i_sp = 1:size(sp_imgs,3)
+                 dummy = sp_imgs(:,:,i_sp);
+                 dc_val = mean(dummy(:));
+                 sp_imgs(:,:,i_sp) = sp_imgs(:,:,i_sp)-dc_val;
+             end
+             for i_sa = 1:size(sa_imgs,3)
+                 dummy = sa_imgs(:,:,i_sa);
+                 dc_val = mean(dummy(:));
+                 sa_imgs(:,:,i_sa) = sa_imgs(:,:,i_sa)-dc_val;
+             end
 
            for n=1:n_reader
                [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs, pct_split, seed_split(n));
