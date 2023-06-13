@@ -1,10 +1,11 @@
-function [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs, split_pct)
+function [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs, split_pct, seed_val)
 % [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs, split_pct)
 % === inputs: === 
 %
 %  1. sa_imgs: 3D array of signal absent images
 %  2. sp_imgs: 3D array of signal present images
 %  3. split_pct: percent of images to be used for training, remainder (1 - split_pct) to be used for testing
+%  4. seed_val:  seed value to control the random generator
 %
 % === outputs: === 
 % 1. sa_train: training set of sample absent images
@@ -19,11 +20,16 @@ if ~exist('split_pct', 'var')
     split_pct = 0.5;
 end
 
+if ~exist('seed_val','var')
+    seed_val = randi(10000);
+end
+
 n_sp = size(sp_imgs, 3);
 n_sa = size(sa_imgs, 3);
 n_sp_train = round(n_sp*split_pct);
 n_sa_train = round(n_sa*split_pct);
 
+rng(seed_val);
 idx_sa = randperm(n_sa);
 idx_sp = randperm(size(sp_imgs, 3));
 
