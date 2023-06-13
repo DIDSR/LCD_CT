@@ -46,14 +46,17 @@ offset = 1000;
 ground_truth = mhd_read_image(ground_truth_fname) - offset; %need to build in offset to dataset
 
 %% run
-recon_1_res = measure_LCD(recon_1_dir, observers, ground_truth, offset);
+nreader = 10;   
+pct_split = 0.6
+seed_split = randi(1000, nreader,1);
+recon_1_res = measure_LCD(recon_1_dir, observers, ground_truth, offset, nreader, pct_split, seed_split);
 if is_octave
   recon_1_res.recon = "fbp"
 else
   recon_1_res.recon(:) = "fbp";
 end
 
-recon_2_res = measure_LCD(recon_2_dir, observers, ground_truth, offset);
+recon_2_res = measure_LCD(recon_2_dir, observers, ground_truth, offset, nreader, pct_split, seed_split);
 if is_octave
   recon_2_res.recon = "DL denoised";
 else
