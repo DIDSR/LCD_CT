@@ -83,6 +83,23 @@ plot_results(res_table, set_ylim)
 
 res_table
 
+%print mean and standard deviation results
+nreader = size(res_table,1)/4;
+for i=1:4
+    mean_AUC(i) = mean(res_table.auc([1:nreader]+(i-1)*nreader));
+    std_AUC(i) = std(res_table.auc([1:nreader]+(i-1)*nreader));
+    mean_snr(i) = mean(res_table.snr([1:nreader]+(i-1)*nreader));
+    std_snr(i) = std(res_table.snr([1:nreader]+(i-1)*nreader));
+end
+
+insert_HU = res_table.insert_HU(1:nreader:end);
+mean_AUC = mean_AUC(:);
+std_AUC = std_AUC(:)
+mean_snr = mean_snr(:);
+std_snr = std_snr(:)
+AUC_res = table(insert_HU, mean_AUC, std_AUC, mean_snr, std_snr);
+AUC_res
+
 if ~use_large_dataset
     warning("`use_large_dataset` (line 15) is set to false`. This script is using a small dataset (10 repeat scans) to demonstrate usage of the LCD tool. For more accurate results, set `use_large_dataset = true`")
 end
