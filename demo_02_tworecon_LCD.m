@@ -125,6 +125,6 @@ mean_diffAUC = mean_diffAUC(:);
 std_diffAUC = std_diffAUC(:);
 mean_diffSNR = mean_diffSNR(:);
 std_diffSNR = std_diffSNR(:);
-diffAUC_res = table(insert_HU, mean_diffAUC, std_dliffAUC, mean_diffSNR, std_diffSNR);
+diffAUC_res = table(insert_HU, mean_diffAUC, std_diffAUC, mean_diffSNR, std_diffSNR);
 diffAUC_res
 
