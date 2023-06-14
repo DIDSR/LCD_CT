@@ -3,21 +3,13 @@
 % uniform phantom. This generates multiple noisy realizations. Noise level 
 % is specified by 'I0'.
 %
- 
-close all; 
 % ------ Note -----
 % The CT simulation is implemented based on the Michigan Image Reconstruction Toolbox (MIRT). 
 % MIRT is downloaded the first time when the phantom creation code runs:
 %   1. Download MIRT from https://github.com/JeffFessler/mirt to a local directory.
 %   2. Include MIRT functions to the Matlab path by running "setup.m" in MIRT
 
-if ~exist('mirt-main', 'dir')
-unzip('https://github.com/JeffFessler/mirt/archive/refs/heads/main.zip', '.');
-end
-irtdir = 'mirt-main';
-addpath(irtdir)
-setup
-%-------------------
+close all; 
 
 % ------ define the CT scanner setting ------
 CT_setup;   %this will load in CT parameters. See "CT_setup.m" for details. 
