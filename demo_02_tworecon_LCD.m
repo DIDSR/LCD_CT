@@ -128,3 +128,6 @@ std_diffSNR = std_diffSNR(:);
 diffAUC_res = table(insert_HU, mean_diffAUC, std_diffAUC, mean_diffSNR, std_diffSNR);
 diffAUC_res
 
+if ~use_large_dataset
+    warning("`use_large_dataset` (line 15) is set to false`. This script is using a small dataset (10 repeat scans) to demonstrate usage of the LCD tool. For more accurate results, set `use_large_dataset = true`")
+end
