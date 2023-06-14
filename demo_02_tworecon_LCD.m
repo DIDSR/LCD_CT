@@ -76,7 +76,7 @@ else
   recon_1_res.recon(:) = "fbp";
 end
 
-recon_2_res = measure_LCD(recon_2_dir, observers, ground_truth, offset, pct_split, seed_split);
+recon_2_res = measure_LCD(recon_2_dir, observers, ground_truth, offset, nreader, pct_split, seed_split);
 if is_octave
   recon_2_res.recon = "DL denoised";
 else
@@ -112,7 +112,19 @@ diff_res.auc = diff_auc;
 diff_res.recon(:) = "DL denoised - fbp";
 plot_results(diff_res)
 
+%print the mean and std results of difference AUC/SNR
+diff_snr = recon_2_res.snr - recon_1_res.snr;
 for i=1:4
-    mean_std_diff_auc(i,:)=[mean(diff_auc([1:10]+(i-1)*10)) std(diff_auc([1:10]+(i-1)*10))];
+    mean_diffAUC(i) = mean(diff_auc([1:nreader]+(i-1)*nreader));
+    std_diffAUC(i) = std(diff_auc([1:nreader]+(i-1)*nreader));
+    mean_diffSNR(i) = mean(diff_snr([1:nreader]+(i-1)*nreader));
+    std_diffSNR(i) = std(diff_snr([1:nreader]+(i-1)*nreader));
 end
-mean_std_diff_auc
+insert_HU = diff_res.insert_HU(1:nreader:end);
+mean_diffAUC = mean_diffAUC(:);
+std_diffAUC = std_diffAUC(:);
+mean_diffSNR = mean_diffSNR(:);
+std_diffSNR = std_diffSNR(:);
+diffAUC_res = table(insert_HU, mean_diffAUC, std_dliffAUC, mean_diffSNR, std_diffSNR);
+diffAUC_res
+
