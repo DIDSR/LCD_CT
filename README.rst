@@ -17,7 +17,7 @@ Low Contrast Detectability for CT Toolbox
 
    (*for data) Nelson, Brandon, Zeng, Rongping. CT Simulations of MITA Low Contrast Detectability Phantom for Model Observer Assessments. Published online May 31, 2023. doi:10.5281/zenodo.7991067
 
-*LCD-CT tool developers: Brandon Nelson, PhD, Rongping Zeng, PhD*
+*LCD-CT tool developers: Brandon Nelson, PhD, Prabhat Kc, PhD, Rongping Zeng, PhD*
 
 Disclaimer
 --------
