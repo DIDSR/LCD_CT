@@ -46,7 +46,7 @@ Then open the LCD_CT directory in Matlab or Octave and run `demo_01_singlerecon_
 2) Upzip MIRT to a local directory; 
 3) In Matlab, Run the file "setup.m" in the MIRT local directory to add all the MIRT subdirectories to the MATLAB workspace;  
 
-To test whether the setup is successful, run `demo_test_phantomcreation.m`.
+To test whether the setup is successful, run **demo_test_phantomcreation.m**.
 
 - LCD_CT is compatible with Octave, however some functions such as `medfilt2` are not loaded by default, follow the command line instructions, e.g.: `pkg load image` to have `medfilt2` available, this only needs to be done once for a given Octave session.
 
@@ -55,9 +55,9 @@ Getting Started
 
 After installing review the LCD RST Documentation https://lcd-ct.readthedocs.io/en/latest/ and the demos to learn how to use the tool to assess low contrast detectability:
 
-- demo_01_singlerecon_LCD.m
-- demo_02_tworecon_LCD.m
-- demo_03_tworecon_dosecurve_LCD.m
+- **demo_01_singlerecon_LCD.m**
+- **demo_02_tworecon_LCD.m**
+- **demo_03_tworecon_dosecurve_LCD.m**
 
 Additional demos of tool usage can be found in additional_demos.
 
