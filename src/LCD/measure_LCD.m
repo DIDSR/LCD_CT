@@ -56,7 +56,7 @@ end
 %% iterate through conditions
 
 dose = [];
-n_reader = 10;
+#n_reader = 10;
 
 observer = [];
 dose_level = [];
