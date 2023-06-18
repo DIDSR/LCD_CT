@@ -1,17 +1,15 @@
 function [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs, split_pct, seed_val)
-% [sa_train, sa_test, sp_train, sp_test] = train_test_split(sa_imgs, sp_imgs, split_pct)
-% === inputs: === 
+% split signal absent and signal present images into training and testing sets
 %
-%  1. sa_imgs: 3D array of signal absent images
-%  2. sp_imgs: 3D array of signal present images
-%  3. split_pct: percent of images to be used for training, remainder (1 - split_pct) to be used for testing
-%  4. seed_val:  seed value to control the random generator
+%  :param sa_imgs: 3D array of signal absent images
+%  :param sp_imgs: 3D array of signal present images
+%  :param split_pct: percent of images to be used for training, remainder (1 - split_pct) to be used for testing
+%  :param seed_val:  seed value to control the random generator
 %
-% === outputs: === 
-% 1. sa_train: training set of sample absent images
-% 2. sa_test: testing set of sample absent images
-% 3. sp_train: training set of sample present images
-% 4. sp_train: testing set of sample present images
+% :return sa_train: training set of sample absent images
+% :return sa_test: testing set of sample absent images
+% :return sp_train: training set of sample present images
+% :return sp_train: testing set of sample present images
 %
 %    Example:
 %       train_test_split(rand(64, 64, 10), rand(64, 64, 10), 0.3)

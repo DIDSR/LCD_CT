@@ -2,15 +2,13 @@ function res_table = measure_LCD(base_dir, observers, ground_truth, offset, n_re
 % given a dataset calculate low contrast detectability as auc curves and return as a table ready for saving or plotting
 % 
 % :param base_dir: directory containing dataset
-% :param observers: list of observer objects or strings of name of
-% observers. Options: LG_CHO_2D, DOG_CHO_2D, GABOR_CHO_2D
-% :param ground_truth: image or filename of image with no noise of MITA LCD
-% phantom, see `approximate_xtrue` for details on how to turn repeat 
-% :param offset:
+% :param observers: list of observer objects or strings of name of observers. Options: LG_CHO_2D, DOG_CHO_2D, GABOR_CHO_2D
+% :param ground_truth: image or filename of image with no noise of MITA LCD phantom, see `approximate_groundtruth` for details on how to turn repeat scans into a ground truth image
+% :param offset: an optional offset subtracted from each image (default 0)
 % :param n_reader: number of readers (default is 10)
 % :param pct_split: percent of images to be used for training, remainder (1 - split_pct) to be used for testing
 % :param seed_split: 1d vector containing 'nreader' of random seed values. 
-% :
+% 
 % :return res_table: table ready for saving or plotting
 
 %% define observers

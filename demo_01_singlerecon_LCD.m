@@ -83,8 +83,12 @@ plot_results(res_table, set_ylim)
 
 res_table
 
-%print mean and standard deviation results
-nreader = size(res_table,1)/4;
+%% make summary tables
+%% use `groupsummary` to summarize results by observer, recon, insert and
+% dose level
+groupsummary(res_table, ["observer", "recon", "insert_HU", "dose_level"],["mean", "std"])
+%% or define a custom summary table by printing mean and standard deviation results
+nreader = max(res_table.reader);
 for i=1:4
     mean_AUC(i) = mean(res_table.auc([1:nreader]+(i-1)*nreader));
     std_AUC(i) = std(res_table.auc([1:nreader]+(i-1)*nreader));
