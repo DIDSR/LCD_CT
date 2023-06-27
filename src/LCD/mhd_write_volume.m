@@ -85,8 +85,10 @@ for i=1:(size(raw_,2)-1)
     raw = [raw  raw_{i} '.'];
 end
 rawfile = [raw 'raw'];
-rawfilename_ = regexp(rawfile,'/','split');
-rawfilename = rawfilename_{size(rawfilename_,2)};
+% rawfilename_ = regexp(rawfile,'/','split');
+% rawfilename = rawfilename_{size(rawfilename_,2)};
+[~,rawfilename_, ext] = fileparts(rawfile)
+rawfilename = [rawfilename_, '.raw'];
 % write *.mhd file
 fid=fopen(filename,'w','native');
 fprintf(fid,'ObjectType = Image\n');
