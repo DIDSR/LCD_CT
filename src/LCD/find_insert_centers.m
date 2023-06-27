@@ -15,7 +15,7 @@ function xtrue = find_insert_centers(signal_present_image, smoothing_window_size
   imshow(signal_present_image,[]);
   [c, r] = imfindcircles(medfilt2(signal_present_image, [w w]), search_range);
   viscircles(c, r)
-  out = input('Please confirm segmentation quality [y] or n');
+  out = input('Please confirm segmentation quality [y] or n: ', 's');
   if isempty(out)
     out = 'y'
   end

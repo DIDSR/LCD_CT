@@ -99,7 +99,7 @@ for inst_idx = 1:ninserts
         colorVec = {'b', 'r', 'y', 'm', 'g', 'c'};
         c_idx = 1;
         if ~is_octave
-          for i =1:length(plot_objects)
+          for i =1:length(plot_objects(inst_idx).series)
               if mod(i, nrecons)==0
                   plot_objects(inst_idx).series(i).LineStyle = '--';
                   plot_objects(inst_idx).series(i).Color = colorVec{c_idx};
