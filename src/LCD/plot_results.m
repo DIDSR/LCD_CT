@@ -61,7 +61,7 @@ switch ninserts
     subx = 2; suby = 2;
 end
 
-
+plot_objects = []
 for inst_idx = 1:ninserts
     means = zeros(ndoses, nobservers*nrecons);
     stds = zeros(ndoses, nobservers*nrecons);
@@ -88,30 +88,31 @@ for inst_idx = 1:ninserts
         end
     end
     subplot(subx,suby,inst_idx);
-    plot_objects = [];
+    plot_objects(inst_idx).series = [];
     if length(dose_levels) < 2 & ~is_octave
        bar(categorical(recon_observer_pairs), means)
        hold on
        errorbar(categorical(recon_observer_pairs), means, stds, "LineStyle","none")
        hold off
     else
-        plot_objects = errorbar(repmat(dose_levels, [1 nobservers*nrecons]), means, stds);
+        plot_objects(inst_idx).series = errorbar(repmat(dose_levels, [1 nobservers*nrecons]), means, stds);
         colorVec = {'b', 'r', 'y', 'm', 'g', 'c'};
         c_idx = 1;
         if ~is_octave
           for i =1:length(plot_objects)
               if mod(i, nrecons)==0
-                  plot_objects(i).LineStyle = '--';
-                  plot_objects(i).Color = colorVec{c_idx};
+                  plot_objects(inst_idx).series(i).LineStyle = '--';
+                  plot_objects(inst_idx).series(i).Color = colorVec{c_idx};
                   c_idx = c_idx + 1;
               else
-                  plot_objects(i).LineStyle = '-';
-                  plot_objects(i).Color = colorVec{c_idx};
+                  plot_objects(inst_idx).series(i).LineStyle = '-';
+                  plot_objects(inst_idx).series(i).Color = colorVec{c_idx};
               end
           end
-        end    
+        end
         xlabel('dose level %')
-        legend(recon_observer_pairs)
+        leg = legend(recon_observer_pairs);
+        plot_objects(inst_idx).legend = leg;
     end
     switch insert_HU
         case 3
