@@ -1,9 +1,9 @@
 % this script demonstrates how to use the `approximate_groundtruth`
 % function to generate a ground truth mask for location known exactly low
 % contrast detectability.
-fname = dir([mfilename('fullpath'), '.m']);
-[fpath, fname, ~] = fileparts(fname.folder);
-if fname == "additional_demos"
+curdir = pwd;
+[fpath, fname, ~] = fileparts(curdir);
+if string(fname) == "additional_demos"
     cd('..')
 end
 addpath(genpath('src'))

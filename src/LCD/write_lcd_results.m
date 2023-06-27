@@ -7,6 +7,9 @@ function fname = write_lcd_results(res_table, fname)
 if is_octave
   headers = ["observer,recon,insert_HU,dose_level,snr,auc,reader"];
   fid = fopen(fname, 'w'); fdisp(fid, headers);
+  if is_octave
+    res_table.recon = strvcat(res_table.recon);
+  end
   for r=1:length(res_table.dose_level)
   fprintf(fid, "%s, %s, %d, %d, %f, %f, %d\n",...
           res_table.observer(r, :),...

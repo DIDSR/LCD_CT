@@ -86,7 +86,9 @@ res_table
 %% make summary tables
 %% use `groupsummary` to summarize results by observer, recon, insert and
 % dose level
-groupsummary(res_table, ["observer", "recon", "insert_HU", "dose_level"],["mean", "std"])
+if ~is_octave
+  groupsummary(res_table, ["observer", "recon", "insert_HU", "dose_level"],["mean", "std"])
+end
 %% or define a custom summary table by printing mean and standard deviation results
 nreader = max(res_table.reader);
 for i=1:4
