@@ -2,6 +2,7 @@ function ground_truth = approximate_groundtruth(base_directory, ground_truth_fil
 % given a `base_directory` with many repeat scans of signal-present and signal-absent images estimate a ground truth image by avaging the repeat images and subtracting background images to get signal only images. Filtering and segmentation are applied to approximate ground truth masks with no noise.
 %
 % :param base_directory: directory containing `dose_100` directory and two subdirectories `signal_present` and `signal_absent` each with repeat images like so:
+%
 % |-- dose_100
 % |   |-- signal_absent
 % |   |   |-- signal_absent_001.raw
@@ -13,6 +14,7 @@ function ground_truth = approximate_groundtruth(base_directory, ground_truth_fil
 % |       |-- signal_present_002.raw
 % |       |-- signal_present_XXX.raw
 % |       |-- signal_present.mhd
+%
 % :param ground_truth_filename: [optional] full pathname to the file where the estimagte ground truth image will be saved to. Defaults to `ground_truth.mhd`
 % :param offset: [optional] subtract a constant HU value from all pixels. Can be useful if loading from int16 images where only positive values ares kept, thus subtracting an offset would yield the correct HU alues, say negative values in air.
 %
