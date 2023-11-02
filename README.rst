@@ -13,7 +13,7 @@ Low Contrast Detectability for CT Toolbox
 - **How to cite** 
    (*for paper*) Vaishnav, J.Y., Jung, W.C., Popescu, L.M., Zeng, R. and Myers, K.J. (2014), Objective assessment of image quality and dose reduction in CT iterative reconstruction. Med. Phys., 41: 071904. https://doi.org/10.1118/1.4881148
 
-   (*for tool*) LCD-CT: Low-contrast detectability (LCD) test for assessing advanced nonlinear CT image reconstruction and denoising methods. (*the OSEL LCD-CT RST link to be added*)
+   (*for tool*) LCD-CT: Low-contrast detectability (LCD) test for assessing advanced nonlinear CT image reconstruction and denoising methods. https://www.fda.gov/medical-devices/science-and-research-medical-devices/lcd-ct-low-contrast-detectability-lcd-test-assessing-advanced-nonlinear-ct-image-reconstruction-and
 
    (*for data*)  Nelson, Brandon, Zeng, Rongping. CT Simulations of MITA Low Contrast Detectability Phantom for Model Observer Assessments. Published online June 1st, 2023. doi:10.5281/zenodo.7996580 
 
