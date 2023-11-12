@@ -18,7 +18,7 @@ To check that everything installed and is functioning correctly, change director
 
    > test
    
- All tests running to completion without errors indicates the software is working as expected, please follow any error messages and consult our FAQ section for more details regarding installation issues. 
+ All tests running to completion without errors indicates the software is working as expected, please follow any error messages and consult our :doc:`faq` section for more details regarding installation issues. 
 
 Users
 -----
