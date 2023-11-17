@@ -85,7 +85,7 @@ License
 
 The project is licensed under `Creative Commons Zero v1.0 Universal LICENSE`_.
 
-Alternatives
+Additional resources
 ------------
 
 - DIDSR/IQModelo: https://github.com/DIDSR/IQmodelo
