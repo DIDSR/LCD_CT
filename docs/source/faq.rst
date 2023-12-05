@@ -2,6 +2,7 @@ Frequently Asked Questions
 ==========================
 
 1. errors when running with Octave for the first time
+-----------------------------------------------------
 
 Many linux distributions come with an older version of Octave (typically Octave 4.4) which are incompatible with newer libraries such as Image or tablicious which we use in this tool. If using an older version of Octave you might get error messages like the following:
 
