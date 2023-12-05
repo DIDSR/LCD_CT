@@ -34,10 +34,9 @@ If you'd like to contribute to the code or documentation of this project, please
    usage
    api
    contributing
+   faq
    :maxdepth: 2
    :caption: Contents:
-
-
 
 Indices and tables
 ==================

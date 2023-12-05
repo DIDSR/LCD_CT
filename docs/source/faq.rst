@@ -19,6 +19,7 @@ A straightforward way to get a newer version of Octave is with Conda as recommen
 First in a shell terminal create an environment, install octave and a c++ compiler
 
 .. code-block:: shell
+
   conda create --name octave
   conda activate octave
   conda install -c conda-forge octave
@@ -27,6 +28,7 @@ First in a shell terminal create an environment, install octave and a c++ compil
 Then in octave install the packages
 
 .. code-block:: octave
+
   octave:1> pkg install -forge image
   octave:2> pkg install https://github.com/apjanke/octave-tablicious/releases/download/v0.3.7/tablicious-0.3.7.tar.gz
   octave:3> pkg load image tablicious
@@ -34,4 +36,5 @@ Then in octave install the packages
 Now retry rerunning the `test.m`
 
 .. code-block:: shell
+
     octave test.m
