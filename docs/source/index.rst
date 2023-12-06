@@ -40,9 +40,19 @@ Note: this can take about 10 minutes to complete.
 
 3. Test the installation
 
-- From the bash command line `octave test.m` or `matlab -batch test.m`
+- From the bash command line:
 
-- From the Matlab or Octave interactive prompt
+.. tabs::
+
+   .. group-tab:: Octave
+
+      octave test.m
+
+   .. group-tab:: Matlab
+
+      matlab -batch test.m
+
+- From the Matlab or Octave interactive prompt:
 
 .. code-block:: octave
 

@@ -22,7 +22,8 @@ extensions = ['sphinxcontrib.matlab',
               'sphinx.ext.autodoc',
               'sphinx.ext.duration',
               'sphinx.ext.doctest',
-              'sphinx.ext.autosummary']
+              'sphinx.ext.autosummary',
+              'sphinx_tabs.tabs']
 
 templates_path = ['_templates']
 exclude_patterns = []
