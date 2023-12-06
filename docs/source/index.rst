@@ -20,14 +20,24 @@ Introduction
 Installation
 ------------
 
+.. _version requirements:
+
+**Requirements**
+
+- Matlab (**version > R2016a**) *or* Octave (**version > 4.4**)
+- If the above Matlab or Octave requirements are not met, then `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ is required to install Octave (See step 2 below).
+
+If required versions of Matlab or Octave are not available on your system (see how to get `matlab version <https://www.mathworks.com/help/matlab/ref/version.html>`_ or `octave version <https://docs.octave.org/v4.4.0/System-Information.html#XREFversion>`_) then see `installation`_ for how to setup an Octave environment to run LCD-CT.
+
+
 1. Git clone the LCD-CT Toolbox repository:
 
 .. code-block:: shell
 
     git clone https://github.com/DIDSR/LCD_CT
+    cd LCD_CT
 
-2. *If neither Matlab or Octave are installed or do not meet the `version requirments`_, you can source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. Or run the following lines in your command prompt:
-
+2. *If neither Matlab or Octave are installed or do not meet the **version requirements**, you can source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. Or run the following lines in your command prompt:
 
 .. code-block:: shell
 
@@ -36,7 +46,7 @@ Installation
    conda install -c conda-forge cxx-compiler -y
    octave --eval 'pkg install -forge image; pkg install https://github.com/apjanke/octave-tablicious/releases/download/v0.3.7/tablicious-0.3.7.tar.gz; pkg load image tablicious'
 
-Note: this can take about 10 minutes to complete.
+Note: this can take about 10-30 minutes to complete.
 
 3. Test the installation
 
