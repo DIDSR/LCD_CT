@@ -1,6 +1,8 @@
 Frequently Asked Questions
 ==========================
 
+
+
 1. errors when running with Octave for the first time
 -----------------------------------------------------
 
@@ -40,3 +42,20 @@ Now retry rerunning the `test.m`
 .. code-block:: shell
 
     octave test.m
+
+2. Matlab version errors
+------------------------
+
+Both of the error messages below indicate an imcompatible Matlab version (Release before 2016b). To avoid this error consider following the Octave install instructions above
+
+.. code-block:: octave
+
+    ??? Error using ==> test at 10
+    Detected version of Matlab: 2007b < (2016b)
+
+or
+
+.. code-block:: octave
+
+    ??? Error: File: ~/LCD_CT/demo_01_singlerecon_LCD.m Line: 13 Column: 14
+    The input character is not valid in MATLAB statements or expressions.
