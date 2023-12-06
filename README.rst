@@ -39,7 +39,13 @@ Installation
 
     git clone https://github.com/DIDSR/LCD_CT
 
-Then open the LCD_CT directory in Matlab or Octave and run `demo_01_singlerecon_LCD.m` to test the LCD estimation code .
+Then open the LCD_CT directory in Matlab (**version > R2016a**) or Octave (**version > 4.4**) and run `demo_01_singlerecon_LCD.m` to test the LCD estimation code.
+
+If neither Matlab or Octave are installed, or you do not have an appropriate version please see `install.sh` to prepare an environment
+
+.. code-block:: shell
+
+        source install.sh
 
 - Note that the LCD Phantom Creation code uses functions from `Michigan Image Reconstruction Toolkit (MIRT) <https://github.com/JeffFessler/mirt>`_. If it is not already installed, it will be downloaded and installed automatically when 'demo_test_phantomcreation.m' is run. If the automatic download does not work (possibly due to matlab upzip() function did not successfully extracted all the files), this can be done manually: 
 1) download MIRT from https://github.com/JeffFessler/mirt; 
