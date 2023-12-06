@@ -8,17 +8,45 @@ Welcome to LCD for CT Toolbox's documentation!
 
 This documentation provides information regarding how to download, install, and use the LCD for CT Toolbox which is designed to low contrast detectactability in CT images.
 
-Install
--------
-Install Low Contrast Detectability for CT Toolbox by locally cloning the repository:
+Introduction
+------------
 
-   git clone https://github.com/DIDSR/LCD_CT
+**Low Contrast Detectability for CT (LCD-CT) Toolbox** provides a common interface to evaluate the low contrast detectability (LCD) performance of advanced nonlinear CT image reconstruction and denoising algorithms. The toolbox uses model observers (MO) to evaluate the LCD of targets with known locations in test images obtained with the `MITA-LCD phantom <https://www.phantomlab.com/catphan-mita>`_. The model oberver detection accuracy is measured by the area under the receiver operating characteristic curve (AUC) and the detectability signal-to-noise ratio (d’_{snr}).  The LCD-CT toolbox can be used by CT developers to perform initial evaluation on image quality impprovement or dose reduction potential of their reconstruction and denoising algorithms.
 
-To check that everything installed and is functioning correctly, change directory into the repository directory in Matlab or Octave and run the "test" command
+.. image:: https://github.com/DIDSR/LCD_CT/blob/main/diagram.png
+        :width: 800
+        :align: center
 
-   > test
-   
- All tests running to completion without errors indicates the software is working as expected, please follow any error messages and consult our :doc:`faq` section for more details regarding installation issues. 
+Installation
+------------
+
+1. Git clone the LCD-CT Toolbox repository:
+
+.. code-block:: shell
+
+    git clone https://github.com/DIDSR/LCD_CT
+
+2. *If neither Matlab or Octave are installed or do not meet the `version requirments`_, you can source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. Or run the following lines in your command prompt:
+
+
+.. code-block:: shell
+
+   conda create --name octave -y && conda activate octave
+   conda install -c conda-forge octave -y
+   conda install -c conda-forge cxx-compiler -y
+   octave --eval 'pkg install -forge image; pkg install https://github.com/apjanke/octave-tablicious/releases/download/v0.3.7/tablicious-0.3.7.tar.gz; pkg load image tablicious'
+
+Note: this can take about 10 minutes to complete.
+
+3. Test the installation
+
+- From the bash command line `octave test.m` or `matlab -batch test.m`
+
+- From the Matlab or Octave interactive prompt
+
+.. code-block:: octave
+
+        >> test
 
 Users
 -----
@@ -42,5 +70,4 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
