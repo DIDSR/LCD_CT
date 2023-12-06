@@ -44,13 +44,17 @@ Note: this can take about 10 minutes to complete.
 
 .. tabs::
 
-   .. group-tab:: Octave
+   .. tab:: Octave
 
-      octave test.m
+      .. code-block:: shell
 
-   .. group-tab:: Matlab
+         $ octave test.m
 
-      matlab -batch test.m
+   .. tab:: Matlab
+
+      .. code-block:: shell
+
+         $ matlab -batch test.m
 
 - From the Matlab or Octave interactive prompt:
 
