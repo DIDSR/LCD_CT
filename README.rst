@@ -84,7 +84,7 @@ Additional demos of tool usage can be found in `additional_demos <https://github
 
 **Accessing the Large Dataset**
 
-By default the supplied demos and test scripts will use the `small dataset <https://github.com/DIDSR/LCD_CT/tree/main/data/small_dataset>`_ (155 images, 16 MB)included in the repository. The boolean `use_large_dataset` is set to False by default https://github.com/DIDSR/LCD_CT/blob/aa9a907376a413d2b87c434590c033d812e2ac75/test.m#L6
+By default the supplied demos and test scripts will use the `small dataset <https://github.com/DIDSR/LCD_CT/tree/main/data/small_dataset>`_ (155 images, 16 MB) included in the repository. The boolean `use_large_dataset` is set to False by default https://github.com/DIDSR/LCD_CT/blob/aa9a907376a413d2b87c434590c033d812e2ac75/test.m#L6
 
 Changing the variable to true followed by rerunning any of the scripts will download from `Zenodo <https://zenodo.org/record/7996580>`_ the large dataset (1.3 GB) and use it in subsequent analyses
 
