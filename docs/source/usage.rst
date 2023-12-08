@@ -14,7 +14,7 @@ Intended users are CT device developers and  image denoising and processing soft
 
 .. _LLZ: https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPCD/classification.cfm?id=5654
 
-The LCD performance obtained using the LCD-CT tools can help the assessment of image quality imprvoment and quantitative dose reduction potential of advanced nonlinear CT image reconstruction and denoising methods with respect to a reference reconstruction option such as the FBP method. 
+The LCD performance obtained using the LCD-CT tools can help the assessment of image quality improvement and quantitative dose reduction potential of advanced nonlinear CT image reconstruction and denoising methods with respect to a reference reconstruction option such as the FBP method. 
 
 Demos
 -----
