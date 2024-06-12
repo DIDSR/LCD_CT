@@ -27,7 +27,9 @@ n_sa = size(sa_imgs, 3);
 n_sp_train = round(n_sp*split_pct);
 n_sa_train = round(n_sa*split_pct);
 
-rng(seed_val);
+if ~is_octave
+    rng(seed_val);
+end
 idx_sa = randperm(n_sa);
 idx_sp = randperm(size(sp_imgs, 3));
 

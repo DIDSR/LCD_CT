@@ -9,3 +9,4 @@ mirt-main
 *.asv
 octave-workspace
 *.zip
+.ipynb_checkpoints
