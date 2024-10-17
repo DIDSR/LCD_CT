@@ -9,25 +9,8 @@ clc
 restoredefaultpath 
 
 mfilename = '/home/sriharsha.marupudi/TIGRE-master/MATLAB';
-addpath(genpath(mfilename));
 
-current_file = '/home/sriharsha.marupudi/Desktop/PCD/1112023/';
-addpath(genpath(current_file));
-
-mfilename = '/home/sriharsha.marupudi/Desktop/PCD/1112023/Gel_Phantom/readingtools/';
-addpath(genpath(mfilename));
-
-addpath '/home/sriharsha.marupudi/Desktop/PCD/1112023';
-
-results_file = '/home/sriharsha.marupudi/Desktop/PCD/1112023/Gel_Phantom/results/';
-
-mfilename = '/home/sriharsha.marupudi/MATLAB Add-Ons/Collections/TV-L1 Image Denoising Algorithm/';
-addpath(genpath(mfilename));
-
-mfilename = '/home/sriharsha.marupudi/LCD_CT';
-addpath(genpath(mfilename));
-
-load_coords_filename =  '/home/sriharsha.marupudi/LCD_CT/data/coordinates/coordinates_20241008.mat';
+load_coords_filename =  '/LCD_CT/data/coordinates/coordinates_20241008.mat';
 
 
 %% Load your data
