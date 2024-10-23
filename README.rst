@@ -9,7 +9,7 @@ Low Contrast Detectability for CT Toolbox
         :width: 800
         :align: center
 
-- **Regulatory Science Tool:** Check the FDA website for a description of the LCD-CT toolbox in the `Regulatory Science Tool Catalog <https://www.fda.gov/medical-devices/science-and-research-medical-devices/lcd-ct-low-contrast-detectability-lcd-test-assessing-advanced-nonlinear-ct-image-reconstruction-and>`_
+- **Regulatory Science Tool:** Check the FDA website for a description of the LCD-CT toolbox in the `Regulatory Science Tool Catalog <https://cdrh-rst.fda.gov/lcd-ct-low-contrast-detectability-lcd-test-assessing-advanced-nonlinear-ct-image-reconstruction-and>`_
 
 .. |zenodo| image:: https://zenodo.org/badge/DOI/10.5281/zenodo.7996580.svg
     :alt: Zenodo Data Access
