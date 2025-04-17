@@ -9,3 +9,6 @@ mirt-main
 *.asv
 octave-workspace
 *.zip
+.ipynb_checkpoints
+notebooks/data
+**.egg-info

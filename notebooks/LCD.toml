@@ -1,0 +1,36 @@
+# LCD.toml
+
+[[simulation]]
+
+# directories
+image_directory = "data/full"
+# phantoms
+model = ['MITA-LCD', 'uniform'] # <-- current options include ['CTP404', 'MITA-LCD', 'UNIFORM']
+diameter = [200] # <-- units in mm
+reference_diameter = 200 # <-- diameter in mm of the real phantom for comparison
+
+# acquisition
+framework = "MIRT" # CT simulation framework options include ['MIRT'] <https://github.com/JeffFessler/mirt>
+nsims = 200 # <-- number of simulations to perform with different noise instantiations
+ndetectors = 880           # number of detector columns (set it to be large enough to cover the projected FOV to avoid truncation)
+nangles = 1160 # <-- number of views in a rotation (na=1160 based on ZengEtAl2015-IEEE-NuclearScience-v62n5:"A Simple Low-Dose X-Ray CT Simulation From High-Dose Scan")
+aec_on = true # (aec built in to ped xcat) <-- 'aec' = automatic exposure control, when `true`, it ensures constant noise levels for all `patient_diameters` (see `reference_dose_level` for more info)
+add_noise = true # <-- if true adds Poisson noise, noise magnitude set by `reference_dose_level`, noise texture set by reconstructed field of view (currently fov = 110# patient_diameter) 
+full_dose = 3e6 # <-- units of photons per pixel
+dose_level = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0] # <-- units of photons in list
+
+# acquisition geometry # CT geometry (the following parameter values simulate Siemens Force) 
+sid = 595          #(mm) source-to-isocenter distance (value based on AAPM LDCT data dicom header)
+sdd = 1085.6          # source-to-detector distance
+# isocenter-to-detector distance dod = sdd - sid 
+                      
+detector_size = 1        # detector column size 
+detector_offset = 1.25    # lateral shift of detector
+
+# reconstruction
+fov = 340  # <-- FOV in mm of adult protocol used in scanning real physical phantom for comparison
+matrix_size = 512 # <-- reconstructed matrix size in pixels (square, equal on both sides)
+fbp_kernel = 'hanning,2.05' # 'hanning,xxx', xxx = the cutoff frequency, see fbp2_window.m in MIRT for details.
+                        #'hanning,2.05' approximate a sharp kernel D45 in Siemens Force.
+                        #'hanning, 0.85' approximate a smooth kernel B30 in
+                        #Siemens Force.

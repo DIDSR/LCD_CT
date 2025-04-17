@@ -1,0 +1,26 @@
+[project]
+name = "LCD_CT"
+version = "0.0.1"
+authors = [
+  { name="Brandon Nelson", email="brandon.nelson@fda.hhs.gov" },
+]
+description = "**Low Contrast Detectability for CT (LCD-CT) Toolbox** provides a common interface to evaluate the low contrast detectability (LCD) performance of advanced nonlinear CT image reconstruction and denoising algorithms."
+readme = "README.rst"
+requires-python = ">=3.8"
+dependencies = [
+  "pandas",
+  "tomli",
+  "numpy",
+  "oct2py",
+  "pydicom",
+  "pytest"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/DIDSR/LCD_CT"
+Issues = "https://github.com/DIDSR/LCD_CT/issues"
