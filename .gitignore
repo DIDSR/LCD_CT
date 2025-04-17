@@ -10,3 +10,5 @@ mirt-main
 octave-workspace
 *.zip
 .ipynb_checkpoints
+notebooks/data
+**.egg-info

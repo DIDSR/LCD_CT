@@ -2,7 +2,7 @@ function results_dict = measure_LCD(signal_present_array, signal_absent_array, g
 % given a dataset calculate low contrast detectability as auc curves and return as a table ready for saving or plotting
 % 
 % :param signal_present_array: image stack of signal present images
-% :param signal_absetn_array: corresponding image stack of signal absent images
+% :param signal_absent_array: corresponding image stack of signal absent images
 % :param observers: list of observer objects or strings of name of observers. Options: LG_CHO_2D, DOG_CHO_2D, GABOR_CHO_2D
 % :param ground_truth: image or filename of image with no noise of MITA LCD phantom, see `approximate_groundtruth` for details on how to turn repeat scans into a ground truth image
 % :param n_reader: number of readers (default is 10)
@@ -12,6 +12,9 @@ function results_dict = measure_LCD(signal_present_array, signal_absent_array, g
 % :return res_table: table ready for saving or plotting
 
 if is_octave
+    if length(pkg('list', 'image')) < 1
+        pkg install -forge image
+    end
   pkg load image
 end
 

@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 from pathlib import Path
 import pydicom
-from ipywidgets import interact, IntSlider
 
 
 def ctshow(img, window='soft_tissue'):
@@ -76,17 +75,3 @@ def browse_studies(metadata, phantom='ACR464', fov=25, dose=100, recon='fbp', ke
     plt.imshow(img, cmap='gray', vmin=minn, vmax=maxx)
     plt.colorbar(label=f'HU | {display} [ww: {ww}, wl: {wl}]')
     plt.title(patient['Name'].item())
-
-
-def study_viewer(metadata): 
-    viewer = lambda **kwargs: browse_studies(metadata, **kwargs)
-    slices = metadata['slice'].unique()
-    interact(viewer,
-             phantom=metadata.phantom.unique(),
-             dose=sorted(metadata['Dose [%]'].unique(), reverse=True),
-             fov=sorted(metadata['FOV (cm)'].unique()),
-             recon=metadata['recon'].unique(),
-             kernel=metadata['kernel'].unique(),
-             repeat=metadata['repeat'].unique(),
-             display=display_settings.keys(),
-             slice_idx=IntSlider(value=slices[len(slices)//2], min=min(slices), max=max(slices)))

@@ -1,0 +1,22 @@
+name: LCD_CT
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - octave
+  - cxx-compiler
+  - pandas
+  - tomli
+  - numpy
+  - oct2py
+  - pytest
+  - sphinx-tabs
+  - pandoc
+  - ipykernel
+  - pip
+  - pip:
+    - "git+https://github.com/DIDSR/pediatricIQphantoms"
+    - sphinxcontrib-svg2pdfconverter
+    - nbsphinx
