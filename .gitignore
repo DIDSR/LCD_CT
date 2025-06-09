@@ -10,3 +10,7 @@ mirt-main
 octave-workspace
 *.zip
 .ipynb_checkpoints
+notebooks/data
+*.egg-info
+docs/build
+# Ignore Python bytecode and cache files
