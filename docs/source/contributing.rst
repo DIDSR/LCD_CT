@@ -1,6 +1,23 @@
 Contributing Guide
 ==================
 
+`Issue Tracker <https://github.com/DIDSR/LCD_CT/issues>`_ | `Source Code <https://github.com/DIDSR/LCD_CT>`_ | `Contributing Guide <https://lcd-ct.readthedocs.io/en/latest/contributing.html>`_
+
+- **How to cite** 
+   (*for paper*) Vaishnav, J.Y., Jung, W.C., Popescu, L.M., Zeng, R. and Myers, K.J. (2014), Objective assessment of image quality and dose reduction in CT iterative reconstruction. Med. Phys., 41: 071904. https://doi.org/10.1118/1.4881148
+
+   (*for tool*) LCD-CT: Low-contrast detectability (LCD) test for assessing advanced nonlinear CT image reconstruction and denoising methods. https://www.fda.gov/medical-devices/science-and-research-medical-devices/lcd-ct-low-contrast-detectability-lcd-test-assessing-advanced-nonlinear-ct-image-reconstruction-and
+
+   (*for data*)  Nelson, B., Zeng, R., CT Simulations of MITA Low Contrast Detectability Phantom for Model Observer Assessments. Published online June 1st, 2023. doi:10.5281/zenodo.7996580 
+
+Support
+-------
+
+If you are having issues, please let us know.
+
+*Toolbox developers: Brandon Nelson (brandon.nelson@fda.hhs.gov), PhD, Rongping Zeng, PhD (rongping.zeng@fda.hhs.gov)*
+
+
 One of the best ways to contribute is by improving our documentation. This project uses sphinx <https://www.sphinx-doc.org/en/master/tutorial/narrative-documentation.html> as a documentor, and specific details for the Matlab Domain are given here: <https://github.com/sphinx-contrib/matlabdomain>
 
 More resources on documentation: https://www.writethedocs.org/guide/

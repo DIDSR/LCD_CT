@@ -11,4 +11,5 @@ octave-workspace
 *.zip
 .ipynb_checkpoints
 notebooks/data
-**.egg-info
+*.egg-info
+docs/build
