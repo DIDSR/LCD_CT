@@ -48,8 +48,10 @@ If required versions of Matlab or Octave are not available on your system (see h
 
 .. code-block:: shell
 
-    git clone https://github.com/DIDSR/LCD_CT
-    cd LCD_CT
+        git clone https://github.com/DIDSR/LCD_CT
+        cd LCD_CT
+        conda env create --file environment.yml
+        conda activate LCD_CT
 
 2. *If neither Matlab or Octave are installed or do not meet the `version requirements`_, you can source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. Note: this can take about 10 minutes to complete.
 

@@ -1,4 +1,5 @@
-conda create --name octave -y && conda activate octave
+conda create --name octave -y
+conda activate octave
 conda install -c conda-forge octave -y
 conda install -c conda-forge cxx-compiler -y
 
