@@ -13,4 +13,3 @@ octave-workspace
 notebooks/data
 *.egg-info
 docs/build
-# Ignore Python bytecode and cache files
