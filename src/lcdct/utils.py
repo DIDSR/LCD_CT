@@ -52,12 +52,10 @@ def get_roi_from_truth_mask(truth_mask: np.ndarray, img: np.ndarray, nx: Optiona
     Args:
         truth_mask: 2D binary mask (or 3D with 1 slice).
         img: 3D image stack (Z, Y, X) or 2D image.
-        nx: Half-width of crop (result size will be approx 2*nx + 1). 
-            If None, defaults to half the bounding box width. 
-            Note: If passed, effective width is nx (legacy behavior parity).
+        nx: Half-width of crop (result size will be approx 2*nx + 1). If None, defaults to half the bounding box width (legacy behavior parity).
 
     Returns:
-        np.ndarray: Cropped image region, or None if no regions found in mask.
+        Optional[np.ndarray]: Cropped image region, or None if no regions found in mask.
     """
     lbl = label(truth_mask > 0)
     regions = regionprops(lbl)
