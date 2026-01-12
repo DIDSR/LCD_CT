@@ -1,7 +1,7 @@
 *__pycache__
 *.m~
 *.csv
-_*
+
 .vscode
 data/large_dataset
 mirt-main
@@ -11,4 +11,5 @@ octave-workspace
 *.zip
 .ipynb_checkpoints
 notebooks/data
-**.egg-info
+*.egg-info
+docs/build

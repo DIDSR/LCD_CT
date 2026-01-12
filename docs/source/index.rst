@@ -82,6 +82,13 @@ Developers
 
 If you'd like to contribute to the code or documentation of this project, please check out our :doc:`contributing` page.
 
+Additional Resources
+--------------------
+
+- `DIDSR/IQModelo <https://github.com/DIDSR/IQmodelo>`_: Statistical Software for Task-Based Image Quality Assessment with Model (or Human) Observers
+- `DIDSR/VICTRE_MO <https://github.com/DIDSR/VICTRE_MO>`_
+- `Example of CT image noise insertion code <https://github.com/prabhatkc/ct-recon/tree/main/error_analysis/cho_lcd#readme>`_
+
 .. toctree::
    usage
    api
