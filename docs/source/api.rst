@@ -1,36 +1,30 @@
-API
-===
+Python API
+----------
 
-Reference page for individual observer functions_, observer classes_, helper_ functions and and scripts.
+.. automodule:: lcdct.LCD
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
-.. _functions:
+.. automodule:: lcdct.Observers
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
-observer functions
-------------------
+.. automodule:: lcdct.utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
-Functional versions of model observers.
+.. automodule:: lcdct.functions
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
-.. automodule:: LCD.functions
-    :imported-members:
+MATLAB API
+----------
+
+.. automodule:: lcdct
     :members:
 
-.. _classes:
-
-observer classes
-----------------
-
-Observer functions wrapped in classes for more consistent and convenient use.
-
-.. automodule:: LCD.classes
-    :imported-members:
-    :members:
-
-.. _helper:
-
-helper functions
-----------------
-
-.. automodule:: LCD
-    :imported-members:
-    :members:
 

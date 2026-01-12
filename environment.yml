@@ -12,6 +12,11 @@ dependencies:
   - numpy
   - oct2py
   - pytest
+  - SimpleITK
+  - scikit-image
+  - scikit-learn
+  - scipy
+  - matplotlib
   - sphinx-tabs
   - pandoc
   - ipykernel
