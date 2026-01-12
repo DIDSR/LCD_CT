@@ -1,1 +1,0 @@
-Summary of changes with the goal to have a Python package to match the existing Matlab functionality.
