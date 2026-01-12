@@ -23,8 +23,7 @@ def measure_LCD(signal_present: np.ndarray, signal_absent: np.ndarray, ground_tr
         signal_present: np.ndarray (N, Y, X) of signal present images.
         signal_absent: np.ndarray (N, Y, X) of signal absent images.
         ground_truth: np.ndarray (Y, X) ground truth image or Path to mhd file.
-        observers: List of strings (e.g., 'LG_CHO_2D') or Observer instances. 
-                   Default: ['LG_CHO_2D'].
+        observers: List of strings (e.g., 'LG_CHO_2D') or Observer instances. Default: ['LG_CHO_2D'].
         n_reader: Number of readers (bootstraps/splits).
         pct_split: Train/test split ratio (0.0 to 1.0).
         seed_split: List/array of seeds or None.

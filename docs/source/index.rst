@@ -24,6 +24,8 @@ Installation
 
 **Requirements**
 
+- **Python (>= 3.8)** with packages listed in `pyproject.toml`.
+- *OR*
 - Matlab (**version > R2016a**) *or* Octave (**version > 4.4**)
 - If the above Matlab or Octave requirements are not met, then `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ is required to install Octave (See step 2 below).
 
@@ -37,7 +39,19 @@ If required versions of Matlab or Octave are not available on your system (see h
     git clone https://github.com/DIDSR/LCD_CT
     cd LCD_CT
 
-2. *If neither Matlab or Octave are installed or do not meet the **version requirements**, you can source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. Or run the following lines in your command prompt:
+2. **Python Installation**:
+
+   Create a conda environment and install the package:
+
+   .. code-block:: shell
+
+           conda env create --file environment.yml
+           conda activate LCD_CT
+           pip install -e .
+
+3. **MATLAB/Octave Installation** (Legacy):
+
+   *If neither Matlab or Octave are installed or do not meet the **version requirements**, you can source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. Or run the following lines in your command prompt:
 
 .. code-block:: shell
 
@@ -48,11 +62,17 @@ If required versions of Matlab or Octave are not available on your system (see h
 
 Note: this can take about 10-30 minutes to complete.
 
-3. Test the installation
+4. Test the installation
 
 - From the bash command line:
 
 .. tabs::
+
+   .. tab:: Python
+
+      .. code-block:: shell
+
+         $ pytest tests/test_lcd.py
 
    .. tab:: Octave
 

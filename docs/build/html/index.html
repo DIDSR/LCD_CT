@@ -1,25 +1,28 @@
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Welcome to LCD for CT Toolbox’s documentation! &#8212; LCD for CT Toolbox 0.0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+    <script src="_static/documentation_options.js?v=d45e8c67"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/tabs.js?v=3030b3cb"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Usage" href="usage.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -32,34 +35,141 @@
           <div class="body" role="main">
             
   <section id="welcome-to-lcd-for-ct-toolbox-s-documentation">
-<h1>Welcome to LCD for CT Toolbox’s documentation!<a class="headerlink" href="#welcome-to-lcd-for-ct-toolbox-s-documentation" title="Permalink to this heading">¶</a></h1>
+<h1>Welcome to LCD for CT Toolbox’s documentation!<a class="headerlink" href="#welcome-to-lcd-for-ct-toolbox-s-documentation" title="Link to this heading">¶</a></h1>
 <p>This documentation provides information regarding how to download, install, and use the LCD for CT Toolbox which is designed to low contrast detectactability in CT images.</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p><strong>Low Contrast Detectability for CT (LCD-CT) Toolbox</strong> provides a common interface to evaluate the low contrast detectability (LCD) performance of advanced nonlinear CT image reconstruction and denoising algorithms. The toolbox uses model observers (MO) to evaluate the LCD of targets with known locations in test images obtained with the <a class="reference external" href="https://www.phantomlab.com/catphan-mita">MITA-LCD phantom</a>. The model oberver detection accuracy is measured by the area under the receiver operating characteristic curve (AUC) and the detectability signal-to-noise ratio (d’_{snr}).  The LCD-CT toolbox can be used by CT developers to perform initial evaluation on image quality impprovement or dose reduction potential of their reconstruction and denoising algorithms.</p>
+<a class="reference internal image-reference" href="_images/diagram.png"><img alt="_images/diagram.png" class="align-center" src="_images/diagram.png" style="width: 800px;" />
+</a>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p id="version-requirements"><strong>Requirements</strong></p>
+<ul class="simple">
+<li><p><strong>Python (&gt;= 3.8)</strong> with packages listed in <cite>pyproject.toml</cite>.</p></li>
+<li><p><em>OR</em></p></li>
+<li><p>Matlab (<strong>version &gt; R2016a</strong>) <em>or</em> Octave (<strong>version &gt; 4.4</strong>)</p></li>
+<li><p>If the above Matlab or Octave requirements are not met, then <a class="reference external" href="https://conda.io/projects/conda/en/latest/user-guide/install/index.html">conda</a> is required to install Octave (See step 2 below).</p></li>
+</ul>
+<p>If required versions of Matlab or Octave are not available on your system (see how to get <a class="reference external" href="https://www.mathworks.com/help/matlab/ref/version.html">matlab version</a> or <a class="reference external" href="https://docs.octave.org/v4.4.0/System-Information.html#XREFversion">octave version</a>) then see <a class="reference internal" href="#installation">installation</a> for how to setup an Octave environment to run LCD-CT.</p>
+<ol class="arabic simple">
+<li><p>Git clone the LCD-CT Toolbox repository:</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/DIDSR/LCD_CT
+<span class="nb">cd</span><span class="w"> </span>LCD_CT
+</pre></div>
+</div>
+<ol class="arabic" start="2">
+<li><p><strong>Python Installation</strong>:</p>
+<p>Create a conda environment and install the package:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>--file<span class="w"> </span>environment.yml
+conda<span class="w"> </span>activate<span class="w"> </span>LCD_CT
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+</li>
+<li><p><strong>MATLAB/Octave Installation</strong> (Legacy):</p>
+<p><em>If neither Matlab or Octave are installed or do not meet the **version requirements*</em>, you can source <cite>install.sh</cite> to prepare a <a class="reference external" href="https://conda.io/projects/conda/en/latest/user-guide/install/index.html">conda</a> environment. Or run the following lines in your command prompt:</p>
+</li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>octave<span class="w"> </span>-y<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>conda<span class="w"> </span>activate<span class="w"> </span>octave
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>octave<span class="w"> </span>-y
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>cxx-compiler<span class="w"> </span>-y
+octave<span class="w"> </span>--eval<span class="w"> </span><span class="s1">&#39;pkg install -forge image; pkg install https://github.com/apjanke/octave-tablicious/releases/download/v0.3.7/tablicious-0.3.7.tar.gz; pkg load image tablicious&#39;</span>
+</pre></div>
+</div>
+<p>Note: this can take about 10-30 minutes to complete.</p>
+<ol class="arabic simple" start="4">
+<li><p>Test the installation</p></li>
+</ol>
+<ul class="simple">
+<li><p>From the bash command line:</p></li>
+</ul>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">Python</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Octave</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">Matlab</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pytest<span class="w"> </span>tests/test_lcd.py
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>octave<span class="w"> </span>test.m
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-2" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-2" name="0-2" role="tabpanel" tabindex="0"><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>matlab<span class="w"> </span>-batch<span class="w"> </span>test.m
+</pre></div>
+</div>
+</div></div>
+<ul class="simple">
+<li><p>From the Matlab or Octave interactive prompt:</p></li>
+</ul>
+<div class="highlight-octave notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="nb">test</span>
+</pre></div>
+</div>
+</section>
+<section id="users">
+<h2>Users<a class="headerlink" href="#users" title="Link to this heading">¶</a></h2>
 <p>Check out the <a class="reference internal" href="usage.html"><span class="doc">Usage</span></a> section for further information.</p>
-<p>This is a readthedocs test</p>
+</section>
+<section id="developers">
+<h2>Developers<a class="headerlink" href="#developers" title="Link to this heading">¶</a></h2>
+<p>If you’d like to contribute to the code or documentation of this project, please check out our <a class="reference internal" href="contributing.html"><span class="doc">Contributing Guide</span></a> page.</p>
+</section>
+<section id="additional-resources">
+<h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/DIDSR/IQmodelo">DIDSR/IQModelo</a>: Statistical Software for Task-Based Image Quality Assessment with Model (or Human) Observers</p></li>
+<li><p><a class="reference external" href="https://github.com/DIDSR/VICTRE_MO">DIDSR/VICTRE_MO</a></p></li>
+<li><p><a class="reference external" href="https://github.com/prabhatkc/ct-recon/tree/main/error_analysis/cho_lcd#readme">Example of CT image noise insertion code</a></p></li>
+</ul>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#motivation">Motivation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#images-from-a-directory">0. Images from a Directory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#repeated-studies">1. Repeated Studies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#multiple-dose-levels">2. Multiple Dose Levels</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usage.html#accessing-a-large-dataset">3. Accessing a large dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#intended-purpose">Intended Purpose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#how-to-use-the-lcd-ct-toolkit">How to Use the LCD-CT Toolkit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#michigan-image-reconstruction-toolkit">Michigan Image Reconstruction Toolkit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#demos">Demos</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-LCD.functions">observer functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-LCD.classes">observer classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.LCD.measure_LCD"><code class="docutils literal notranslate"><span class="pre">measure_LCD()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.LCD.plot_results"><code class="docutils literal notranslate"><span class="pre">plot_results()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.Observers.DOG_CHO"><code class="docutils literal notranslate"><span class="pre">DOG_CHO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.Observers.Gabor_CHO"><code class="docutils literal notranslate"><span class="pre">Gabor_CHO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.Observers.LG_CHO"><code class="docutils literal notranslate"><span class="pre">LG_CHO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.Observers.NPWE"><code class="docutils literal notranslate"><span class="pre">NPWE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.Observers.Observer"><code class="docutils literal notranslate"><span class="pre">Observer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.utils.approximate_groundtruth"><code class="docutils literal notranslate"><span class="pre">approximate_groundtruth()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.utils.find_insert_centers"><code class="docutils literal notranslate"><span class="pre">find_insert_centers()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.utils.get_demo_truth_masks"><code class="docutils literal notranslate"><span class="pre">get_demo_truth_masks()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.utils.get_insert_radius"><code class="docutils literal notranslate"><span class="pre">get_insert_radius()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.utils.get_roi_from_truth_mask"><code class="docutils literal notranslate"><span class="pre">get_roi_from_truth_mask()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.utils.load_dataset"><code class="docutils literal notranslate"><span class="pre">load_dataset()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.utils.read_mhd"><code class="docutils literal notranslate"><span class="pre">read_mhd()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.utils.write_mhd"><code class="docutils literal notranslate"><span class="pre">write_mhd()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.functions.laguerre"><code class="docutils literal notranslate"><span class="pre">laguerre()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lcdct.functions.laguerre_gaussian_2d"><code class="docutils literal notranslate"><span class="pre">laguerre_gaussian_2d()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#module-lcdct">MATLAB API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#support">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#docstrings">docstrings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#adding-new-pages-to-the-user-manual">Adding new pages to the user manual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#writting-rst-files">Writting rst files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#errors-when-running-with-octave-for-the-first-time">1. errors when running with Octave for the first time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#matlab-version-errors">2. Matlab version errors</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </section>
+</section>
 <section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h1>
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
 </section>
@@ -69,7 +179,7 @@
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
 <h1 class="logo"><a href="#">LCD for CT Toolbox</a></h1>
 
@@ -80,11 +190,23 @@
 
 
 
-<h3>Navigation</h3>
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#module-lcdct">MATLAB API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
 
 <div class="relations">
@@ -95,16 +217,6 @@
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -118,11 +230,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2023, Brandon Nelson, Rongping Zeng, Prabhat Kc.
+      &#169;2023, Brandon Nelson, Rongping Zeng, Prabhat Kc.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.2.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |
       <a href="_sources/index.rst.txt"
