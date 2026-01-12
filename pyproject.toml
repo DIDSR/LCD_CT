@@ -11,9 +11,13 @@ dependencies = [
   "pandas",
   "tomli",
   "numpy",
-  "oct2py",
   "pydicom",
-  "pytest"
+  "pytest",
+  "SimpleITK",
+  "scikit-image",
+  "matplotlib",
+  "scikit-learn",
+  "scipy"
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
