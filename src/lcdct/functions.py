@@ -1,12 +1,16 @@
 import numpy as np
 from scipy.special import factorial
+from typing import Union
 
-def laguerre(x, J):
-    """
-    Calculate the Laguerre polynomials.
-    x: input values
-    J: order
-    Returns: L matrix of shape (len(x), J+1)
+def laguerre(x: Union[np.ndarray, list], J: int) -> np.ndarray:
+    """Calculates the Laguerre polynomials.
+
+    Args:
+        x: Input values, array-like.
+        J: Order of the polynomial.
+
+    Returns:
+        np.ndarray: L matrix of shape (len(x), J+1).
     """
     x = np.asarray(x)
     L = np.zeros((x.size, J + 1))
@@ -25,12 +29,16 @@ def laguerre(x, J):
         
     return L
 
-def laguerre_gaussian_2d(x, J, h):
-    """
-    Calculate the Laguerre-Gaussian function.
-    x: 1d vector of pixel locations (radial distance)
-    J: # of channels (order)
-    h: Gaussian width
+def laguerre_gaussian_2d(x: Union[np.ndarray, list], J: int, h: float) -> np.ndarray:
+    """Calculates the Laguerre-Gaussian function.
+
+    Args:
+        x: 1d vector of pixel locations (radial distance).
+        J: Number of channels (order).
+        h: Gaussian width.
+
+    Returns:
+        np.ndarray: Use Laguerre-Gaussian function values reshaped to input shape + (J+1,).
     """
     x = np.asarray(x)
     x_flat = x.flatten()

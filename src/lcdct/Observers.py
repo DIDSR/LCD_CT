@@ -4,28 +4,20 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score
 from scipy.linalg import pinv
 import pandas as pd
+from typing import Union, List, Optional, Tuple, Dict, Any
 from .functions import laguerre_gaussian_2d
 
 class Observer:
-    def __init__(self, signal_present, signal_absent):
+    """Base class for Model Observers."""
+    
+    def __init__(self, signal_present: np.ndarray, signal_absent: np.ndarray):
+        """Initialize the observer with signal-present and signal-absent images.
+
+        Args:
+            signal_present: Array of signal-present images (N, Y, X) or (N,).
+            signal_absent: Array of signal-absent images (N, Y, X) or (N,).
+        """
         # subtract DC component
-        # signal_present shape: (Z, Y, X) -> we want to operate on individual images
-        # The MATLAB code subtracts DC component per image or globally?
-        # MATLAB measure_LCD.m:
-        # for i_sp = 1:size(sp_imgs,3)
-        #    dc_val = mean(dummy(:)); sp_imgs(:,:,i_sp) = sp_imgs(:,:,i_sp)-dc_val;
-        # So it is per image.
-        # Check if incoming data here is already DC subtracted?
-        # In measure_LCD.m, it subtracts DC before passing to `perform_study`.
-        # Observers.py __init__ assumes it receives raw and subtracts DC?
-        # The existing Observers.py:
-        # self.signal_present = signal_present - signal_present.mean()
-        # This subtracts GLOBAL mean.
-        # But MATLAB does PER IMAGE.
-        # I should probably respect the PER IMAGE subtraction if I want exact parity, or rely on `measure_LCD` to do it.
-        # However, `Observers` class takes the arrays.
-        # I'll implement per-image subtraction if the input is 3D.
-        
         if signal_present.ndim == 3:
             # (N, Y, X)
              self.signal_present = signal_present - signal_present.mean(axis=(1, 2), keepdims=True)
@@ -34,30 +26,54 @@ class Observer:
             self.signal_present = signal_present - signal_present.mean()
             self.signal_absent = signal_absent - signal_absent.mean()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'''{self.__class__.__name__}
 signal present array shape [n, y, x]: {self.signal_present.shape}
 signal absent array shape [n, y, x]:  {self.signal_absent.shape}'''
 
-    def perform_study(self, signal_absent_train, signal_present_train,
-                      signal_absent_test, signal_present_test):
+    def perform_study(self, signal_absent_train: np.ndarray, signal_present_train: np.ndarray,
+                      signal_absent_test: np.ndarray, signal_present_test: np.ndarray) -> Dict[str, float]:
+        """Performs the observer study (train/test) and calculates metrics.
+
+        Args:
+           signal_absent_train: Training signal-absent images.
+           signal_present_train: Training signal-present images.
+           signal_absent_test: Testing signal-absent images.
+           signal_present_test: Testing signal-present images.
+
+        Returns:
+            Dict[str, float]: Dictionary containing metrics 'auc' and 'snr'.
+        """
         # Renamed calculate_auc to perform_study to match MATLAB `measure_LCD` call:
-        # res = model_observer.perform_study(...)
-        # But wait, original Observers.py had `calculate_auc`.
-        # `measure_LCD.m` calls `perform_study`.
-        # I will implement `perform_study` which calls `calculate_metrics`.
         return self.calculate_metrics(signal_absent_train, signal_present_train,
                                       signal_absent_test, signal_present_test)
 
-    def get_splits(self, pct_split=0.5, seed=None):
-        'returns: sa_train, sa_test, sp_train, sp_test' # Typical sklearn order is train, test
-        # But existing code: sp_train, sp_test, sa_train, sa_test = train_test_split(...)
-        # Wait, allow standard sklearn split.
+    def get_splits(self, pct_split: float = 0.5, seed: Optional[int] = None) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+        """Splits data into training and testing sets.
+
+        Args:
+            pct_split: Percentage of data to use for training.
+            seed: Random seed for splitting.
+
+        Returns:
+            Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]: 
+                (sa_train, sa_test, sp_train, sp_test).
+        """
         sp_train, sp_test = train_test_split(self.signal_present, train_size=pct_split, shuffle=True, random_state=seed)
         sa_train, sa_test = train_test_split(self.signal_absent, train_size=pct_split, shuffle=True, random_state=seed)
         return sa_train, sa_test, sp_train, sp_test
 
-    def run_study(self, n_readers=10, pct_split=0.5, seed=None):
+    def run_study(self, n_readers: int = 10, pct_split: float = 0.5, seed: list = None) -> pd.DataFrame:
+        """Runs multiple bootstraps/splits of the study.
+
+        Args:
+            n_readers: Number of random splits (readers).
+            pct_split: Percentage of data used for training.
+            seed: List of seeds for each reader, or None.
+
+        Returns:
+            pd.DataFrame: Results dataframe with cols 'auc', 'snr', 'observer', 'reader'.
+        """
         rng = np.random.default_rng(seed=seed)
         # Seeds for each reader
         seed_split = rng.integers(0, 100000, size=n_readers)
@@ -72,18 +88,50 @@ signal absent array shape [n, y, x]:  {self.signal_absent.shape}'''
             
         return pd.DataFrame(results)
 
-    def calculate_metrics(self, sa_train, sp_train, sa_test, sp_test):
+    def calculate_metrics(self, sa_train: np.ndarray, sp_train: np.ndarray, sa_test: np.ndarray, sp_test: np.ndarray) -> Dict[str, float]:
+        """Calculates AUC and SNR metrics. Must be implemented by subclasses.
+
+        Args:
+            sa_train: Training signal-absent images.
+            sp_train: Training signal-present images.
+            sa_test: Testing signal-absent images.
+            sp_test: Testing signal-present images.
+
+        Returns:
+            Dict[str, float]: Dictionary with 'auc' and 'snr'.
+        """
         raise NotImplementedError
 
 
 class LG_CHO(Observer):
-    def __init__(self, signal_present, signal_absent, channel_width, n_channels=5):
+    """Laguerre-Gaussian Channelized Hotelling Observer."""
+    
+    def __init__(self, signal_present: np.ndarray, signal_absent: np.ndarray, channel_width: float, n_channels: int = 5):
+        """Initializes the LG_CHO observer.
+
+        Args:
+            signal_present: Training signal-present images.
+            signal_absent: Training signal-absent images.
+            channel_width: Gaussian width parameter for Laguerre-Gaussian channels.
+            n_channels: Number of channels.
+        """
         super().__init__(signal_present, signal_absent)
         self.channel_width = channel_width
         self.n_channels = n_channels
         self.type = 'LG_CHO_2D'
 
-    def calculate_metrics(self, trimg_sa, trimg_sp, testimg_sa, testimg_sp):
+    def calculate_metrics(self, trimg_sa: np.ndarray, trimg_sp: np.ndarray, testimg_sa: np.ndarray, testimg_sp: np.ndarray) -> Dict[str, float]:
+        """Calculates CHO metrics using Laguerre-Gaussian channels.
+
+        Args:
+           trimg_sa: Training signal-absent images (N, Y, X).
+           trimg_sp: Training signal-present images (N, Y, X).
+           testimg_sa: Testing signal-absent images (N, Y, X).
+           testimg_sp: Testing signal-present images (N, Y, X).
+
+        Returns:
+            Dict[str, float]: AUC and SNR.
+        """
         n_sa, ny, nx = trimg_sa.shape
         # Assuming images are (N, Y, X)
         
@@ -92,13 +140,6 @@ class LG_CHO(Observer):
         xi = np.arange(nx) - (nx - 1) / 2
         yi = np.arange(ny) - (ny - 1) / 2
         xxi, yyi = np.meshgrid(xi, yi) # Note: meshgrid default is 'xy' -> xxi corresponds to columns (x), yyi to rows (y)
-        # But MATLAB `meshgrid(xi, yi)` -> xxi rows are copies of xi? No. 
-        # MATLAB: `[xxi, yyi] = meshgrid(xi, yi)`.
-        # `xi` is row vector. `yi` is row vector.
-        # `xxi` varies across columns (x). `yyi` varies across rows (y).
-        # Python `np.meshgrid(xi, yi)`: returns `xv` (y changes), `yv` (x changes) ?
-        # No, `np.meshgrid` default 'xy' indexing: x varies across columns, y across rows.
-        # So `xxi` is X coordinates, `yyi` is Y coordinates.
         r = np.sqrt(xxi**2 + yyi**2)
         
         u = laguerre_gaussian_2d(r, self.n_channels - 1, self.channel_width)
@@ -149,12 +190,35 @@ class LG_CHO(Observer):
 
 
 class DOG_CHO(Observer):
-    def __init__(self, signal_present, signal_absent, type='dense'):
+    """Difference of Gaussian Channelized Hotelling Observer."""
+    
+    def __init__(self, signal_present: np.ndarray, signal_absent: np.ndarray, type: str = 'dense'):
+        """Initializes the DOG_CHO observer.
+
+        Args:
+           signal_present: Training signal-present images.
+           signal_absent: Training signal-absent images.
+           type: 'dense' or 'sparse'.
+        """
         super().__init__(signal_present, signal_absent)
         self.dog_type = type
         self.type = 'DOG_CHO_2D'
 
-    def calculate_metrics(self, trimg_sa, trimg_sp, testimg_sa, testimg_sp):
+    def calculate_metrics(self, trimg_sa: np.ndarray, trimg_sp: np.ndarray, testimg_sa: np.ndarray, testimg_sp: np.ndarray) -> Dict[str, float]:
+        """Calculates CHO metrics using Difference-of-Gaussian channels.
+
+        Args:
+           trimg_sa: Training signal-absent images (N, Y, X).
+           trimg_sp: Training signal-present images (N, Y, X).
+           testimg_sa: Testing signal-absent images (N, Y, X).
+           testimg_sp: Testing signal-present images (N, Y, X).
+
+        Returns:
+            Dict[str, float]: AUC and SNR.
+
+        Raises:
+            ValueError: If an unknown DOG type is specified.
+        """
         n_sa, ny, nx = trimg_sa.shape
         
         # Build DOG channels
@@ -215,14 +279,36 @@ class DOG_CHO(Observer):
 
 
 class Gabor_CHO(Observer):
-    def __init__(self, signal_present, signal_absent, nband=4, ntheta=4, phase=0):
+    """Gabor Channelized Hotelling Observer."""
+    
+    def __init__(self, signal_present: np.ndarray, signal_absent: np.ndarray, nband: int = 4, ntheta: int = 4, phase: Union[int, List[int]] = 0):
+        """Initializes the Gabor_CHO observer.
+
+        Args:
+            signal_present: Training signal-present images.
+            signal_absent: Training signal-absent images.
+            nband: Number of frequency bands.
+            ntheta: Number of orientations.
+            phase: Phase value or list of phases.
+        """
         super().__init__(signal_present, signal_absent)
         self.nband = nband
         self.ntheta = ntheta
         self.phase = [phase] if np.isscalar(phase) else phase
         self.type = 'GABOR_CHO_2D'
 
-    def calculate_metrics(self, trimg_sa, trimg_sp, testimg_sa, testimg_sp):
+    def calculate_metrics(self, trimg_sa: np.ndarray, trimg_sp: np.ndarray, testimg_sa: np.ndarray, testimg_sp: np.ndarray) -> Dict[str, float]:
+        """Calculates CHO metrics using Gabor channels.
+
+        Args:
+           trimg_sa: Training signal-absent images (N, Y, X).
+           trimg_sp: Training signal-present images (N, Y, X).
+           testimg_sa: Testing signal-absent images (N, Y, X).
+           testimg_sp: Testing signal-present images (N, Y, X).
+
+        Returns:
+            Dict[str, float]: AUC and SNR.
+        """
         n_sa, ny, nx = trimg_sa.shape
         
         xi = np.arange(nx) - (nx - 1) / 2
@@ -287,12 +373,32 @@ class Gabor_CHO(Observer):
 
 
 class NPWE(Observer):
-    def __init__(self, signal_present, signal_absent, eye=False):
+    """Non-Prewhitening Eye Model Observer."""
+    
+    def __init__(self, signal_present: np.ndarray, signal_absent: np.ndarray, eye: bool = False):
+        """Initializes the NPWE observer.
+
+        Args:
+            signal_present: Training signal-present images.
+            signal_absent: Training signal-absent images.
+            eye: Boolean, whether to use the eye filter.
+        """
         super().__init__(signal_present, signal_absent)
         self.eye = eye
         self.type = 'NPWE_2D'
 
-    def calculate_metrics(self, trimg_sa, trimg_sp, testimg_sa, testimg_sp):
+    def calculate_metrics(self, trimg_sa: np.ndarray, trimg_sp: np.ndarray, testimg_sa: np.ndarray, testimg_sp: np.ndarray) -> Dict[str, float]:
+        """Calculates NPWE metrics.
+
+        Args:
+           trimg_sa: Training signal-absent images (only used for mean signal).
+           trimg_sp: Training signal-present images (only used for mean signal).
+           testimg_sa: Testing signal-absent images.
+           testimg_sp: Testing signal-present images.
+
+        Returns:
+            Dict[str, float]: AUC and SNR.
+        """
         n_sa, ny, nx = trimg_sa.shape
         
         # Eye filter
@@ -345,7 +451,7 @@ class NPWE(Observer):
         
         flattened_s_eye = s_eye.flatten() # 1D array
         
-        def project(images):
+        def project(images: np.ndarray) -> np.ndarray:
             # images: (N, Y, X)
             n_imgs = images.shape[0]
             scores = np.zeros(n_imgs)

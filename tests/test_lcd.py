@@ -1,8 +1,8 @@
 import numpy as np
-from LCD.functions import laguerre
-from LCD.LCD import measure_LCD
-from LCD.Observers import LG_CHO, DOG_CHO, Gabor_CHO
-from LCD.utils import get_demo_truth_masks
+from lcdct.functions import laguerre
+from lcdct.LCD import measure_LCD
+from lcdct.Observers import LG_CHO, DOG_CHO, Gabor_CHO
+from lcdct.utils import get_demo_truth_masks
 
 def test_laguerre():
     # Laguerre L_0(x) = 1

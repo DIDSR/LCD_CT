@@ -3,8 +3,8 @@ Demo 01: Single Recon LCD Analysis
 """
 from pathlib import Path
 import numpy as np
-from src.LCD.LCD import measure_LCD, plot_results
-from src.LCD.utils import load_dataset, read_mhd
+from lcdct.LCD import measure_LCD, plot_results
+from lcdct.utils import load_dataset, read_mhd
 
 def main():
     base_dir = Path('data')

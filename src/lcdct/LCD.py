@@ -5,6 +5,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from scipy.stats import mode
+from typing import Union, List, Optional, Any, Tuple
 
 from .utils import (
     get_demo_truth_masks, 
@@ -14,20 +15,22 @@ from .utils import (
 )
 from .Observers import LG_CHO, DOG_CHO, Gabor_CHO, NPWE
 
-def measure_LCD(signal_present, signal_absent, ground_truth, 
-                observers=None, n_reader=10, pct_split=0.5, seed_split=None):
-    """
-    Calculate Low Contrast Detectability (LCD) metrics (AUC, SNR).
-    
-    :param signal_present: np.ndarray (N, Y, X) of signal present images
-    :param signal_absent: np.ndarray (N, Y, X) of signal absent images
-    :param ground_truth: np.ndarray (Y, X) ground truth image (or filename, handled by caller typically, but we can handle it)
-    :param observers: list of strings or Observer instances. 
-                      Default: ['LG_CHO_2D']
-    :param n_reader: number of readers (bootstraps/splits)
-    :param pct_split: train/test split ratio
-    :param seed_split: list/array of seeds or None
-    :return: pd.DataFrame
+def measure_LCD(signal_present: np.ndarray, signal_absent: np.ndarray, ground_truth: Union[np.ndarray, str, Path], 
+                observers: Optional[List[Union[str, Any]]] = None, n_reader: int = 10, pct_split: float = 0.5, seed_split: Optional[Union[List[int], np.ndarray]] = None) -> pd.DataFrame:
+    """Calculates Low Contrast Detectability (LCD) metrics (AUC, SNR).
+
+    Args:
+        signal_present: np.ndarray (N, Y, X) of signal present images.
+        signal_absent: np.ndarray (N, Y, X) of signal absent images.
+        ground_truth: np.ndarray (Y, X) ground truth image or Path to mhd file.
+        observers: List of strings (e.g., 'LG_CHO_2D') or Observer instances. 
+                   Default: ['LG_CHO_2D'].
+        n_reader: Number of readers (bootstraps/splits).
+        pct_split: Train/test split ratio (0.0 to 1.0).
+        seed_split: List/array of seeds or None.
+
+    Returns:
+        pd.DataFrame: DataFrame containing detailed results for each insert and observer.
     """
     if observers is None:
         observers = ['LG_CHO_2D']
@@ -86,22 +89,9 @@ def measure_LCD(signal_present, signal_absent, ground_truth,
             insert_r = get_insert_radius(truth_mask) # Diameter
             
             # Create/Configure Observer
-            # If string, create. If object, copy/update?
-            # MATLAB creates new for each iteration if in loop, but loop was outside.
-            # MATLAB: for i=1:length(observers) ... for insert ... update channel_width if LG_CHO.
-            
             obs_name = obs_item if isinstance(obs_item, str) else obs_item.type
             
             # ROI extraction
-            # MATLAB: 2*crop_r passed to get_ROI.
-            # And get_ROI divides by 2?
-            # In utils.py `get_roi_from_truth_mask(..., nx)`:
-            # If nx passed, it is used as crop width?
-            # utils.py: `if nx is None: ... else: nx = int(round(nx / 2))`
-            # So if we pass 2*Diameter, utils divides by 2 -> Diameter.
-            # ROI will be +/- Diameter -> Total Width 2*Diameter.
-            # This matches MATLAB (2*crop_r passed).
-            
             sp_rois = get_roi_from_truth_mask(truth_mask, signal_present, nx=2*crop_r)
             sa_rois = get_roi_from_truth_mask(truth_mask, signal_absent, nx=2*crop_r)
             
@@ -114,22 +104,6 @@ def measure_LCD(signal_present, signal_absent, ground_truth,
             if isinstance(obs_item, str):
                 name = obs_item.upper()
                 if name == 'LG_CHO_2D':
-                    # channel_width = 2/3 * insert_r (where insert_r is radius?)
-                    # MATLAB: `model_observer.channel_width = 2/3*insert_r;`
-                    # In MATLAB `insert_r` was from `get_insert_radius`.
-                    # If I decided `get_insert_radius` returns Diameter...
-                    # Then channel_width = 2/3 * Diameter.
-                    # LG channels usually scaled to radius or diameter?
-                    # "channel width parameter; (suggest setting this parameter to be about 2/3 of the disk radius (in pixel))." (lg_cho_2d.m docstring)
-                    # So it should be Radius.
-                    # My `get_insert_radius` returns Diameter (max bbox).
-                    # So I should use 0.5 * Diameter for Radius.
-                    # So 2/3 * (0.5 * Diameter) = 1/3 * Diameter.
-                    # Let's check MATLAB `get_insert_radius`: `r = max(shape_info.BoundingBox(3:4));` -> This is Diameter.
-                    # MATLAB `measure_LCD`: `channel_width = 2/3*insert_r`.
-                    # So MATLAB uses 2/3 * Diameter ???
-                    # If docstring says "2/3 of radius", and code uses "2/3 of Diameter", then code uses 4/3 of Radius.
-                    # I will follow the CODE (2/3 * result of get_insert_radius).
                     current_obs = LG_CHO(sp_rois, sa_rois, channel_width=2/3 * insert_r)
                 elif name == 'DOG_CHO_2D':
                     current_obs = DOG_CHO(sp_rois, sa_rois)
@@ -152,7 +126,6 @@ def measure_LCD(signal_present, signal_absent, ground_truth,
                 current_obs.signal_present = sp_rois - sp_rois.mean(axis=(1, 2), keepdims=True)
                 current_obs.signal_absent = sa_rois - sa_rois.mean(axis=(1, 2), keepdims=True)
 
-
             # Determine Insert HU
             # mode of ground_truth(mask)
             # mask is boolean. ground_truth is image.
@@ -170,33 +143,6 @@ def measure_LCD(signal_present, signal_absent, ground_truth,
             
             # Append metadata
             df_res['insert_HU'] = insert_hu_val
-            df_res['insert_diameter_pix'] = insert_r # or 2*r if r was radius. Here I assume Diameter. matches line 123 of measure_LCD.m if r=Radius?
-            # MATLAB 123: `insert_diameter_pix = [insert_diameter_pix; 2*insert_r];`
-            # If MATLAB `insert_r` was Diameter, then `2*insert_r` is `2*Diameter`.
-            # That implies MATLAB `insert_r` WAS Radius?
-            # Let's re-verify `get_insert_radius.m`.
-            # `r = max(shape_info.BoundingBox(3:4));` 
-            # BoundingBox is [x_ul, y_ul, width, height].
-            # 3:4 is width/height.
-            # Max width logic is Diameter.
-            # So `r` is Diameter.
-            # So `measure_LCD.m` logs `2 * Diameter` as `insert_diameter_pix`.
-            # This suggests the variable `insert_r` in MATLAB might be a misnomer or I misunderstood BoundingBox.
-            # BoundingBox is DEFINITELY width/height.
-            # Maybe `max(3:4)` gives 1 dimension?
-            # I will store `insert_r` (Diameter) and maybe `2*insert_r` if trying to match MATLAB numbers exactly?
-            # I should output what makes sense physically or match MATLAB.
-            # I'll stick to what MATLAB does: `2 * insert_r`.
-            # Wait, if `insert_r` is Diameter, `2 * insert_r` is double diameter.
-            # Maybe `get_insert_radius.m` divides by 2? I checked file content in step 51.
-            # `r = max(shape_info.BoundingBox(3:4));` -> NO division.
-            # So it returns Diameter.
-            # measure_LCD.m lines 123: `2*insert_r`.
-            # This is weird. But I will replicate it to ensure parity?
-            # "Please convert ... into clean python code ... confirm ... yields the same results"
-            # If I want same results, I should probably output same columns.
-            # I will output `insert_diameter_pix` as `2 * insert_r`.
-            
             df_res['insert_diameter_pix'] = 2 * insert_r
             
             # Add to list
@@ -210,10 +156,12 @@ def measure_LCD(signal_present, signal_absent, ground_truth,
 
 import matplotlib.pyplot as plt
 
-def plot_results(results, ylim=None):
-    """
-    Plot LCD results (AUC).
-    results: pd.DataFrame
+def plot_results(results: pd.DataFrame, ylim: Optional[Tuple[float, float]] = None) -> None:
+    """Plots Low Contrast Detectability (LCD) results (AUC).
+
+    Args:
+        results: DataFrame containing LCD results (must contain 'auc', 'insert_HU', 'observer').
+        ylim: Tuple of (min, max) for y-axis limits.
     """
     if results.empty:
         print("No results to plot.")

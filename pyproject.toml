@@ -1,5 +1,5 @@
 [project]
-name = "LCD_CT"
+name = "lcdct"
 version = "0.0.1"
 authors = [
   { name="Brandon Nelson", email="brandon.nelson@fda.hhs.gov" },
