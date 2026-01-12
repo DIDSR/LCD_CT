@@ -23,7 +23,9 @@ One of the best ways to contribute is by improving our documentation. This proje
 More resources on documentation: https://www.writethedocs.org/guide/
 
 
-.. _docstrings:
+
+
+.. _docstrings_ref:
 
 docstrings
 ----------
@@ -52,7 +54,7 @@ Contributing other pages to the manual requires two steps:
 
 2. Add the filename without the extension to `docs/source/index.rst <https://github.com/bnel1201/LCD-CT/blob/main/docs/source/index.rst>`_, specifically adding to the list under "toctree". For example, after creating a new manual page called "my_new_doc_page.rst", the list item under toctree would be the following:
 
-	toctree::
+.. code-block:: rst
 
 	usage
 
@@ -63,7 +65,7 @@ Contributing other pages to the manual requires two steps:
 Writting rst files
 ------------------
 
-reStructuredText is mostly plain text with a few special rules for defining headers and cross-references. Like `Markdown <https://en.wikipedia.org/wiki/Markdown>`_, it is a common format for writing technical documentation for software. "rst" stands for `reStructuredText <https://en.wikipedia.org/wiki/ReStructuredText>`_. The content in the :ref:`docstrings` after the comment symbol "%" is also written in rst format.
+reStructuredText is mostly plain text with a few special rules for defining headers and cross-references. Like `Markdown <https://en.wikipedia.org/wiki/Markdown>`_, it is a common format for writing technical documentation for software. "rst" stands for `reStructuredText <https://en.wikipedia.org/wiki/ReStructuredText>`_. The content in the :ref:`docstrings_ref` after the comment symbol "%" is also written in rst format.
 
 For examples of how to write rst files, you can use look at the `raw source <https://github.com/bnel1201/LCD-CT/edit/main/docs/source/contributing.rst>`_ of this page. More complete references on writing rst files and code documentation can be found here:
 
