@@ -1,7 +1,7 @@
 *__pycache__
 *.m~
 *.csv
-_*
+
 .vscode
 data/large_dataset
 mirt-main
