@@ -68,8 +68,10 @@ res_table = measure_LCD(base_directory, observers, ground_truth, offset);
 
 if is_octave
   res_table.recon = recon_name;
+  res_table.dose_level = dose;
 else
   res_table.recon(:) = recon_name;
+  res_table.dose_level(:) = dose;
 end
 
 %% save results

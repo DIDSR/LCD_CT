@@ -1,15 +1,21 @@
-function results_dict = measure_LCD(signal_present_array, signal_absent_array, ground_truth, observers, n_reader, pct_split, seed_split)
+function results = measure_LCD(varargin)
 % given a dataset calculate low contrast detectability as auc curves and return as a table ready for saving or plotting
 % 
+% Usage:
+% 1. measure_LCD(signal_present_array, signal_absent_array, ground_truth, observers, n_reader, pct_split, seed_split)
+% 2. measure_LCD(base_directory, observers, ground_truth, offset, n_reader, pct_split, seed_split)
+%
 % :param signal_present_array: image stack of signal present images
 % :param signal_absent_array: corresponding image stack of signal absent images
+% :param base_directory: path to directory containing 'signal_present' and 'signal_absent' subfolders
 % :param observers: list of observer objects or strings of name of observers. Options: LG_CHO_2D, DOG_CHO_2D, GABOR_CHO_2D
-% :param ground_truth: image or filename of image with no noise of MITA LCD phantom, see `approximate_groundtruth` for details on how to turn repeat scans into a ground truth image
+% :param ground_truth: image or filename of image with no noise of MITA LCD phantom
+% :param offset: offset value to subtract from loaded images (only used with directory input)
 % :param n_reader: number of readers (default is 10)
-% :param pct_split: percent of images to be used for training, remainder (1 - split_pct) to be used for testing (default is 0.5)
-% :param seed_split: 1d vector containing 'nreader' of random seed values. (defaults to randomly selected seed) 
+% :param pct_split: percent of images to be used for training (default is 0.5)
+% :param seed_split: 1d vector containing 'nreader' of random seed values
 % 
-% :return res_table: table ready for saving or plotting
+% :return results: table (or struct in Octave) ready for saving or plotting
 
 if is_octave
     if length(pkg('list', 'image')) < 1
@@ -18,50 +24,96 @@ if is_octave
   pkg load image
 end
 
-observer_idx = 1;
+% Parse inputs
+arg1 = varargin{1};
+dose_level_extracted = NaN;
+
+if ischar(arg1) || (isstring(arg1) && isscalar(arg1))
+    % Signature 2: Directory input
+    base_dir = char(arg1);
+    observers = varargin{2};
+    ground_truth = varargin{3};
+    if length(varargin) >= 4
+        offset = varargin{4};
+    else
+        offset = 0;
+    end
+    if length(varargin) >= 5; n_reader = varargin{5}; end
+    if length(varargin) >= 6; pct_split = varargin{6}; end
+    if length(varargin) >= 7; seed_split = varargin{7}; end
+
+    % Load images
+    sp_dir = fullfile(base_dir, 'signal_present');
+    sa_dir = fullfile(base_dir, 'signal_absent');
+
+    sp_mhd = fullfile(sp_dir, 'signal_present.mhd');
+    if exist(sp_mhd, 'file')
+        signal_present_array = mhd_read_image(sp_mhd);
+    else
+         error(['Could not find ' sp_mhd]);
+    end
+
+    sa_mhd = fullfile(sa_dir, 'signal_absent.mhd');
+     if exist(sa_mhd, 'file')
+        signal_absent_array = mhd_read_image(sa_mhd);
+    else
+         error(['Could not find ' sa_mhd]);
+    end
+
+    if offset ~= 0
+        signal_present_array = signal_present_array - offset;
+        signal_absent_array = signal_absent_array - offset;
+    end
+
+    % Try to extract dose from base_dir path
+    [~, name, ~] = fileparts(base_dir);
+    % Check for dose_XXX format
+    tokens = regexp(name, 'dose_(\d+)', 'tokens');
+    if ~isempty(tokens)
+        dose_level_extracted = str2double(tokens{1}{1});
+    end
+
+else
+    % Signature 1: Array input
+    signal_present_array = varargin{1};
+    signal_absent_array = varargin{2};
+    ground_truth = varargin{3};
+    observers = varargin{4};
+    if length(varargin) >= 5; n_reader = varargin{5}; end
+    if length(varargin) >= 6; pct_split = varargin{6}; end
+    if length(varargin) >= 7; seed_split = varargin{7}; end
+end
+
+% Default values
+if ~exist('n_reader','var'); n_reader = 10; end
+if ~exist('pct_split','var'); pct_split = 0.5; end
+if ~exist('seed_split','var'); seed_split = randi(10000, n_reader, 1); end
+
+% Instantiate observers if strings are passed
+observer_objs = cell(1, length(observers));
 for i=1:length(observers)
-    switch upper(observers{i})
-        case 'LG_CHO_2D'
-            observers{observer_idx} = LG_CHO_2D();
-            observer_idx = observer_idx + 1;
-        case 'NPWE_2D'
-            observers{observer_idx} = NPWE_2D();
-            observer_idx = observer_idx + 1;
-        case 'DOG_CHO_2D'
-            observers{observer_idx} = DOG_CHO_2D();
-            observer_idx = observer_idx + 1;
-        case 'GABOR_CHO_2D'
-            observers{observer_idx} = GABOR_CHO_2D();
-            observer_idx = observer_idx + 1;
-        otherwise
-            error([observers{i} ' not in LG_CHO_2D, DOG_CHO_2D, GABOR_CHO_2D, NPWE_2D'])
+    obs = observers{i};
+    if ischar(obs) || (isstring(obs) && isscalar(obs))
+         switch upper(obs)
+            case 'LG_CHO_2D'
+                observer_objs{i} = LG_CHO_2D();
+            case 'NPWE_2D'
+                observer_objs{i} = NPWE_2D();
+            case 'DOG_CHO_2D'
+                observer_objs{i} = DOG_CHO_2D();
+            case 'GABOR_CHO_2D'
+                observer_objs{i} = GABOR_CHO_2D();
+            otherwise
+                error([obs ' not in LG_CHO_2D, DOG_CHO_2D, GABOR_CHO_2D, NPWE_2D'])
+        end
+    else
+        % Assuming it is already an object
+        observer_objs{i} = obs;
     end
 end
+observers = observer_objs;
 
-if ~exist('observers', 'var')
-    observers = {LG_CHO_2D()};
-%   observers = {LG_CHO_2D(),... % will need to modify .channel_width attribute later when insert width known
-%                     DOG_CHO_2D(),...
-%                     GABOR_CHO_2D(),...
-%                     };
-end
-%% check for ground truth
-if ~exist('ground_truth', 'var')
-    ground_truth_fname = fullfile(base_dir, 'ground_truth.mhd');
-    ground_truth = mhd_read_image(ground_truth_fname); %need to build in offset to dataset
-end
-
-if ~exist('n_reader','var')
-    n_reader = 10;
-end
-if ~exist('pct_split','var')
-    pct_split = 0.5;
-end
-if ~exist('seed_val','var')
-    seed_split = randi(10000, n_reader, 1);
-end
 % input is a binary mask specifying signal known exactly (SKE)
-
 truth_masks = get_demo_truth_masks(ground_truth);
 
 insert_rs = [];
@@ -128,11 +180,18 @@ for i=1:length(observers)
     end
 end
 
-results_dict.observer=observer;
-results_dict.insert_HU=insert_HU';
-results_dict.snr=snr';
-results_dict.auc=auc';
-results_dict.reader=reader';
-results_dict;
+results_dict.observer = observer;
+results_dict.insert_HU = insert_HU;
+results_dict.snr = snr;
+results_dict.auc = auc;
+results_dict.reader = reader;
+results_dict.diameter = insert_diameter_pix;
+results_dict.dose_level = repmat(dose_level_extracted, length(auc), 1);
+
+if is_octave
+    results = results_dict;
+else
+    results = struct2table(results_dict);
+end
 
 end

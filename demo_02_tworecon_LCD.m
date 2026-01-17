@@ -71,16 +71,20 @@ seed_split = randi(1000, nreader,1);
 recon_1_res = measure_LCD(recon_1_dir, observers, ground_truth, offset, nreader, pct_split, seed_split);
 
 if is_octave
-  recon_1_res.recon = "fbp"
+  recon_1_res.recon = "fbp";
+  recon_1_res.dose_level = dose;
 else
   recon_1_res.recon(:) = "fbp";
+  recon_1_res.dose_level(:) = dose;
 end
 
 recon_2_res = measure_LCD(recon_2_dir, observers, ground_truth, offset, nreader, pct_split, seed_split);
 if is_octave
   recon_2_res.recon = "DL denoised";
+  recon_2_res.dose_level = dose;
 else
   recon_2_res.recon(:) = "DL denoised";
+  recon_2_res.dose_level(:) = dose;
 end
 
 if is_octave
