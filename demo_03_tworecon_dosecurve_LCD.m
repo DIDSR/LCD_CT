@@ -49,18 +49,41 @@ ground_truth = mhd_read_image(ground_truth_fname) - offset; %need to build in of
 nreader = 10;   
 pct_split = 0.6
 seed_split = randi(1000, nreader,1);
-recon_1_res = measure_LCD(recon_1_dir, observers, ground_truth, offset, nreader, pct_split, seed_split);
-if is_octave
-  recon_1_res.recon = "fbp"
-else
-  recon_1_res.recon(:) = "fbp";
+doses = dir(fullfile(recon_1_dir, 'dose_*'));
+recon_1_res = [];
+for i = 1:length(doses)
+    dose_dir = fullfile(doses(i).folder, doses(i).name);
+    res = measure_LCD(dose_dir, observers, ground_truth, offset, nreader, pct_split, seed_split);
+    if is_octave
+        res.recon = "fbp";
+        if isempty(recon_1_res)
+            recon_1_res = res;
+        else
+            recon_1_res = vertcat(recon_1_res, res);
+        end
+    else
+        res.recon(:) = "fbp";
+        recon_1_res = [recon_1_res; res];
+    end
 end
 
-recon_2_res = measure_LCD(recon_2_dir, observers, ground_truth, offset, nreader, pct_split, seed_split);
-if is_octave
-  recon_2_res.recon = "DL denoised";
-else
-  recon_2_res.recon(:) = "DL denoised";
+
+doses = dir(fullfile(recon_2_dir, 'dose_*'));
+recon_2_res = [];
+for i = 1:length(doses)
+    dose_dir = fullfile(doses(i).folder, doses(i).name);
+    res = measure_LCD(dose_dir, observers, ground_truth, offset, nreader, pct_split, seed_split);
+    if is_octave
+        res.recon = "DL denoised";
+        if isempty(recon_2_res)
+            recon_2_res = res;
+        else
+            recon_2_res = vertcat(recon_2_res, res);
+        end
+    else
+        res.recon(:) = "DL denoised";
+        recon_2_res = [recon_2_res; res];
+    end
 end
 %% combine results
 if is_octave

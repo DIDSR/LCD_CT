@@ -189,9 +189,9 @@ results_dict.diameter = insert_diameter_pix;
 results_dict.dose_level = repmat(dose_level_extracted, length(auc), 1);
 
 if is_octave
-    results = results_dict;
-else
-    results = struct2table(results_dict);
+    pkg load tablicious
 end
+
+results = struct2table(results_dict);
 
 end
