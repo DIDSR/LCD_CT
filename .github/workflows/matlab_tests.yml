@@ -12,7 +12,7 @@ jobs:
     - name: Install Octave and dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y octave octave-image octave-io liboctave-dev
+        sudo apt-get install -y octave octave-image octave-io octave-dev
         wget https://github.com/apjanke/octave-tablicious/releases/download/v0.4.5/tablicious-0.4.5.tar.gz
         octave --eval "pkg install tablicious-0.4.5.tar.gz"
 
