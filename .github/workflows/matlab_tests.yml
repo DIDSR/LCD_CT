@@ -13,6 +13,8 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y octave octave-image octave-io
+        wget https://github.com/apjanke/octave-tablicious/releases/download/v0.3.7/tablicious-0.3.7.tar.gz
+        octave --eval "pkg install tablicious-0.3.7.tar.gz"
 
     - name: Run Tests
       run: |
