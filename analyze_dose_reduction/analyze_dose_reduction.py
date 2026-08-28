@@ -25,10 +25,10 @@ reconstruction methods in one plot.
 Usage
 -----
 Run directly:
-    python demo_analyze_dose_reduction.py
+    python analyze_dose_reduction.py
 
 Import and call programmatically:
-    from demo_analyze_dose_reduction import analyze_dose_reduction
+    from analyze_dose_reduction import analyze_dose_reduction
     results = analyze_dose_reduction(
         dose_percent, aucmean_fbp, aucmean_dl, aucse_fbp, aucse_dl
     )
