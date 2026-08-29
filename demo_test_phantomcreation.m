@@ -23,8 +23,6 @@ end
 addpath(genpath('LCD phantom creation'));
 disp('Simulating CCT189 scans')
 makeCT_CCT189
-disp('Simulating CCT189body scans')
-makeCT_CCT189body
 disp('Simulating LiverLCD scans')
 makeCT_LiverLCD
 disp('LCD phantom creation code is run successfully!')
