@@ -16,7 +16,7 @@ Low Contrast Detectability for CT Toolbox
     :scale: 100%
     :target: https://doi.org/10.5281/zenodo.7996580
 
-.. |zenodo| image:: https://zenodo.org/badge/DOI/10.5281/zenodo.22149090.svg
+.. |zenodo1| image:: https://zenodo.org/badge/DOI/10.5281/zenodo.22149090.svg
     :alt: Zenodo Data Access
     :scale: 100%
     :target: https://doi.org/10.5281/zenodo.22149090
