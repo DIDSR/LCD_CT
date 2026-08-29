@@ -1,5 +1,5 @@
-% Purpose: To simulate CT images of the MITA LCD body phantom CCT189 and a 
-% uniform phantom. This generates multiple noisy realizations. Noise level 
+% Purpose: To simulate CT images of the MITA LCD body phantom CCT189  and a 
+% uniform phantom (size adjustable). This generates multiple noisy realizations. Noise level 
 % is specified by 'I0'.
 %
 % ------ Note -----
@@ -13,9 +13,8 @@ close all;
 % ------ define the CT scanner setting ------
 CT_setup;   %this will load in CT parameters. See "CT_setup.m" for details. 
 
-I_full = 4e5; %Photon flux corresponding to full dose level.      
+I_full = 4e5; %Photon flux corresponding to full dose level for a 30 cm water phantom.
 dose_level = 100; % in percentage.
-I0 = I_full*dose_level/100; 
 
 has_bowtie = 1; %add bowtie filter if 'has_bowtie' is 1.
 
@@ -62,6 +61,10 @@ sino_bkg = ellipse_sino(sg, cct189_bkg_geo, 'oversample', 4);
 %  ------ Simulate noisy sinograms and create noisy FBP reconstruction  -------
 % seednum = 30; %any number will do
 % rand('state',seednum); % set a random seed number if needed.
+
+%adjust the photon flux based on dose level and phantom size.
+ratio = exp(-mu_water*(300-diameter);
+I0 = I_full*dose_level/100*ratio; 
 
 for isim = 1: nsim      
     isim
