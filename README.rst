@@ -29,9 +29,10 @@ Low Contrast Detectability for CT Toolbox
 Features
 --------
 
-- Creating digital replica of the background and signal modules of the `MITA-LCD phantom <https://www.phantomlab.com/catphan-mita>`_.  
+- Creating digital replica of the background and signal modules of the `MITA-LCD phantom <https://www.phantomlab.com/catphan-mita>`_ and a digital Liver-LCD phantom that contains low-contrast disks in a non-uniform,  anatomical background.  
 - Simuating sinogram and generate fan-beam CT scans of the digital phantoms based on the publicly available `Michigan Image Reconstruction Tolbox (MIRT) <https://github.com/JeffFessler/mirt>`_.
 - Estimating low contrast detectability performance from the MITA-LCD phantom CT images using channelized Hoteling model observer with Laguerre-Gauss (LG) channels and two options of Difference-of-Gaussian (DOG) channels and Gabor channels.
+- Analyzing the dose reduction percentages of a nonlinear reconstruction method for maintaining low-contrast detectability using the AUC results of the evaluated reconstruction method and a reference FBP method across multiple dose levels obtained from a LCD test. 
 
 Start Here
 ----------
