@@ -25,10 +25,10 @@ reconstruction methods in one plot.
 Usage
 -----
 Run directly:
-    python analyze_dose_reduction.py
+    python demo_analyze_dose_reduction.py
 
 Import and call programmatically:
-    from analyze_dose_reduction import analyze_dose_reduction
+    from demo_analyze_dose_reduction import analyze_dose_reduction
     results = analyze_dose_reduction(
         dose_percent, aucmean_fbp, aucmean_dl, aucse_fbp, aucse_dl
     )
@@ -428,6 +428,8 @@ def analyze_dose_reduction(
     rr_std     = np.nanstd(reduction_rate_mc,             axis=0)
     rr_ci_low  = np.nanpercentile(reduction_rate_mc,  2.5, axis=0)
     rr_ci_high = np.nanpercentile(reduction_rate_mc, 97.5, axis=0)
+    min_rr_mean = round(rr_mean.min()*100)
+    max_rr_mean = round(rr_mean.max()*100)
 
     # ------------------------------------------------------------------
     # Step 4: Print results
@@ -473,13 +475,14 @@ def analyze_dose_reduction(
 
     dose_reduction_text = (
         f"Estimated Dose Reduction% \n"
-        f"3 mm: {rr_mean[0] * 100:.1f}% \n"
+        f"3 mm: {rr_mean[0] * 100:.1f}%\n"
         f"5 mm: {rr_mean[1] * 100:.1f}%\n"
         f"7 mm: {rr_mean[2] * 100:.1f}%\n"
-        f"10 mm: {rr_mean[3] * 100:.1f}%"
+        f"10 mm: {rr_mean[3] * 100:.1f}%\n\n"
+        f"Overall dose reduction range: {min_rr_mean:d}% to {max_rr_mean:d}%"
     )
     ax.text(
-        0.10, 0.80, dose_reduction_text,
+        0.05, 0.95, dose_reduction_text,
         transform=ax.transAxes,
         fontsize=12, color="blue",
         verticalalignment="top",
