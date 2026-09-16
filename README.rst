@@ -68,6 +68,16 @@ If required versions of Matlab or Octave are not available on your system (see h
            conda env create --file environment.yml
            conda activate LCD_CT
            pip install -e .
+   
+   If the commands above failed, try install the package step by step as below:
+
+   .. code-block:: shell      
+
+           conda create -n LCD_CT python=3.8 pip -y
+           conda activate LCD_CT
+           conda install -c conda-forge -c defaults octave cxx-compiler pandas tomli numpy oct2py pytest simpleitk scikit-image scikit-learn scipy matplotlib sphinx-tabs pandoc ipykernel git -y
+           pip install \    "git+https://github.com/DIDSR/pediatricIQphantoms" \    sphinxcontrib-svg2pdfconverter \    nbsphinx
+           pip install -e .
 
    *Expected run time: 2-5 min*
 
@@ -86,9 +96,9 @@ If required versions of Matlab or Octave are not available on your system (see h
 - **Python**: Run the tests using pytest:
 
   .. code-block:: shell
-
+          
           pytest tests/test_lcd.py
-
+          python demo_analyze_dose_reduction.py
 
 - From the bash command line `octave test.m` or `matlab -batch test.m`
 
