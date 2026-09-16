@@ -132,30 +132,31 @@ if verbose
         str='Failed test - less than chance';
     end
     %display results
-    disp('ROC CURVE DATA')
-    disp(tr)
-    fprintf('Cut-off point\t\tSensivity\tSpecificity\n')
-    table=[labels'; yroc(2:end-1)'; 1-xroc(2:end-1)';]';
-   % fprintf('%0.4f\t\t%0.4f\t\t%0.4f\n',table')
-    disp(tr)
-    disp(' ')
-    disp('ROC CURVE ANALYSIS')
-    disp(' ')
-    disp(tr)
-    str2=['AUC\t\t\tS.E.\t\t\t\t' num2str((1-alpha)*100) '%% C.I.\t\t\tComment\n'];
-    fprintf(str2)
-    disp(tr)
-    fprintf('%0.5f\t\t\t%0.5f\t\t\t%0.5f\t\t%0.5f\t\t\t%s\n',Area,Serror,ci,str)
-    disp(tr)
-    fprintf('Standardized AUC\t\t1-tail p-value\n')
-    fprintf('%0.4f\t\t\t\t%0.6f',SAUC,p)
-    if p<=alpha
-        fprintf('\t\tThe area is statistically greater than 0.5\n')
-    else
-        fprintf('\t\tThe area is not statistically greater than 0.5\n')
+    if(0)
+        disp('ROC CURVE DATA')
+        disp(tr)
+        fprintf('Cut-off point\t\tSensivity\tSpecificity\n')
+        table=[labels'; yroc(2:end-1)'; 1-xroc(2:end-1)';]';
+       % fprintf('%0.4f\t\t%0.4f\t\t%0.4f\n',table')
+        disp(tr)
+        disp(' ')
+        disp('ROC CURVE ANALYSIS')
+        disp(' ')
+        disp(tr)
+        str2=['AUC\t\t\tS.E.\t\t\t\t' num2str((1-alpha)*100) '%% C.I.\t\t\tComment\n'];
+        fprintf(str2)
+        disp(tr)
+        fprintf('%0.5f\t\t\t%0.5f\t\t\t%0.5f\t\t%0.5f\t\t\t%s\n',Area,Serror,ci,str)
+        disp(tr)
+        fprintf('Standardized AUC\t\t1-tail p-value\n')
+        fprintf('%0.4f\t\t\t\t%0.6f',SAUC,p)
+        if p<=alpha
+            fprintf('\t\tThe area is statistically greater than 0.5\n')
+        else
+            fprintf('\t\tThe area is not statistically greater than 0.5\n')
+        end
+        disp(' ')
     end
-    disp(' ')
-
     %display graph
     if(0)
         subplot(1,2,1)
