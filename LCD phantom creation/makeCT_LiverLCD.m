@@ -1,14 +1,15 @@
-% Purpose: To simulate CT images of the MITA LCD body phantom CCT189 and a 
-% uniform phantom. This generates multiple noisy realizations. Noise level 
-% is specified by 'I0'.
+% Purpose: To simulate CT images of the Liver-LCD phantomwith and without low-contrast disk inserts. 
+% This generates multiple noisy realizations. Noise level is specified by 'I-full' and 'dose_level'.
 %
 % ------ Note -----
 % The CT simulation is implemented based on the Michigan Image Reconstruction Toolbox (MIRT). 
-% MIRT is downloaded the first time when the phantom creation code runs:
-%   1. Download MIRT from https://github.com/JeffFessler/mirt to a local directory.
-%   2. Include MIRT functions to the Matlab path by running "setup.m" in MIRT
+% MIRT is downloaded the first time when the "demo_test_phantomcreation" code runs:
+%   1. Download MIRT from http://web.eecs.umich.edu/~fessler/irt/fessler.tgz to a local directory.
+%   2. Include MIRT functions to the Matlab path by running "setup.m" in MIRT/irt
+% See "demo_test_phantomcreation.m" for the MIRT setup.
 
-close all; 
+
+clear all;
 
 demo = 1 % Set demo to 1 if you want to make the low-contrast disk inserts more visible.   
 if(demo==1)   
@@ -71,7 +72,7 @@ disk_true = bkg_true + insert_hu;
 % ray-tracing method to calculate the sinogram of the background-only module
 bkg_mu= bkg_true*mu_water/1000 + mu_water; %Convert to attenuation coefficient
 A_forward = Gtomo2_dscmex(sg, ig); % construct the forward projection matrix 
-sino_bkg = A_forward * bkg_mu;
+sino_bkg = A_forward*bkg_mu;
 
 % analytically calculating the sinogram of disk inserts
 sino_inserts = ellipse_sino(sg, ells_disk, 'oversample', 4); 
@@ -139,7 +140,7 @@ for isim = 1: nsim
 end
 
 %display
-figure(1);
+figure('Name','Liver-LCD phantom creation');
 clip = [];
 subplot(241), im(disk_true',clip), title 'True object image: signal module';
 subplot(245), im(bkg_true',clip), title 'True object image: background module';
@@ -152,5 +153,5 @@ subplot(248), im(bkg_ct_noisy',clip), title 'Noisy fbp image: background module'
 colormap(gray)
 
 if(demo==1)
-   printf('Note: The intensity of disks was scaled up for illustration purpose. \n For actual LCD data simulation, set the parameter "demo" to 0.')
+   printf('Note: The intensity of disks in the Liver-LCD phantom was scaled up for illustration purpose. \n For actual LCD phantom simulation, set the parameter "demo" to 0 in makeCT_LiverLCD.m'.\n')
 end

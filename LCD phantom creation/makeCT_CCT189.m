@@ -1,13 +1,13 @@
 % Purpose: To simulate CT images of the MITA LCD body phantom CCT189  and a 
 % uniform phantom (size adjustable). This generates multiple noisy realizations. Noise level 
-% is specified by 'I0'.
+% is specified by 'I-full' and 'dose_level'.
 %
 % ------ Note -----
 % The CT simulation is implemented based on the Michigan Image Reconstruction Toolbox (MIRT). 
-% MIRT is downloaded the first time when the phantom creation code runs:
-%   1. Download MIRT from https://github.com/JeffFessler/mirt to a local directory.
-%   2. Include MIRT functions to the Matlab path by running "setup.m" in MIRT
-
+% MIRT is downloaded the first time when the "demo_test_phantomcreation.m" code runs:
+%   1. Download MIRT from http://web.eecs.umich.edu/~fessler/irt/fessler.tgz to a local directory.
+%   2. Include MIRT functions to the Matlab path by running "setup.m" in MIRT/irt
+% See "demo_test_phantomcreation.m" for the MIRT setup. 
 close all; 
 
 % ------ define the CT scanner setting ------
@@ -63,7 +63,7 @@ sino_bkg = ellipse_sino(sg, cct189_bkg_geo, 'oversample', 4);
 % rand('state',seednum); % set a random seed number if needed.
 
 %adjust the photon flux based on dose level and phantom size.
-ratio = exp(-mu_water*(300-diameter);
+ratio = exp(-mu_water*(300-diameter));
 I0 = I_full*dose_level/100*ratio; 
 
 for isim = 1: nsim      
@@ -111,7 +111,7 @@ for isim = 1: nsim
 end
 
 %display
-figure(1);
+figure('Name','MITA-LCD phantom creation');
 subplot(241), im(cct189_disk_true,[-30 30]), title 'True object image: signal module';
 subplot(245), im(cct189_bkg_true,[-30 30]), title 'True object image: background module';
 subplot(242), im(sino_disk,[]), title 'Sinogram: signal module';

@@ -39,6 +39,11 @@ fbp_kernel = 'hanning,2.05'; % 'hanning,xxx', xxx = the cutoff frequency, see fb
 % The bowtie shape was validatded to match with the measurement reported in Figure 3 of the following paper: 
 % Yu et. al., "Development and Validation of a Practical Lower-Dose-Simulation Tool for Optimizing Computed Tomography Scan Protocols", JCAT 2012.
 ell_fovdisk = [0 0 fov/2 fov/2 0 1];
+%Create "sg", sinogram geometry
+sg = sino_geom('fan', 'units', 'mm', ...
+    'nb', nb, 'na', na, 'ds', ds, ...
+    'dsd', sdd, 'dod', dod, 'offset_s', offset_s, ...
+    'strip_width', ds, 'down', down); 
 pathlength = ellipse_sino(sg, ell_fovdisk, 'oversample',4);
 maxpl = max(pathlength(:));
 mu_water = 0.2059 / 10;     % in mm^-1
