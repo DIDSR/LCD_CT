@@ -1,11 +1,18 @@
 
 close all; 
 
-%Download MIRT and include the MIRT path in the MATLAB workspace. 
+%Download MIRT and include the MIRT path in the MATLAB workspace by running "setup.m". 
 if ~exist('mirt-main', 'dir')
-unzip('https://github.com/JeffFessler/mirt/archive/refs/heads/main.zip', '.');
+    %unzip('https://github.com/JeffFessler/mirt/archive/refs/heads/main.zip', '.');
+    options = weboptions('CertificateFilename', '');
+    % Define the file URL and local destination path
+    url = 'http://web.eecs.umich.edu/~fessler/irt/fessler.tgz';
+    % Step 1: Download and save the zip file
+    websave('fessler.tgz', url, options);
+    % Step 2: Unzip the file into the target folder
+    untar('fessler.tgz', 'mirt-main');
 end
-irtdir = 'mirt-main';
+irtdir = 'mirt-main/irt/';
 addpath(irtdir)
 if(exist('setup.m'))
     setup
