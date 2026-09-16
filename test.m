@@ -21,9 +21,9 @@ demo_02_tworecon_LCD
 
 demo_03_tworecon_dosecurve_LCD
 
-demo_liver_lcd_test
-
 plot_results(res_table)
+
+demo_liver_lcd_test
 
 disp('tests complete, if no errors were raised LCD-CT installed correctly and is ready for use.')
 delete *.csv
