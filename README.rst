@@ -76,7 +76,7 @@ If required versions of Matlab or Octave are not available on your system (see h
            conda create -n LCD_CT python=3.8 pip -y
            conda activate LCD_CT
            conda install -c conda-forge -c defaults octave cxx-compiler pandas tomli numpy oct2py pytest simpleitk scikit-image scikit-learn scipy matplotlib sphinx-tabs pandoc ipykernel git -y
-           pip install \    "git+https://github.com/DIDSR/pediatricIQphantoms" \    sphinxcontrib-svg2pdfconverter \    nbsphinx
+           pip install "git+https://github.com/DIDSR/pediatricIQphantoms" sphinxcontrib-svg2pdfconverter nbsphinx
            pip install -e .
 
    *Expected run time: 2-5 min*
