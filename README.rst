@@ -93,7 +93,7 @@ If required versions of Matlab or Octave are not available on your system (see h
 
 4. Test the installation
 
-- **Python**: Run the tests using pytest:
+- **Python**: Run the following tests:
 
   .. code-block:: shell
           
