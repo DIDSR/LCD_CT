@@ -6,7 +6,7 @@ Created on Tue Aug 25 15:21:34 2026
 """
 import numpy as np
 
-from analyze_dose_reduction import analyze_dose_reduction
+from analyze_dose_reduction.analyze_dose_reduction import analyze_dose_reduction
 
 # -----------------------------------------------------------------------
     # Input data
@@ -74,3 +74,4 @@ results = analyze_dose_reduction(
     n_mc=30,
     rng_seed=12345,
 )
+print('Your test run suceeded!')
