@@ -428,8 +428,8 @@ def analyze_dose_reduction(
     rr_std     = np.nanstd(reduction_rate_mc,             axis=0)
     rr_ci_low  = np.nanpercentile(reduction_rate_mc,  2.5, axis=0)
     rr_ci_high = np.nanpercentile(reduction_rate_mc, 97.5, axis=0)
-    min_rr_mean = round(rr_mean.min()*100)
-    max_rr_mean = round(rr_mean.max()*100)
+    min_rr_mean = rr_mean.min()*100
+    max_rr_mean = rr_mean.max()*100
 
     # ------------------------------------------------------------------
     # Step 4: Print results
