@@ -5,9 +5,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clear all;
+addpath(genpath('src'))
 small_dataset = true; %true: using small dataset for test run. 
                       %false: using full dataset for reasonable AUC evaluation 
-%Data description
+
+%Data options: small or full dataset
 if(small_dataset)
     %using the small dataset (20 pairs of samples) for testing the liver_LCD test code
     disp('You are running the code with a small dataset.')
@@ -18,7 +20,7 @@ if(small_dataset)
     n_sa = 10; % number of signal-absent cases 
     n_train = 6; % number of cases to be used for training model obsevers
 else
-    %using full dataset (200 pairs), you need to download them from zenodo first
+    %using full dataset (200 pairs),which you need to download from zenodo
     disp('You are running the code with a full dataset.')
     yn = input('Have you downloaded the full dataset from zenodo and saved it under "/data/fulldata_liver_lcd"? (y/n) \n', 's');
     if(strcmpi(yn,'n')) 
@@ -33,8 +35,6 @@ else
     n_sa = 200;
     n_train = 120;
 end
-
-%%---- inputs------------
 
 % Model observer parameters
 mo_option = {'lg-cho', 'gabor-cho'};
@@ -54,7 +54,7 @@ insert_centers = [250 194; 180 126; 253 90; 298 110]; %from the value assigned t
 insert_radii = [3/2 5/2 7/2 10/2]/dx;
 idx_insert = [1 2 3 4]; %specify which inserts to be used in the LCD analysis. for example, let idx_insert=[2] if you only want to run the LCD analysis on the second insert (the 5mm one). 
 
-%%----End of inputs----------
+
 
 n_recon_option = length(all_recon_type);
 n_I0 = length(dose);
@@ -62,7 +62,7 @@ n_insert = length(idx_insert);
 auc_all = zeros(n_reader, n_insert, n_I0, n_recon_option);
 
 for iI = 1:n_I0
-     printf('dose:%d',dose(iI))
+     fprintf('dose:%d%%',dose(iI))
     
     %Preload all the images
     
@@ -156,19 +156,20 @@ snrse = squeeze(std(snr_all))/sqrt(n_reader); % standard errors of detectability
 insert_string = {'3mm-21HU','5mm-10.5HU', '7mm-7.5HU','10mm-4.5HU'}
 
 %show results
-disp('===AUC vs dose results===')
-for k=1:n_recon_option
-    display(all_recon_type{k}); 
-    display('Mean and SE of AUCs for 3 mm, 5 mm, 7 mm, 10 mm')
+disp('=======AUC results=======')
+disp('Mean and SE of AUCs')
+for k=1:n_recon_option    
+    disp(all_recon_type{k}); 
+    disp('3 mm, 5 mm, 7 mm, 10 mm')
     if(small_dataset)
-	printf('%d%%',dose(iI))
-	display(aucmean(:,k)')
-        display(aucse(:,k)')
+	fprintf('at %d%% level\n',dose(iI))
+	disp(aucmean(:,k)')
+    disp(aucse(:,k)')
     else
         for iI = 1:n_I0
-           printf('%d%',dose(iI))
-           display((squeeze(aucmean(:,iI,k)))')
-           display((squeeze(aucse(:,iI,k)))')
+           fprintf('at %d%% level\n',dose(iI))
+           disp((squeeze(aucmean(:,iI,k)))')
+           disp((squeeze(aucse(:,iI,k)))')
         end
     end
 end
@@ -176,9 +177,8 @@ end
 %save results
 fn_save = 'liver_lcd_results.mat';
 save(fn_save ,'auc_all','snr_all', 'dose', 'aucmean', 'aucse','snrmean','snrse', 'all_recon_type', 'insert_string');
-
+fprintf('Liver_LCD test results are saved to %s\n',fn_save);
 if(small_dataset)
-    disp('Successful test run of LCD test with the small liver-lcd dataset.')
-    disp('AUC values may be random due to extremely small training and testing sample sizes.')
+    warning('AUC values may be random without clear trend due to extremely small training and testing sample sizes.\n')
 end 
-printf('All results are saved to %s',fn_save);
+disp('Successful test run of LCD test with the small liver-lcd dataset.')
