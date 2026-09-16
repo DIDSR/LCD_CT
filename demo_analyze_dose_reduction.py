@@ -74,4 +74,4 @@ results = analyze_dose_reduction(
     n_mc=30,
     rng_seed=12345,
 )
-print('Your test run suceeded!')
+print('Your test run succeeded!')
