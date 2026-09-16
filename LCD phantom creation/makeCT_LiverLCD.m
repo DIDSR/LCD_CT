@@ -153,5 +153,5 @@ subplot(248), im(bkg_ct_noisy',clip), title 'Noisy fbp image: background module'
 colormap(gray)
 
 if(demo==1)
-   printf('Note: The intensity of disks in the Liver-LCD phantom was scaled up for illustration purpose. \n For actual LCD phantom simulation, set the parameter "demo" to 0 in makeCT_LiverLCD.m'.\n')
+   printf('Note: The intensity of disks in the Liver-LCD phantom was scaled up for illustration purpose. \n For actual LCD phantom simulation, set the parameter "demo" to 0 in makeCT_LiverLCD.m.\n')
 end
