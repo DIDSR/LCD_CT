@@ -93,7 +93,7 @@ If required versions of Matlab or Octave are not available on your system (see h
 
 4. Test the installation
 
-- **Python**: Run the following tests:
+- **Python**: Run the following tests in the conda LCD-CT virtual environment:
 
   .. code-block:: shell
           
