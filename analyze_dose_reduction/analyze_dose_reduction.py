@@ -479,7 +479,7 @@ def analyze_dose_reduction(
         f"5 mm: {rr_mean[1] * 100:.1f}%\n"
         f"7 mm: {rr_mean[2] * 100:.1f}%\n"
         f"10 mm: {rr_mean[3] * 100:.1f}%\n\n"
-        f"Overall dose reduction range: {min_rr_mean:d}% to {max_rr_mean:d}%"
+        f"Overall dose reduction range: {min_rr_mean:.1f}% to {max_rr_mean:.1f}%"
     )
     ax.text(
         0.05, 0.95, dose_reduction_text,
