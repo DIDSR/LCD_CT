@@ -42,7 +42,6 @@ Start Here
 **Requirements**
 
 - **Python (>= 3.8)** with packages listed in `pyproject.toml` (numpy, scipy, scikit-image, etc.)
-- *OR*
 - Matlab (**version > R2016a**) *or* Octave (**version > 4.4**)
 - If the above Matlab or Octave requirements are not met, then `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ is required to install Octave using the `installation`_ instructions.
 
