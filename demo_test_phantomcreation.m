@@ -3,14 +3,25 @@ close all;
 
 %Download MIRT and include the MIRT path in the MATLAB workspace by running "setup.m". 
 if ~exist('mirt-main', 'dir')
-    %unzip('https://github.com/JeffFessler/mirt/archive/refs/heads/main.zip', '.');
-    options = weboptions('CertificateFilename', '');
     % Define the file URL and local destination path
     url = 'http://web.eecs.umich.edu/~fessler/irt/fessler.tgz';
-    % Step 1: Download and save the zip file
-    websave('fessler.tgz', url, options);
-    % Step 2: Unzip the file into the target folder
-    untar('fessler.tgz', 'mirt-main');
+    outfile = 'fessler.tgz';
+
+    % Step 1: Download and save the tar file
+    if exist('OCTAVE_VERSION', 'builtin')
+        cmd = sprintf('wget --no-check-certificate -O "%s" "%s"', outfile, url);
+        status = system(cmd);
+        if status ~= 0
+            error('Failed to download MIRT.');
+        end
+    else
+        %unzip('https://github.com/JeffFessler/mirt/archive/refs/heads/main.zip', '.');
+        options = weboptions('CertificateFilename', '');
+        websave(outfile, url, options);
+    end
+
+    % Step 2: Extract the file into the target folder
+    untar(outfile, 'mirt-main');
 end
 irtdir = 'mirt-main/irt/';
 addpath(irtdir)
@@ -22,8 +33,8 @@ end
 if(~exist('fbp2.m'))
     disp('Setup error!')
     disp('It appears that MIRT is not available. Please follow the instructions below to set up MIRT manually.')
-    disp('1. Download and upzip the MIRT Github version https://github.com/JeffFessler/mirt')
-    disp('2. MIRT contains a file named "setup.m", run it to include MIRT functions to your matlab path.')
+    disp('1. Download and upzip the MIRT full version http://web.eecs.umich.edu/~fessler/irt/fessler.tgz')
+    disp('2. MIRT/irt/ contains a file named "setup.m", run it to include MIRT/irt/ functions to your matlab path.')
     return
 end
 
