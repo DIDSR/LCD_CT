@@ -115,9 +115,9 @@ Start Here
 
     *Expected run time (Octave): 2 min 30 s*
 
-4. **(Optioal) OCTAVE**:
+4. **(Optional) OCTAVE**:
 
-   If Matlab is not available, Octave can be installed using source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. Note: this can take about 10 minutes to complete.
+   If Matlab is not available, Octave can be installed using source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. This can take about 10 minutes to complete. Please note that the tool was fully tested on MATLAB but not on Octave.
 
  - Installation 
 
