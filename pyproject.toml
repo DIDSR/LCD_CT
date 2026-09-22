@@ -17,7 +17,9 @@ dependencies = [
   "scikit-image",
   "matplotlib",
   "scikit-learn",
-  "scipy"
+  "scipy",
+  "seaborn",
+  "notebook"
 ]
 classifiers = [
     "Programming Language :: Python :: 3",

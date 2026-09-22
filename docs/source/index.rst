@@ -1,106 +1,148 @@
-.. LCD for CT Toolbox documentation master file, created by
-   sphinx-quickstart on Tue Apr 25 21:17:51 2023.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Low Contrast Detectability for CT Toolbox
+=========================================
 
-Welcome to LCD for CT Toolbox's documentation!
-==============================================
-
-This documentation provides information regarding how to download, install, and use the LCD for CT Toolbox which is designed to low contrast detectactability in CT images.
-
-Introduction
-------------
-
-**Low Contrast Detectability for CT (LCD-CT) Toolbox** provides a common interface to evaluate the low contrast detectability (LCD) performance of advanced nonlinear CT image reconstruction and denoising algorithms. The toolbox uses model observers (MO) to evaluate the LCD of targets with known locations in test images obtained with the `MITA-LCD phantom <https://www.phantomlab.com/catphan-mita>`_. The model oberver detection accuracy is measured by the area under the receiver operating characteristic curve (AUC) and the detectability signal-to-noise ratio (d’_{snr}).  The LCD-CT toolbox can be used by CT developers to perform initial evaluation on image quality impprovement or dose reduction potential of their reconstruction and denoising algorithms.
+**Low Contrast Detectability for CT (LCD-CT) Toolbox** provides a common interface to evaluate the low contrast detectability (LCD) performance of advanced nonlinear CT image reconstruction and denoising algorithms. The toolbox uses model observers (MO) to evaluate the LCD of targets with known locations in test images obtained with the standard uniform-background `MITA-LCD phantom <https://www.phantomlab.com/catphan-mita>`_ or a nonuniform-background Liver-LCD phantom . The model observer detection accuracy is measured by the area under the receiver operating characteristic curve (AUC) and the detectability signal-to-noise ratio (d’_{snr}).  The LCD-CT toolbox can be used by CT developers to perform initial evaluation on image quality improvement or dose reduction potential of their reconstruction and denoising algorithms.
 
 .. image:: diagram.png
         :width: 800
         :align: center
 
-Installation
-------------
+- **Regulatory Science Tool:** Check the FDA website for a description of the LCD-CT toolbox in the `Regulatory Science Tool Catalog <https://cdrh-rst.fda.gov/lcd-ct-low-contrast-detectability-lcd-test-assessing-advanced-nonlinear-ct-image-reconstruction-and>`_
+
+Features
+--------
+1. Digital phantom and CT simulaiton:  
+
+- Creating digital replica of the background and signal modules of the `MITA-LCD phantom <https://www.phantomlab.com/catphan-mita>`_ and a digital Liver-LCD phantom that contains low-contrast disks in a non-uniform,  anatomical background.  
+- Simuating sinogram and generate fan-beam CT scans of the digital phantoms based on the publicly available `Michigan Image Reconstruction Tolbox (MIRT) <http://web.eecs.umich.edu/~fessler/irt/fessler.tgz>`_.
+ 
+   *(This feature runs best in MATLAB.)*
+
+2. LCD test: 
+
+- Estimating low contrast detectability performance from the MITA-LCD or Liver-LCD phantom CT images using channelized Hoteling model observer with Laguerre-Gauss (LG) channels and two options of Difference-of-Gaussian (DOG) channels and Gabor channels.
+
+   *(This feature runs in both MATLAB and python.)*
+
+3. Dose reduction estimation: 
+
+- Analyzing the dose reduction percentages of a nonlinear reconstruction method relateive to a reference method (e.g., filtered back projection method) for maintaining LCD using the AUC results of the evaluated reconstruction method and a reference method across multiple dose levels obtained from a LCD test. 
+
+   *(This feature runs only in python.)*
+
+Start Here
+----------
 
 .. _version requirements:
 
 **Requirements**
 
-- **Python (>= 3.8)** with packages listed in `pyproject.toml`.
-- *OR*
-- Matlab (**version > R2016a**) *or* Octave (**version > 4.4**)
-- If the above Matlab or Octave requirements are not met, then `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ is required to install Octave (See step 2 below).
+- **Python (>= 3.8)** with packages listed in `pyproject.toml` (numpy, scipy, scikit-image, etc.)
+- Matlab (**version > R2016a**) 
+.. *or* Octave (**version > 4.4**)
+.. - If the above Matlab or Octave requirements are not met, then `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ is required to install Octave using the `installation`_ instructions.
 
-If required versions of Matlab or Octave are not available on your system (see how to get `matlab version <https://www.mathworks.com/help/matlab/ref/version.html>`_ or `octave version <https://docs.octave.org/v4.4.0/System-Information.html#XREFversion>`_) then see `installation`_ for how to setup an Octave environment to run LCD-CT.
+.. If required versions of Matlab or Octave are not available on your system (see how to get `matlab version <https://www.mathworks.com/help/matlab/ref/version.html>`_ or `octave version <https://docs.octave.org/v4.4.0/System-Information.html#XREFversion>`_) then see `installation`_ for how to setup an Octave environment to run LCD-CT.
 
+.. _installation:
+
+**Installation**
 
 1. Git clone the LCD-CT Toolbox repository:
 
 .. code-block:: shell
 
-    git clone https://github.com/DIDSR/LCD_CT
-    cd LCD_CT
+        git clone https://github.com/DIDSR/LCD_CT
+        cd LCD_CT
 
-2. **Python Installation**:
+2. **Python**:
 
-   Create a conda environment and install the package:
+ - Create a conda environment and install the package:
 
-   .. code-block:: shell
+   .. .. code-block:: shell
 
            conda env create --file environment.yml
            conda activate LCD_CT
            pip install -e .
+   
+   .. code-block:: shell      
 
-3. **MATLAB/Octave Installation** (Legacy):
+           conda create -n LCD_CT python=3.8 pip -y
+           conda activate LCD_CT
+           conda install -c conda-forge -c defaults octave cxx-compiler pandas tomli numpy oct2py pytest simpleitk scikit-image scikit-learn scipy matplotlib sphinx-tabs pandoc ipykernel git -y
+           pip install "git+https://github.com/DIDSR/pediatricIQphantoms" sphinxcontrib-svg2pdfconverter nbsphinx
+           pip install -e .
 
-   *If neither Matlab or Octave are installed or do not meet the **version requirements**, you can source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. Or run the following lines in your command prompt:
+   *Expected run time: 2-5 min*
 
-.. code-block:: shell
+ - Test the python installation
 
-   conda create --name octave -y && conda activate octave
-   conda install -c conda-forge octave -y
-   conda install -c conda-forge cxx-compiler -y
-   octave --eval 'pkg install -forge image; pkg install https://github.com/apjanke/octave-tablicious/releases/download/v0.3.7/tablicious-0.3.7.tar.gz; pkg load image tablicious'
+   Run the following tests in the conda LCD-CT virtual environment:
 
-Note: this can take about 10-30 minutes to complete.
+   .. code-block:: shell
+          
+           pytest tests/test_lcd.py
+           python demo_analyze_dose_reduction.py
 
-4. Test the installation
+3. **MATLAB**:
+  
+   MATLAB version information is available from `MATLAB <https://www.mathworks.com/support/requirements/previous-releases.html>`_.
+   
+    From the bash command line `matlab test.m` 
+  
+    From the Matlab prompt
 
-- From the bash command line:
+    .. code-block:: matlab
+       
+           >> test
 
-.. tabs::
+    *Expected run time (Octave): 2 min 30 s*
 
-   .. tab:: Python
+4. **(Optional) OCTAVE**:
 
-      .. code-block:: shell
+   If Matlab is not available, Octave can be installed using source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. This can take about 10 minutes to complete. 
 
-         $ pytest tests/test_lcd.py
+   Please note that the MATLAB part of this software has been fully developed and tested using MATLAB. GNU Octave may also be used to run the software; however, Octave compatibility has not been fully tested or validated. Although GNU Octave is largely compatible with MATLAB, differences exist in the availability and behavior of certain functions and toolboxes. Users who choose to run this software with Octave may need to install additional Octave packages and modify or replace MATLAB-specific functions with their Octave-compatible equivalents. Users are responsible for making any necessary adaptations for their specific Octave environment and for verifying that the resulting outputs are consistent with their expected use.
+  
+ - Installation 
 
-   .. tab:: Octave
+   .. code-block:: shell
 
-      .. code-block:: shell
+           source install.sh
 
-         $ octave test.m
+   *Expected run time: 10-30 min*
 
-   .. tab:: Matlab
+ - Test Octave
 
-      .. code-block:: shell
+   From the bash command line `octave test.m` 
+ 
+   From the  Octave interactive prompt
 
-         $ matlab -batch test.m
+   .. code-block:: octave
 
-- From the Matlab or Octave interactive prompt:
+            >> test
 
-.. code-block:: octave
+   *Expected run time (Octave): 1 min 30 s.* 
+  
+  .. *The LiverLCD Phantom Creation code relies on MIRT, which may not be fully compatible with OCTAVE (check `MIRT webpage <https://web.eecs.umich.edu/~fessler/code/>`_ ).*
 
-        >> test
+   
 
-Users
------
+Tool Reference
+--------------
 
-Check out the :doc:`usage` section for further information.
+- RST Reference Number: RST24MD08.01
+- Date of Publication: 09/24/2023
+- Recommended Citation: U.S. Food and Drug Administration. (2023). LCD-CT: Low-contrast Detectability (LCD) Test for Assessing Advanced Nonlinear CT Image Reconstruction and Denoising Methods (RST24MD08.01). https://cdrh-rst.fda.gov/lcd-ct-low-contrast-detectability-lcd-test-assessing-advanced-nonlinear-ct-image-reconstruction-and
 
-Developers
-----------
+Disclaimer
+==========
 
-If you'd like to contribute to the code or documentation of this project, please check out our :doc:`contributing` page.
+**About the Catalog of Regulatory Science Tools**
+
+The enclosed tool is part of the `Catalog of Regulatory Science Tools <https://cdrh-rst.fda.gov>`_, which provides a peer-reviewed resource for stakeholders to use where standards and qualified Medical Device Development Tools (MDDTs) do not yet exist. These tools do not replace FDA-recognized standards or MDDTs. This catalog collates a variety of regulatory science tools that the FDA's Center for Devices and Radiological Health's (CDRH) Office of Science and Engineering Labs (OSEL) developed. These tools use the most innovative science to support medical device development and patient access to safe and effective medical devices. If you are considering using a tool from this catalog in your marketing submissions, note that these tools have not been qualified as `Medical Device Development Tools <https://www.fda.gov/medical-devices/medical-device-development-tools-mddt>`_ and the FDA has not evaluated the suitability of these tools within any specific context of use. You may `request feedback or meetings for medical device submissions <https://www.fda.gov/regulatory-information/search-fda-guidance-documents/requests-feedback-and-meetings-medical-device-submissions-q-submission-program>`_ as part of the Q-Submission Program.
+
+For more information about the Catalog of Regulatory Science Tools, email RST_CDRH@fda.hhs.gov.
 
 Additional Resources
 --------------------
