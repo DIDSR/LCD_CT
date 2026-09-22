@@ -28,11 +28,24 @@ Low Contrast Detectability for CT Toolbox
 
 Features
 --------
+1. Digital phantom and CT simulaiton:  
 
 - Creating digital replica of the background and signal modules of the `MITA-LCD phantom <https://www.phantomlab.com/catphan-mita>`_ and a digital Liver-LCD phantom that contains low-contrast disks in a non-uniform,  anatomical background.  
-- Simuating sinogram and generate fan-beam CT scans of the digital phantoms based on the publicly available `Michigan Image Reconstruction Tolbox (MIRT) <https://github.com/JeffFessler/mirt>`_.
+- Simuating sinogram and generate fan-beam CT scans of the digital phantoms based on the publicly available `Michigan Image Reconstruction Tolbox (MIRT) <http://web.eecs.umich.edu/~fessler/irt/fessler.tgz>`_.
+ 
+   *(This feature runs best in MATLAB.)*
+
+2. LCD test: 
+
 - Estimating low contrast detectability performance from the MITA-LCD or Liver-LCD phantom CT images using channelized Hoteling model observer with Laguerre-Gauss (LG) channels and two options of Difference-of-Gaussian (DOG) channels and Gabor channels.
-- Analyzing the dose reduction percentages of a nonlinear reconstruction method for maintaining low-contrast detectability using the AUC results of the evaluated reconstruction method and a reference FBP method across multiple dose levels obtained from a LCD test. 
+
+   *(This feature runs in both MATLAB and python.)*
+
+3. Dose reduction estimation: 
+
+- Analyzing the dose reduction percentages of a nonlinear reconstruction method relateive to a reference method (e.g., filtered back projection method) for maintaining LCD using the AUC results of the evaluated reconstruction method and a reference method across multiple dose levels obtained from a LCD test. 
+
+   *(This feature runs only in python.)*
 
 Start Here
 ----------
@@ -42,10 +55,11 @@ Start Here
 **Requirements**
 
 - **Python (>= 3.8)** with packages listed in `pyproject.toml` (numpy, scipy, scikit-image, etc.)
-- Matlab (**version > R2016a**) *or* Octave (**version > 4.4**)
-- If the above Matlab or Octave requirements are not met, then `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ is required to install Octave using the `installation`_ instructions.
+- Matlab (**version > R2016a**) 
+.. *or* Octave (**version > 4.4**)
+.. - If the above Matlab or Octave requirements are not met, then `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ is required to install Octave using the `installation`_ instructions.
 
-If required versions of Matlab or Octave are not available on your system (see how to get `matlab version <https://www.mathworks.com/help/matlab/ref/version.html>`_ or `octave version <https://docs.octave.org/v4.4.0/System-Information.html#XREFversion>`_) then see `installation`_ for how to setup an Octave environment to run LCD-CT.
+.. If required versions of Matlab or Octave are not available on your system (see how to get `matlab version <https://www.mathworks.com/help/matlab/ref/version.html>`_ or `octave version <https://docs.octave.org/v4.4.0/System-Information.html#XREFversion>`_) then see `installation`_ for how to setup an Octave environment to run LCD-CT.
 
 .. _installation:
 
@@ -58,18 +72,16 @@ If required versions of Matlab or Octave are not available on your system (see h
         git clone https://github.com/DIDSR/LCD_CT
         cd LCD_CT
 
-2. **Python Installation**:
+2. **Python**:
 
-   Create a conda environment and install the package:
+- Create a conda environment and install the package:
 
-   .. code-block:: shell
+   .. .. code-block:: shell
 
            conda env create --file environment.yml
            conda activate LCD_CT
            pip install -e .
    
-   If the commands above failed, try install the package step by step as below:
-
    .. code-block:: shell      
 
            conda create -n LCD_CT python=3.8 pip -y
@@ -80,34 +92,52 @@ If required versions of Matlab or Octave are not available on your system (see h
 
    *Expected run time: 2-5 min*
 
-3. **MATLAB/Octave Installation** (Legacy):
+- Test the python installation
 
-   *If neither Matlab or Octave are installed or do not meet the `version requirements`_, you can source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. Note: this can take about 10 minutes to complete.
+  Run the following tests in the conda LCD-CT virtual environment:
 
-.. code-block:: shell
-
-        source install.sh
-
-*Expected run time: 10-30 min*
-
-4. Test the installation
-
-- **Python**: Run the following tests in the conda LCD-CT virtual environment:
-
-  .. code-block:: shell
+   .. code-block:: shell
           
-          pytest tests/test_lcd.py
-          python demo_analyze_dose_reduction.py
+           pytest tests/test_lcd.py
+           python demo_analyze_dose_reduction.py
 
-- From the bash command line `octave test.m` or `matlab -batch test.m`
+3. **MATLAB**
+  
+   MATLAB version information is available from `MATLAB <https://www.mathworks.com/support/requirements/previous-releases.html>`_.
+   
+   From the bash command line `matlab test_o.m` 
+  
+   From the Matlab prompt
 
-- From the Matlab or Octave interactive prompt
+    .. code-block:: matlab
+       
+           >> test_m
 
-.. code-block:: octave
+   *Expected run time (Octave): 2 min 30 s*
 
-        >> test
+4. **(Optioal)Octave **:
 
-*Expected run time (Octave): 1 min 30 s*
+   If Matlab is not available, Octave can be installed using source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. Note: this can take about 10 minutes to complete.
+
+   - Installation 
+
+    .. code-block:: shell
+
+           source install.sh
+
+    *Expected run time: 10-30 min*
+
+   - Test Octave
+
+     From the bash command line `octave test_o.m` 
+ 
+     From the  Octave interactive prompt
+
+     .. code-block:: octave
+
+            >> test_o
+
+     *Expected run time (Octave): 1 min 30 s*
 
 Tool Reference
 --------------
