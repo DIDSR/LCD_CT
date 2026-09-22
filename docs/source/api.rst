@@ -21,10 +21,10 @@ Python API
     :undoc-members:
     :show-inheritance:
 
-MATLAB API
-----------
+.. MATLAB API
+.. ----------
 
-.. automodule:: lcdct
-    :members:
+.. .. automodule:: lcdct
+..     :members:
 
 
