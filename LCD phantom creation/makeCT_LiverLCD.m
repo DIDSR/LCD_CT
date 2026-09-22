@@ -7,7 +7,9 @@
 %   1. Download MIRT from http://web.eecs.umich.edu/~fessler/irt/fessler.tgz to a local directory.
 %   2. Include MIRT functions to the Matlab path by running "setup.m" in MIRT/irt
 % See "demo_test_phantomcreation.m" for the MIRT setup.
-
+%
+% Warning: makeCT_LiverLCD runs in MATLAB but not in Octave because the called mex-function "Gtomo_dscmex()" in MIRT/irt 
+% is not compatible with Octave.
 
 clear all;
 
