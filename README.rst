@@ -115,7 +115,7 @@ Start Here
 
     *Expected run time (Octave): 2 min 30 s*
 
-4. **(Optioal)Octave**:
+4. **(Optioal) OCTAVE**:
 
    If Matlab is not available, Octave can be installed using source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. Note: this can take about 10 minutes to complete.
 
@@ -137,7 +137,9 @@ Start Here
 
             >> test_o
 
-   *Expected run time (Octave): 1 min 30 s*
+   *Expected run time (Octave): 1 min 30 s.* 
+
+   The Phantom Creation code relies on MIRT, which may not be fully compatible with OCTAVE (check `MIRT webpage <https://web.eecs.umich.edu/~fessler/code/>`_ ).
 
 Tool Reference
 --------------
