@@ -18,6 +18,7 @@ dependencies = [
   "matplotlib",
   "scikit-learn",
   "scipy",
+  "seaborn",
   "notebook"
 ]
 classifiers = [
