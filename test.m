@@ -11,8 +11,6 @@ if ~is_octave
     end
 end
 
-demo_test_phantomcreation
-
 demo_images_from_directory
 
 demo_01_singlerecon_LCD
@@ -24,6 +22,8 @@ demo_03_tworecon_dosecurve_LCD
 plot_results(res_table)
 
 demo_liver_lcd_test
+
+demo_test_phantomcreation
 
 disp('tests complete, if no errors were raised LCD-CT installed correctly and is ready for use.')
 delete *.csv
