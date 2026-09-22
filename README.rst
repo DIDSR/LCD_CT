@@ -117,8 +117,10 @@ Start Here
 
 4. **(Optional) OCTAVE**:
 
-   If Matlab is not available, Octave can be installed using source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. This can take about 10 minutes to complete. Please note that the tool was fully tested on MATLAB but not on Octave.
+   If Matlab is not available, Octave can be installed using source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. This can take about 10 minutes to complete. 
 
+   Please note that the MATLAB part of this software has been fully developed and tested using MATLAB. GNU Octave may also be used to run the software; however, Octave compatibility has not been fully tested or validated. Although GNU Octave is largely compatible with MATLAB, differences exist in the availability and behavior of certain functions and toolboxes. Users who choose to run this software with Octave may need to install additional Octave packages and modify or replace MATLAB-specific functions with their Octave-compatible equivalents. Users are responsible for making any necessary adaptations for their specific Octave environment and for verifying that the resulting outputs are consistent with their expected use.
+  
  - Installation 
 
    .. code-block:: shell
@@ -138,8 +140,10 @@ Start Here
             >> test
 
    *Expected run time (Octave): 1 min 30 s.* 
+  
+  .. *The LiverLCD Phantom Creation code relies on MIRT, which may not be fully compatible with OCTAVE (check `MIRT webpage <https://web.eecs.umich.edu/~fessler/code/>`_ ).*
 
-   The LCD Phantom Creation code relies on MIRT, which may not be fully compatible with OCTAVE (check `MIRT webpage <https://web.eecs.umich.edu/~fessler/code/>`_ ).
+   
 
 Tool Reference
 --------------
