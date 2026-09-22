@@ -74,7 +74,7 @@ Start Here
 
 2. **Python**:
 
-- Create a conda environment and install the package:
+ - Create a conda environment and install the package:
 
    .. .. code-block:: shell
 
@@ -92,16 +92,16 @@ Start Here
 
    *Expected run time: 2-5 min*
 
-- Test the python installation
+ - Test the python installation
 
-  Run the following tests in the conda LCD-CT virtual environment:
+   Run the following tests in the conda LCD-CT virtual environment:
 
    .. code-block:: shell
           
            pytest tests/test_lcd.py
            python demo_analyze_dose_reduction.py
 
-3. **MATLAB**
+3. **MATLAB**:
   
    MATLAB version information is available from `MATLAB <https://www.mathworks.com/support/requirements/previous-releases.html>`_.
    
@@ -113,31 +113,31 @@ Start Here
        
            >> test_m
 
-   *Expected run time (Octave): 2 min 30 s*
+    *Expected run time (Octave): 2 min 30 s*
 
-4. **(Optioal)Octave **:
+4. **(Optioal)Octave**:
 
    If Matlab is not available, Octave can be installed using source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. Note: this can take about 10 minutes to complete.
 
-   - Installation 
+ - Installation 
 
-    .. code-block:: shell
+   .. code-block:: shell
 
            source install.sh
 
-    *Expected run time: 10-30 min*
+   *Expected run time: 10-30 min*
 
-   - Test Octave
+ - Test Octave
 
-     From the bash command line `octave test_o.m` 
+   From the bash command line `octave test_o.m` 
  
-     From the  Octave interactive prompt
+   From the  Octave interactive prompt
 
-     .. code-block:: octave
+   .. code-block:: octave
 
             >> test_o
 
-     *Expected run time (Octave): 1 min 30 s*
+   *Expected run time (Octave): 1 min 30 s*
 
 Tool Reference
 --------------
