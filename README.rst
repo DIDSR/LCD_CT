@@ -113,7 +113,7 @@ Start Here
        
            >> test
 
-    *Expected run time (Octave): 2 min 30 s*
+    *Expected run time: 2 min 30 s*
 
 4. **(Optional) OCTAVE**:
 
@@ -139,9 +139,9 @@ Start Here
 
             >> test
 
-   *Expected run time (Octave): 1 min 30 s.* 
+   *Expected run time: 2 min.* 
   
-  .. *The LiverLCD Phantom Creation code relies on MIRT, which may not be fully compatible with OCTAVE (check `MIRT webpage <https://web.eecs.umich.edu/~fessler/code/>`_ ).*
+   The LiverLCD Phantom Creation code (makeCT_LiverLCD.m) is not compatible with Ocatve, because it calls mex-functions in MIRT that are not compiled for Octave (check `MIRT webpage <https://web.eecs.umich.edu/~fessler/code/>`_ ). For this reason, makeCT_LiverLCD is excluded from being tested in Octave. Use MATLAB to run makeCT_LiverLCD.m.
 
    
 
