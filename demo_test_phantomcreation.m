@@ -52,7 +52,7 @@ if (~exist('OCTAVE_VERSION', 'builtin'))
      disp('Liver-LCD phantom creation code is run successfully!')
      saveas(gcf,'makeCT_LiverLCD_plot.png');
 else
-    warning('Liver-LCD phantom creation code is not tested in OCTAVE due to incompatibility.')
+    warning('Liver-LCD phantom creation code is not tested in OCTAVE due to incompatibility of a mex function in MIRT/irt being used.')
 end
 
 
