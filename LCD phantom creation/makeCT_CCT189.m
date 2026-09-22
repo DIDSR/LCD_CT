@@ -112,12 +112,24 @@ end
 
 %display
 figure('Name','MITA-LCD phantom creation');
-subplot(241), im(cct189_disk_true,[-30 30]), title 'True object image: signal module';
-subplot(245), im(cct189_bkg_true,[-30 30]), title 'True object image: background module';
-subplot(242), im(sino_disk,[]), title 'Sinogram: signal module';
-subplot(246), im(sino_bkg,[]), title 'Sinogram: background module';
-subplot(243), im(disk_ct_noiseless,[-30 30]), title 'Noiseless fbp image: signal module';
-subplot(247), im(bkg_ct_noiseless,[-30 30]), title 'Noiseless fbp image: background module';
-subplot(244), im(disk_ct_noisy,[-200 200]), title 'Noisy fbp image: signal module';
-subplot(248), im(bkg_ct_noisy,[-200 200]), title 'Noisy fbp image: background module';    
-colormap(gray)
+if(~exist('OCTAVE_VERSION', 'builtin'))
+    subplot(241), im(cct189_disk_true,[-30 30]), title 'True object image: signal module';
+    subplot(245), im(cct189_bkg_true,[-30 30]), title 'True object image: background module';
+    subplot(242), im(sino_disk,[]), title 'Sinogram: signal module';
+    subplot(246), im(sino_bkg,[]), title 'Sinogram: background module';
+    subplot(243), im(disk_ct_noiseless,[-30 30]), title 'Noiseless fbp image: signal module';
+    subplot(247), im(bkg_ct_noiseless,[-30 30]), title 'Noiseless fbp image: background module';
+    subplot(244), im(disk_ct_noisy,[-200 200]), title 'Noisy fbp image: signal module';
+    subplot(248), im(bkg_ct_noisy,[-200 200]), title 'Noisy fbp image: background module';    
+    colormap(gray)
+else
+    subplot(241), imagesc(cct189_disk_true',[-30 30]), title 'True object image: signal module'; axis equal; axis off
+    subplot(245), imagesc(cct189_bkg_true',[-30 30]), title 'True object image: background module'; axis equal; axis off
+    subplot(242), imagesc(sino_disk',[]), title 'Sinogram: signal module';axis equal; axis off
+    subplot(246), imagesc(sino_bkg',[]), title 'Sinogram: background module';axis equal; axis off
+    subplot(243), imagesc(disk_ct_noiseless',[-30 30]), title 'Noiseless fbp image: signal module'; axis equal; axis off
+    subplot(247), imagesc(bkg_ct_noiseless',[-30 30]), title 'Noiseless fbp image: background module'; axis equal; axis off
+    subplot(244), imagesc(disk_ct_noisy',[-200 200]), title 'Noisy fbp image: signal module';axis equal; axis off
+    subplot(248), imagesc(bkg_ct_noisy',[-200 200]), title 'Noisy fbp image: background module'; axis equal; axis off   
+    colormap(gray)
+end

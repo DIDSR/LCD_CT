@@ -43,14 +43,16 @@ addpath(genpath('LCD phantom creation'));
 disp('Simulating CCT189 scans')
 makeCT_CCT189
 disp('MITA-LCD phantom creation code is run successfully!')
+saveas(gcf,'makeCT_CCT189_plot.png');
 
 %"makeCT_LiverLCD" only properly runs in MATLAB currently. It can't run in Octave because it calls some MIRT mex functions that were not compiled for Octave.  
 if (~exist('OCTAVE_VERSION', 'builtin'))
      disp('Simulating LiverLCD scans')
      makeCT_LiverLCD
      disp('Liver-LCD phantom creation code is run successfully!')
+     saveas(gcf,'makeCT_LiverLCD_plot.png');
 else
-    warning('Liver-LCD phantom creation code is not tested in OCTAVE due to incompatibility.')
+    warning('Liver-LCD phantom creation code is not tested in OCTAVE due to incompatibility of a mex function in MIRT/irt being used.')
 end
 
 
