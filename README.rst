@@ -105,13 +105,13 @@ Start Here
   
    MATLAB version information is available from `MATLAB <https://www.mathworks.com/support/requirements/previous-releases.html>`_.
    
-    From the bash command line `matlab test_m.m` 
+    From the bash command line `matlab test.m` 
   
     From the Matlab prompt
 
     .. code-block:: matlab
        
-           >> test_m
+           >> test
 
     *Expected run time (Octave): 2 min 30 s*
 
@@ -129,17 +129,17 @@ Start Here
 
  - Test Octave
 
-   From the bash command line `octave test_o.m` 
+   From the bash command line `octave test.m` 
  
    From the  Octave interactive prompt
 
    .. code-block:: octave
 
-            >> test_o
+            >> test
 
    *Expected run time (Octave): 1 min 30 s.* 
 
-   The Phantom Creation code relies on MIRT, which may not be fully compatible with OCTAVE (check `MIRT webpage <https://web.eecs.umich.edu/~fessler/code/>`_ ).
+   The LCD Phantom Creation code relies on MIRT, which may not be fully compatible with OCTAVE (check `MIRT webpage <https://web.eecs.umich.edu/~fessler/code/>`_ ).
 
 Tool Reference
 --------------
