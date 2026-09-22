@@ -105,9 +105,9 @@ Start Here
   
    MATLAB version information is available from `MATLAB <https://www.mathworks.com/support/requirements/previous-releases.html>`_.
    
-   From the bash command line `matlab test_o.m` 
+    From the bash command line `matlab test_m.m` 
   
-   From the Matlab prompt
+    From the Matlab prompt
 
     .. code-block:: matlab
        
