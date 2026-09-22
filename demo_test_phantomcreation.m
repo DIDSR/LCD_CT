@@ -1,5 +1,6 @@
 
 close all; 
+addpath(genpath('src'))
 
 %Download MIRT and include the MIRT path in the MATLAB workspace by running "setup.m". 
 if ~exist('mirt-main', 'dir')
