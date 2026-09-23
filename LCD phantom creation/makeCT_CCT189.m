@@ -8,7 +8,7 @@
 %   1. Download MIRT from http://web.eecs.umich.edu/~fessler/irt/fessler.tgz to a local directory.
 %   2. Include MIRT functions to the Matlab path by running "setup.m" in MIRT/irt
 % See "demo_test_phantomcreation.m" for the MIRT setup. 
-close all; 
+clc; 
 
 % ------ define the CT scanner setting ------
 CT_setup;   %this will load in CT parameters. See "CT_setup.m" for details. 
