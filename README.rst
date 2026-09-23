@@ -105,9 +105,13 @@ Start Here
   
    MATLAB version information is available from `MATLAB <https://www.mathworks.com/support/requirements/previous-releases.html>`_. See how to get `matlab version <https://www.mathworks.com/help/matlab/ref/version.html>`_ on your system.
    
-    From the bash command line `matlab test.m` 
+    From the bash command line 
+    
+    .. code-block:: matlab
+      
+       matlab -batch "test" 
   
-    From the Matlab prompt
+    Or, from the Matlab prompt
 
     .. code-block:: matlab
        
@@ -121,7 +125,7 @@ Start Here
 
    Please note that the MATLAB part of this software has been fully developed and tested using MATLAB. GNU Octave may also be used to run the software; however, Octave compatibility has not been fully tested or validated. Although Octave is largely compatible with MATLAB, differences exist in the availability and behavior of certain functions and toolboxes. Users who choose to run this software with GNU Octave may need to install additional Octave packages and modify or replace MATLAB-specific functions with their Octave-compatible equivalents. Users are responsible for making any necessary adaptations for their specific Octave environment and for verifying that the resulting outputs are consistent with their expected use.
   
- - Create a COnda Octave environment and install the package: 
+ - Create a Conda Octave environment and install the package: 
 
    .. code-block:: shell
 
@@ -131,13 +135,17 @@ Start Here
 
  - Test Octave
 
-   From the bash command line `octave test.m` 
- 
-   From the  Octave interactive prompt
+   In the conda Octave virtual environment, run:
 
    .. code-block:: octave
+      
+       octave test.m 
+ 
+   .. Or, through the interactive prompt
+   .. .. code-block:: octave
 
-            >> test
+   ..         >> octave --gui --line-editing
+   ..         >> test
 
    *Expected run time: 2 min.* 
   
