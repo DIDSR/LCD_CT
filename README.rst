@@ -103,7 +103,7 @@ Start Here
 
 3. **MATLAB**:
   
-   MATLAB version information is available from `MATLAB <https://www.mathworks.com/support/requirements/previous-releases.html>`_. see how to get `matlab version <https://www.mathworks.com/help/matlab/ref/version.html>`_ on your system.
+   MATLAB version information is available from `MATLAB <https://www.mathworks.com/support/requirements/previous-releases.html>`_. See how to get `matlab version <https://www.mathworks.com/help/matlab/ref/version.html>`_ on your system.
    
     From the bash command line `matlab test.m` 
   
@@ -117,7 +117,7 @@ Start Here
 
 4. **(Optional) GNU OCTAVE**:
 
-   If Matlab is not available, `Octave <https://octave.org/>`_ (**version > 4.4**) can be installed using source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment.  
+   If Matlab is not available, `GNU Octave <https://octave.org/>`_ (**version > 4.4**) can be installed using source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment.  
 
    Please note that the MATLAB part of this software has been fully developed and tested using MATLAB. GNU Octave may also be used to run the software; however, Octave compatibility has not been fully tested or validated. Although Octave is largely compatible with MATLAB, differences exist in the availability and behavior of certain functions and toolboxes. Users who choose to run this software with GNU Octave may need to install additional Octave packages and modify or replace MATLAB-specific functions with their Octave-compatible equivalents. Users are responsible for making any necessary adaptations for their specific Octave environment and for verifying that the resulting outputs are consistent with their expected use.
   
