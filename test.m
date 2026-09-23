@@ -28,3 +28,6 @@ demo_test_phantomcreation
 disp('tests complete, if no errors were raised LCD-CT installed correctly and is ready for use.')
 delete *.csv
 
+disp('Close all figures to end the test...');
+waitfor(gcf)
+
