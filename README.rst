@@ -74,7 +74,7 @@ Start Here
 
 2. **Python**:
 
- - Create a conda environment and install the package:
+ - Create a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_  environment and install the package:
 
    .. .. code-block:: shell
 
@@ -103,7 +103,7 @@ Start Here
 
 3. **MATLAB**:
   
-   MATLAB version information is available from `MATLAB <https://www.mathworks.com/support/requirements/previous-releases.html>`_.
+   MATLAB version information is available from `MATLAB <https://www.mathworks.com/support/requirements/previous-releases.html>`_. see how to get `matlab version <https://www.mathworks.com/help/matlab/ref/version.html>`_ on your system.
    
     From the bash command line `matlab test.m` 
   
@@ -115,13 +115,13 @@ Start Here
 
     *Expected run time: 2 min 30 s*
 
-4. **(Optional) OCTAVE**:
+4. **(Optional) GNU OCTAVE**:
 
-   If Matlab is not available, Octave can be installed using source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. This can take about 10 minutes to complete. 
+   If Matlab is not available, `Octave <https://octave.org/>`_ (**version > 4.4**) can be installed using source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment.  
 
-   Please note that the MATLAB part of this software has been fully developed and tested using MATLAB. GNU Octave may also be used to run the software; however, Octave compatibility has not been fully tested or validated. Although GNU Octave is largely compatible with MATLAB, differences exist in the availability and behavior of certain functions and toolboxes. Users who choose to run this software with Octave may need to install additional Octave packages and modify or replace MATLAB-specific functions with their Octave-compatible equivalents. Users are responsible for making any necessary adaptations for their specific Octave environment and for verifying that the resulting outputs are consistent with their expected use.
+   Please note that the MATLAB part of this software has been fully developed and tested using MATLAB. GNU Octave may also be used to run the software; however, Octave compatibility has not been fully tested or validated. Although Octave is largely compatible with MATLAB, differences exist in the availability and behavior of certain functions and toolboxes. Users who choose to run this software with GNU Octave may need to install additional Octave packages and modify or replace MATLAB-specific functions with their Octave-compatible equivalents. Users are responsible for making any necessary adaptations for their specific Octave environment and for verifying that the resulting outputs are consistent with their expected use.
   
- - Installation 
+ - Create a COnda Octave environment and install the package: 
 
    .. code-block:: shell
 
@@ -141,7 +141,7 @@ Start Here
 
    *Expected run time: 2 min.* 
   
-   The LiverLCD Phantom Creation code (makeCT_LiverLCD.m) is not compatible with Ocatve, because it calls mex-functions in MIRT that are not compiled for Octave (check `MIRT webpage <https://web.eecs.umich.edu/~fessler/code/>`_ ). For this reason, makeCT_LiverLCD is excluded from being tested in Octave. Use MATLAB to run makeCT_LiverLCD.m.
+   **Note:** The Liver-LCD Phantom Creation code (makeCT_LiverLCD.m in folder "LCD Phantom creation") is not compatible with Octave, because it calls mex-functions in MIRT that are not compiled for Octave (check `MIRT webpage <https://web.eecs.umich.edu/~fessler/code/>`_ ). For this reason, makeCT_LiverLCD is excluded from being tested in Octave. Use MATLAB to run makeCT_LiverLCD.m.
 
    
 
