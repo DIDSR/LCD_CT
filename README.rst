@@ -147,7 +147,9 @@ Start Here
    ..         >> octave --gui --line-editing
    ..         >> test
 
-   *Expected run time: 2 min.* 
+   *Expected run time: 2 min. 
+
+.. Figures may appear black in Octave due to a graphic library conflict between octave and your system display server. check ... for possible solutions* 
   
    **Note:** The Liver-LCD Phantom Creation code (makeCT_LiverLCD.m in folder "LCD Phantom creation") is not compatible with Octave, because it calls mex-functions in MIRT that are not compiled for Octave (check `MIRT webpage <https://web.eecs.umich.edu/~fessler/code/>`_ ). For this reason, makeCT_LiverLCD is excluded from being tested in Octave. Use MATLAB to run makeCT_LiverLCD.m.
 
