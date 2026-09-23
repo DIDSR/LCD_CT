@@ -11,7 +11,7 @@
 % Warning: makeCT_LiverLCD runs in MATLAB but not in Octave because the called mex-function "Gtomo_dscmex()" in MIRT/irt 
 % is not compatible with Octave.
 
-clear all;
+clc;
 
 demo = 1 % Set demo to 1 if you want to make the low-contrast disk inserts more visible.   
 if(demo==1)   
