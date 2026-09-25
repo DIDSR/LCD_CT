@@ -43,7 +43,7 @@ Features
 
 3. Dose reduction estimation: 
 
-- Analyzing the dose reduction percentages of a nonlinear reconstruction method relateive to a reference method (e.g., filtered back projection method) for maintaining LCD using the AUC results of the evaluated reconstruction method and a reference method across multiple dose levels obtained from a LCD test. 
+- - Estimating the dose reduction percentages of an evaluated nonlinear reconstruction method relative to a reference method (e.g., filtered back projection method) using the AUC results of the evaluated and the reference reconstruction methods across multiple dose levels obtained from a LCD test.  
 
    *(This feature runs only in python.)*
 
