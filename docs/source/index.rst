@@ -1,6 +1,8 @@
 Low Contrast Detectability for CT Toolbox
 =========================================
 
+|zenodo| |zenodo1| |docs|
+
 **Low Contrast Detectability for CT (LCD-CT) Toolbox** provides a common interface to evaluate the low contrast detectability (LCD) performance of advanced nonlinear CT image reconstruction and denoising algorithms. The toolbox uses model observers (MO) to evaluate the LCD of targets with known locations in test images obtained with the standard uniform-background `MITA-LCD phantom <https://www.phantomlab.com/catphan-mita>`_ or a nonuniform-background Liver-LCD phantom . The model observer detection accuracy is measured by the area under the receiver operating characteristic curve (AUC) and the detectability signal-to-noise ratio (d’_{snr}).  The LCD-CT toolbox can be used by CT developers to perform initial evaluation on image quality improvement or dose reduction potential of their reconstruction and denoising algorithms.
 
 .. image:: diagram.png
@@ -8,6 +10,21 @@ Low Contrast Detectability for CT Toolbox
         :align: center
 
 - **Regulatory Science Tool:** Check the FDA website for a description of the LCD-CT toolbox in the `Regulatory Science Tool Catalog <https://cdrh-rst.fda.gov/lcd-ct-low-contrast-detectability-lcd-test-assessing-advanced-nonlinear-ct-image-reconstruction-and>`_
+
+.. |zenodo| image:: https://zenodo.org/badge/DOI/10.5281/zenodo.7996580.svg
+    :alt: Zenodo Data Access
+    :scale: 100%
+    :target: https://doi.org/10.5281/zenodo.7996580
+
+.. |zenodo1| image:: https://zenodo.org/badge/DOI/10.5281/zenodo.22149090.svg
+    :alt: Zenodo Data Access
+    :scale: 100%
+    :target: https://doi.org/10.5281/zenodo.22149090
+
+.. |docs| image:: https://readthedocs.org/projects/docs/badge/?version=latest
+    :alt: Documentation Status
+    :scale: 100%
+    :target: https://lcd-ct.readthedocs.io/en/latest/?badge=latest
 
 Features
 --------
