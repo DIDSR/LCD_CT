@@ -31,7 +31,7 @@ Features
 1. Digital phantom and CT simulaiton:  
 
 - Creating digital replica of the background and signal modules of the `MITA-LCD phantom <https://www.phantomlab.com/catphan-mita>`_ and a digital Liver-LCD phantom that contains low-contrast disks in a non-uniform,  anatomical background.  
-- Simuating sinogram and generate fan-beam CT scans of the digital phantoms based on the publicly available `Michigan Image Reconstruction Tolbox (MIRT) <http://web.eecs.umich.edu/~fessler/irt/fessler.tgz>`_.
+- Simuating sinogram and generate fan-beam CT scans of the digital phantoms based on the publicly available `Michigan Image Reconstruction Tolbox (MIRT) <http://web.eecs.umich.edu/~fessler/irt/fessler.tgz>`_. Note that the MIRT package is compatible with Linux and mac systems but may not be fully compatible with Windows (see `MIRT Readme <https://web.eecs.umich.edu/~fessler/irt/irt/readme>`_ ).  
  
    *(This feature runs best in MATLAB.)*
 
@@ -149,10 +149,11 @@ Start Here
 
    *Expected run time: 2 min. 
 
-.. Figures may appear black in Octave due to a graphic library conflict between octave and your system display server. check ... for possible solutions* 
+
   
    **Note:** The Liver-LCD Phantom Creation code (makeCT_LiverLCD.m in folder "LCD Phantom creation") is not compatible with Octave, because it calls mex-functions in MIRT that are not compiled for Octave (check `MIRT webpage <https://web.eecs.umich.edu/~fessler/code/>`_ ). For this reason, makeCT_LiverLCD is excluded from being tested in Octave. Use MATLAB to run makeCT_LiverLCD.m.
 
+.. Figures may appear black in Octave due to a graphic library conflict between octave and your system display server. check ... for possible solutions* 
    
 
 Tool Reference
