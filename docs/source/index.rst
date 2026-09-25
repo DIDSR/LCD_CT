@@ -26,7 +26,7 @@ Features
 
 3. Dose reduction estimation: 
 
-- Analyzing the dose reduction percentages of a nonlinear reconstruction method relateive to a reference method (e.g., filtered back projection method) for maintaining LCD using the AUC results of the evaluated reconstruction method and a reference method across multiple dose levels obtained from a LCD test. 
+- Estimating the dose reduction percentages of an evaluated nonlinear reconstruction method relative to a reference method (e.g., filtered back projection method) using the AUC results of the evaluated and the reference reconstruction methods across multiple dose levels obtained from a LCD test. 
 
    *(This feature runs only in python.)*
 
@@ -86,25 +86,29 @@ Start Here
 
 3. **MATLAB**:
   
-   MATLAB version information is available from `MATLAB <https://www.mathworks.com/support/requirements/previous-releases.html>`_.
+   MATLAB version information is available from `MATLAB <https://www.mathworks.com/support/requirements/previous-releases.html>`_. See how to get `matlab version <https://www.mathworks.com/help/matlab/ref/version.html>`_ on your system.
    
-    From the bash command line `matlab test.m` 
+    From the bash command line 
+    
+    .. code-block:: matlab
+      
+       matlab -batch "test" 
   
-    From the Matlab prompt
+    Or, from the Matlab prompt
 
     .. code-block:: matlab
        
-           >> test
+       >> test
 
-    *Expected run time (Octave): 2 min 30 s*
+    *Expected run time: 2 min 30 s*
 
-4. **(Optional) OCTAVE**:
+4. **(Optional) GNU OCTAVE**:
 
-   If Matlab is not available, Octave can be installed using source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment. This can take about 10 minutes to complete. 
+   If Matlab is not available, `GNU Octave <https://octave.org/>`_ (**version > 4.4**) can be installed using source `install.sh` to prepare a `conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_ environment.  
 
-   Please note that the MATLAB part of this software has been fully developed and tested using MATLAB. GNU Octave may also be used to run the software; however, Octave compatibility has not been fully tested or validated. Although GNU Octave is largely compatible with MATLAB, differences exist in the availability and behavior of certain functions and toolboxes. Users who choose to run this software with Octave may need to install additional Octave packages and modify or replace MATLAB-specific functions with their Octave-compatible equivalents. Users are responsible for making any necessary adaptations for their specific Octave environment and for verifying that the resulting outputs are consistent with their expected use.
+   Please note that the MATLAB part of this software has been fully developed and tested using MATLAB. GNU Octave may also be used to run the software; however, Octave compatibility has not been fully tested or validated. Although Octave is largely compatible with MATLAB, differences exist in the availability and behavior of certain functions and toolboxes. Users who choose to run this software with GNU Octave may need to install additional Octave packages and modify or replace MATLAB-specific functions with their Octave-compatible equivalents. Users are responsible for making any necessary adaptations for their specific Octave environment and for verifying that the resulting outputs are consistent with their expected use.
   
- - Installation 
+ - Create a Conda Octave environment and install the package: 
 
    .. code-block:: shell
 
@@ -114,17 +118,23 @@ Start Here
 
  - Test Octave
 
-   From the bash command line `octave test.m` 
- 
-   From the  Octave interactive prompt
+   In the Conda Octave virtual environment, run:
 
    .. code-block:: octave
+      
+       octave test.m 
+ 
+   .. Or, through the interactive prompt
+   .. .. code-block:: octave
 
-            >> test
+   ..         >> octave --gui --line-editing
+   ..         >> test
 
-   *Expected run time (Octave): 1 min 30 s.* 
+   *Expected run time: 2 min. 
+
+.. Figures may appear black in Octave due to a graphic library conflict between octave and your system display server. check ... for possible solutions* 
   
-  .. *The LiverLCD Phantom Creation code relies on MIRT, which may not be fully compatible with OCTAVE (check `MIRT webpage <https://web.eecs.umich.edu/~fessler/code/>`_ ).*
+   **Note:** The Liver-LCD Phantom Creation code (makeCT_LiverLCD.m in folder "LCD Phantom creation") is not compatible with Octave, because it calls mex-functions in MIRT that are not compiled for Octave (check `MIRT webpage <https://web.eecs.umich.edu/~fessler/code/>`_ ). For this reason, makeCT_LiverLCD is excluded from being tested in Octave. Use MATLAB to run makeCT_LiverLCD.m.
 
    
 
