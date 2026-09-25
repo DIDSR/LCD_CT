@@ -135,7 +135,7 @@ Start Here
 
  - Test Octave
 
-   In the conda Octave virtual environment, run:
+   In the Conda Octave virtual environment, run:
 
    .. code-block:: octave
       
