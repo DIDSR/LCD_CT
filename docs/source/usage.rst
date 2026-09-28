@@ -27,12 +27,15 @@ After installing review the `LCD-CT Toolkit Documentation <https://lcd-ct.readth
 - `demo_01_singlerecon_LCD.py <https://github.com/DIDSR/LCD_CT/blob/main/demo_01_singlerecon_LCD.py>`_
 - `demo_02_tworecon_LCD.py <https://github.com/DIDSR/LCD_CT/blob/main/demo_02_tworecon_LCD.py>`_
 - `demo_03_tworecon_dosecurve_LCD.py <https://github.com/DIDSR/LCD_CT/blob/main/demo_03_tworecon_dosecurve_LCD.py>`_
+- `demo_analyze_dose_reduction.py <https://github.com/DIDSR/LCD_CT/blob/main/demo_analyze_dose_reduction.py>`_
 
-**MATLAB/Octave Demos**
+**MATLAB Demos (Octave as optional)**
 
-- `demo_01_singlerecon_LCD.m <https://github.com/DIDSR/LCD_CT/blob/main/demo_01_singlerecon_LCD.m>`_ *Expected run time (Octave): 6 s*
-- `demo_02_tworecon_LCD.m <https://github.com/DIDSR/LCD_CT/blob/main/demo_02_tworecon_LCD.m>`_ *Expected run time (Octave): 14 s*
-- `demo_03_tworecon_dosecurve_LCD.m <https://github.com/DIDSR/LCD_CT/blob/main/demo_03_tworecon_dosecurve_LCD.m>`_ *Expected run time (Octave): 19 s*
+- `demo_01_singlerecon_LCD.m <https://github.com/DIDSR/LCD_CT/blob/main/demo_01_singlerecon_LCD.m>`_ *Expected run time (Matlab): 6 s*
+- `demo_02_tworecon_LCD.m <https://github.com/DIDSR/LCD_CT/blob/main/demo_02_tworecon_LCD.m>`_ *Expected run time (Matlab): 14 s*
+- `demo_03_tworecon_dosecurve_LCD.m <https://github.com/DIDSR/LCD_CT/blob/main/demo_03_tworecon_dosecurve_LCD.m>`_ *Expected run time (Matlab): 19 s*
+- `demo_liver_lcd_test.m <https://github.com/DIDSR/LCD_CT/blob/main/demo_liver_lcd_test.m>`_ *Expected run time (Matlab): 14 s*
+- `demo_test_phantomcreation.m <https://github.com/DIDSR/LCD_CT/blob/main/demo_test_phantomcreation.m>`_ *Expected run time (Matlab): 60 s*
 
 Additional demos of tool usage can be found in `additional_demos <https://github.com/DIDSR/LCD_CT/tree/main/additional_demos>`_.
 
