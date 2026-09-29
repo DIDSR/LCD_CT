@@ -6,11 +6,11 @@
 
 clear all;
 addpath(genpath('src'))
-small_dataset = true; %true: using small dataset for test run. 
-                      %false: using full dataset for reasonable AUC evaluation 
+use_large_dataset = false; %true: using full dataset for test run. 
+                           %false: using small dataset for reasonable AUC evaluation 
 
 %Data options: small or full dataset
-if(small_dataset)
+if(~use_large_dataset)
     %using the small dataset (20 pairs of samples) for testing the liver_LCD test code
     disp('You are running the code with a small dataset.')
     data_folder = 'data/smalldata_liver_lcd/'
@@ -178,7 +178,7 @@ end
 fn_save = 'liver_lcd_results.mat';
 save(fn_save ,'auc_all','snr_all', 'dose', 'aucmean', 'aucse','snrmean','snrse', 'all_recon_type', 'insert_string');
 fprintf('Liver_LCD test results are saved to %s\n',fn_save);
-if(small_dataset)
-    warning('"small_dataset" is to "true". AUC values may be random without a clear trend due to extremely small training and testing sample sizes. Set "small_dataset" to "false" to obtain more accurate AUC results using the liver_lcd full dataset.')
+if(~use_large_dataset)
+    warning('"use_large_dataset" is to "flase". AUC values may be random without a clear trend due to extremely small training and testing sample sizes. Set "~use_large_dataset" to "true" to obtain more accurate AUC results using the liver_lcd full dataset.')
 end 
 disp('Successful test run of LCD test with the small liver-lcd dataset.')
